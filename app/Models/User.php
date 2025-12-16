@@ -21,7 +21,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'student_number',
+        'class',
+        'opleiding',
+        'role',
+        'microsoft_id',
+        'avatar',
     ];
+
+    public function keuzedelen()
+    {
+        return $this->belongsToMany(Keuzedeel::class, 'keuzedeel_user')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
 
     /**
      * The attributes that should be hidden for serialization.
