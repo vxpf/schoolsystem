@@ -105,6 +105,18 @@
             font-size: 14px;
         }
 
+        .header-user-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .header-user-link:hover {
+            opacity: 0.8;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -167,13 +179,15 @@
 
         @auth
         <div class="header-nav">
-            <a href="/keuzedelen">Keuzedelen</a>
-            <a href="/keuzedelen/mijn">Mijn Keuzedelen</a>
-            <a href="/dashboard">Dashboard</a>
+            <a href="{{ route('keuzedelen.index') }}">Keuzedelen</a>
+            <a href="{{ route('keuzedelen.mijn') }}">Mijn Keuzedelen</a>
+            <a href="{{ route('dashboard') }}">Dashboard</a>
         </div>
         <div class="header-user">
-            <span class="header-user-name">{{ Auth::user()->name }}</span>
-            <div class="header-user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
+            <a href="{{ route('profile.show') }}" class="header-user-link">
+                <span class="header-user-name">{{ Auth::user()->name }}</span>
+                <div class="header-user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
+            </a>
             <form action="{{ url('/logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Uitloggen</button>
