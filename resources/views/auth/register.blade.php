@@ -265,7 +265,7 @@
                 </div>
                 @endif
 
-                <form method="POST" action="/register">
+                <form method="POST" action="{{ url('/register') }}">
                     @csrf
                     <div class="form-group">
                         <label class="form-label" for="name">Volledige naam</label>

@@ -24,7 +24,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/keuzedelen');
         }
 
         return back()->withErrors([
@@ -56,7 +56,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/dashboard');
+        return redirect('/keuzedelen');
     }
 
     public function logout(Request $request)

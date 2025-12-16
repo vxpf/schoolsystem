@@ -15,9 +15,10 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
-            color: #1a1a1a;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #ffffff;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .header {
@@ -166,13 +167,14 @@
 
         @auth
         <div class="header-nav">
-            <a href="/dashboard">Dashboard</a>
             <a href="/keuzedelen">Keuzedelen</a>
+            <a href="/keuzedelen/mijn">Mijn Keuzedelen</a>
+            <a href="/dashboard">Dashboard</a>
         </div>
         <div class="header-user">
             <span class="header-user-name">{{ Auth::user()->name }}</span>
             <div class="header-user-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</div>
-            <form action="/logout" method="POST" style="display: inline;">
+            <form action="{{ url('/logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;">Uitloggen</button>
             </form>

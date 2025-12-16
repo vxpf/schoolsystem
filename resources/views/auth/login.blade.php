@@ -368,7 +368,7 @@
                 </div>
                 @endif
 
-                <form method="POST" action="/login">
+                <form method="POST" action="{{ url('/login') }}">
                     @csrf
                     <div class="form-group">
                         <label class="form-label" for="email">E-mailadres</label>
