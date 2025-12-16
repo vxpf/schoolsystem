@@ -15,14 +15,14 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #2d4a3e 0%, #3a5a4a 100%);
             color: #ffffff;
             line-height: 1.6;
             min-height: 100vh;
         }
 
         .header {
-            background-color: #1a1a1a;
+            background-color: #2d4a3e;
             padding: 0 2rem;
             height: 70px;
             display: flex;
@@ -31,6 +31,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 2px solid rgba(212, 160, 36, 0.2);
         }
 
         .header-logo {
@@ -41,16 +42,17 @@
         }
 
         .header-logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #c9a227 0%, #f4d03f 50%, #c9a227 100%);
-            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            background: #d4a024;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: #1a1a1a;
-            font-size: 18px;
+            font-weight: 800;
+            color: #2d4a3e;
+            font-size: 16px;
+            letter-spacing: -0.5px;
         }
 
         .header-logo-text {
@@ -60,7 +62,7 @@
         }
 
         .header-logo-text span {
-            color: #c9a227;
+            color: #d4a024;
         }
 
         .header-nav {
@@ -70,15 +72,22 @@
         }
 
         .header-nav a {
-            color: #ccc;
+            color: #ffffff;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid transparent;
+            position: relative;
         }
 
         .header-nav a:hover {
-            color: #c9a227;
+            border-bottom-color: #d4a024;
+        }
+
+        .header-nav a.active {
+            border-bottom-color: #d4a024;
+            color: #d4a024;
         }
 
         .header-user {
@@ -95,13 +104,13 @@
         .header-user-avatar {
             width: 36px;
             height: 36px;
-            background: linear-gradient(135deg, #c9a227 0%, #f4d03f 100%);
+            background: #d4a024;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: #1a1a1a;
+            color: #2d4a3e;
             font-size: 14px;
         }
 
@@ -110,11 +119,6 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
-        .header-user-link:hover {
-            opacity: 0.8;
         }
 
         .btn {
@@ -128,17 +132,11 @@
             border: none;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c9a227 0%, #d4af37 100%);
-            color: #1a1a1a;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #d4af37 0%, #e6c349 100%);
-            transform: translateY(-1px);
+            background: #d4a024;
+            color: #ffffff;
         }
 
         .btn-secondary {
@@ -146,19 +144,10 @@
             color: #fff;
         }
 
-        .btn-secondary:hover {
-            background: #3a3a3a;
-        }
-
         .btn-outline {
             background: transparent;
-            border: 1px solid #c9a227;
-            color: #c9a227;
-        }
-
-        .btn-outline:hover {
-            background: #c9a227;
-            color: #1a1a1a;
+            border: 1px solid #d4a024;
+            color: #d4a024;
         }
 
         .main-content {
@@ -173,15 +162,15 @@
 <body>
     <header class="header">
         <a href="/" class="header-logo">
-            <div class="header-logo-icon">TC</div>
+            <div class="header-logo-icon">TCR</div>
             <div class="header-logo-text">Techniek College <span>Keuzedelen</span></div>
         </a>
 
         @auth
         <div class="header-nav">
-            <a href="{{ route('keuzedelen.index') }}">Keuzedelen</a>
-            <a href="{{ route('keuzedelen.mijn') }}">Mijn Keuzedelen</a>
-            <a href="{{ route('dashboard') }}">Dashboard</a>
+            <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
+            <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
         </div>
         <div class="header-user">
             <a href="{{ route('profile.show') }}" class="header-user-link">

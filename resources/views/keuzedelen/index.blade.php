@@ -27,21 +27,19 @@
     }
 
     .filter-btn {
-        padding: 0.5rem 1.25rem;
-        border-radius: 50px;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.8);
+        background: transparent;
+        color: rgba(255, 255, 255, 0.7);
         cursor: pointer;
-        transition: all 0.3s ease;
         font-size: 0.9rem;
     }
 
-    .filter-btn:hover,
     .filter-btn.active {
-        background: rgba(212, 175, 55, 0.2);
-        border-color: #d4af37;
-        color: #d4af37;
+        background: rgba(212, 160, 36, 0.2);
+        border-color: #d4a024;
+        color: #d4a024;
     }
 
     .search-box {
@@ -58,13 +56,6 @@
         background: rgba(255, 255, 255, 0.05);
         color: #ffffff;
         font-size: 1rem;
-        transition: all 0.3s ease;
-    }
-
-    .search-input:focus {
-        outline: none;
-        border-color: #d4af37;
-        background: rgba(255, 255, 255, 0.08);
     }
 
     .search-input::placeholder {
@@ -81,14 +72,10 @@
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .keuzedeel-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(212, 175, 55, 0.5);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
     }
 
     .keuzedeel-card.aangemeld {
@@ -96,15 +83,15 @@
     }
 
     .keuzedeel-header {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.2) 0%, rgba(212, 160, 36, 0.05) 100%);
         padding: 1.5rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .keuzedeel-code {
         display: inline-block;
-        background: rgba(212, 175, 55, 0.2);
-        color: #d4af37;
+        background: rgba(212, 160, 36, 0.2);
+        color: #d4a024;
         padding: 0.25rem 0.75rem;
         border-radius: 50px;
         font-size: 0.8rem;
@@ -159,7 +146,7 @@
     }
 
     .meta-value.punten {
-        color: #d4af37;
+        color: #d4a024;
     }
 
     .capacity-bar {
@@ -193,7 +180,6 @@
         height: 100%;
         background: linear-gradient(90deg, #2ecc71, #27ae60);
         border-radius: 3px;
-        transition: width 0.3s ease;
     }
 
     .capacity-fill.warning {
@@ -210,57 +196,35 @@
     }
 
     .btn {
-        padding: 0.75rem 1.5rem;
+        padding: 0.6rem 1.25rem;
         border-radius: 8px;
         font-weight: 500;
         text-decoration: none;
-        transition: all 0.3s ease;
         border: none;
         cursor: pointer;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         text-align: center;
-        flex: 1;
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
-        color: #1a1a1a;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        background: #d4a024;
+        color: #ffffff;
     }
 
     .btn-success {
-        background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        background: #2ecc71;
         color: #ffffff;
-    }
-
-    .btn-success:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
     }
 
     .btn-danger {
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        background: #e74c3c;
         color: #ffffff;
-    }
-
-    .btn-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
     }
 
     .btn-outline {
         background: transparent;
         border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
-    }
-
-    .btn-outline:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.5);
     }
 
     .btn-disabled {
@@ -323,7 +287,7 @@
     .stat-value {
         font-size: 2rem;
         font-weight: 700;
-        color: #d4af37;
+        color: #d4a024;
         margin-bottom: 0.25rem;
     }
 

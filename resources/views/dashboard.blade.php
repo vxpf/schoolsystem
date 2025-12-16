@@ -382,7 +382,7 @@
     </div>
     <h3>Nog geen keuzedelen aangemeld</h3>
     <p>Je hebt je nog niet aangemeld voor keuzedelen. Bekijk de beschikbare keuzedelen en meld je aan.</p>
-    <a href="/keuzedelen" class="btn btn-primary">Bekijk keuzedelen</a>
+    <a href="http://localhost/schoolsystem/public/keuzedelen" class="btn btn-primary">Bekijk keuzedelen</a>
 </div>
 @endif
 @endsection

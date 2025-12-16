@@ -55,17 +55,19 @@
         }
 
         .login-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #c9a227 0%, #f4d03f 50%, #c9a227 100%);
-            border-radius: 16px;
+            width: 100px;
+            height: 100px;
+            background: #ffc107;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 2rem;
             font-size: 32px;
-            font-weight: 700;
-            color: #1a1a1a;
+            font-weight: 800;
+            color: #003d5c;
+            letter-spacing: -1px;
+            box-shadow: 0 8px 24px rgba(255, 193, 7, 0.3);
         }
 
         .login-branding h1 {
@@ -134,8 +136,7 @@
             font-size: 1rem;
             border: 1px solid #ddd;
             border-radius: 8px;
-            transition: all 0.2s;
-            font-family: inherit;
+                        font-family: inherit;
         }
 
         .form-input:focus {
@@ -172,20 +173,13 @@
             border: none;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s;
-            font-family: inherit;
+                        font-family: inherit;
             margin-top: 0.5rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c9a227 0%, #d4af37 100%);
+            background: #d4af37;
             color: #1a1a1a;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #d4af37 0%, #e6c349 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
         }
 
         .form-footer {
@@ -196,13 +190,9 @@
         }
 
         .form-footer a {
-            color: #c9a227;
+            color: #d4af37;
             text-decoration: none;
             font-weight: 500;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
         }
 
         .alert {
@@ -242,7 +232,7 @@
     <div class="login-container">
         <div class="login-left">
             <div class="login-branding">
-                <div class="login-logo">TC</div>
+                <div class="login-logo">TCR</div>
                 <h1>Techniek College <span>Rotterdam</span></h1>
                 <p>Maak een account aan om je keuzedelen te beheren</p>
             </div>

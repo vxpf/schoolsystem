@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Inloggen - TCR Keuzedelen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Inloggen - Techniek College Rotterdam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,10 +14,10 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
             display: flex;
-            background: #1a1a1a;
+            background: #ffffff;
         }
 
         .login-container {
@@ -28,12 +28,12 @@
 
         .login-left {
             flex: 1;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: #2d4a3e;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 3rem;
+            padding: 4rem;
             position: relative;
             overflow: hidden;
         }
@@ -41,73 +41,72 @@
         .login-left::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 70%, rgba(201, 162, 39, 0.08) 0%, transparent 50%);
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #2d4a3e 0%, #3a5a4a 100%);
+            opacity: 0.95;
         }
 
         .login-branding {
             text-align: center;
             z-index: 1;
+            max-width: 500px;
         }
 
         .login-logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #c9a227 0%, #f4d03f 50%, #c9a227 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .login-branding h1 {
-            color: #fff;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .login-branding h1 span {
-            color: #c9a227;
-        }
-
-        .login-branding p {
-            color: #888;
-            font-size: 1rem;
-            max-width: 300px;
-        }
-
-        .login-features {
-            margin-top: 3rem;
-            z-index: 1;
-        }
-
-        .login-feature {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #aaa;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .login-feature-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(201, 162, 39, 0.15);
+            width: 120px;
+            height: 120px;
+            background: #d4a024;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #c9a227;
+            margin: 0 auto 2.5rem;
+            font-size: 36px;
+            font-weight: 800;
+            color: #2d4a3e;
+            letter-spacing: -1px;
+            box-shadow: 0 8px 24px rgba(212, 160, 36, 0.3);
+        }
+
+        .login-branding h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .login-branding h1 span {
+            color: #d4a024;
+            display: block;
+            font-size: 2rem;
+        }
+
+        .login-branding p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .login-tagline {
+            margin-top: 3rem;
+            padding: 1.5rem 2rem;
+            background: rgba(212, 160, 36, 0.1);
+            border-left: 4px solid #d4a024;
+            z-index: 1;
+        }
+
+        .login-tagline p {
+            color: #d4a024;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-align: left;
         }
 
         .login-right {
@@ -200,14 +199,10 @@
         }
 
         .form-link {
-            color: #c9a227;
+            color: #d4af37;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-        }
-
-        .form-link:hover {
-            text-decoration: underline;
         }
 
         .btn {
@@ -222,19 +217,12 @@
             border: none;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s;
             font-family: inherit;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #c9a227 0%, #d4af37 100%);
+            background: #d4af37;
             color: #1a1a1a;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #d4af37 0%, #e6c349 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
         }
 
         .btn-microsoft {
@@ -243,11 +231,6 @@
             color: #333;
             margin-top: 1rem;
             gap: 10px;
-        }
-
-        .btn-microsoft:hover {
-            background: #f8f8f8;
-            border-color: #ccc;
         }
 
         .btn-microsoft img {
@@ -283,13 +266,9 @@
         }
 
         .form-footer a {
-            color: #c9a227;
+            color: #d4af37;
             text-decoration: none;
             font-weight: 500;
-        }
-
-        .form-footer a:hover {
-            text-decoration: underline;
         }
 
         .alert {
@@ -320,11 +299,14 @@
     <div class="login-container">
         <div class="login-left">
             <div class="login-branding">
-                <div class="login-logo">TC</div>
+                <div class="login-logo">TCR</div>
                 <h1>Techniek College <span>Rotterdam</span></h1>
                 <p>Kies je keuzedelen en bouw aan je toekomst in de techniek</p>
             </div>
-            <div class="login-features">
+            <div class="login-tagline">
+                <p>Je toekomst is goud waard</p>
+            </div>
+            <div class="login-features" style="display: none;">
                 <div class="login-feature">
                     <div class="login-feature-icon">
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

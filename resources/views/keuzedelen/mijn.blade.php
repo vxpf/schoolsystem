@@ -37,7 +37,7 @@
     .stat-value {
         font-size: 2rem;
         font-weight: 700;
-        color: #d4af37;
+        color: #d4a024;
         margin-bottom: 0.25rem;
     }
 
@@ -61,12 +61,6 @@
         justify-content: space-between;
         align-items: center;
         gap: 1.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .keuzedeel-item:hover {
-        border-color: rgba(212, 175, 55, 0.3);
-        background: rgba(255, 255, 255, 0.08);
     }
 
     .keuzedeel-info {
@@ -75,8 +69,8 @@
 
     .keuzedeel-code {
         display: inline-block;
-        background: rgba(212, 175, 55, 0.2);
-        color: #d4af37;
+        background: rgba(212, 160, 36, 0.2);
+        color: #d4a024;
         padding: 0.2rem 0.6rem;
         border-radius: 50px;
         font-size: 0.75rem;
@@ -158,29 +152,15 @@
         color: #ffffff;
     }
 
-    .btn-outline:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.5);
-    }
-
     .btn-danger {
         background: rgba(231, 76, 60, 0.2);
         border: 1px solid rgba(231, 76, 60, 0.3);
         color: #e74c3c;
     }
 
-    .btn-danger:hover {
-        background: rgba(231, 76, 60, 0.3);
-    }
-
     .btn-primary {
-        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
-        color: #1a1a1a;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        background: #d4a024;
+        color: #ffffff;
     }
 
     .empty-state {

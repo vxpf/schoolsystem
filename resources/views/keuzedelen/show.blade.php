@@ -11,11 +11,6 @@
         color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
         margin-bottom: 2rem;
-        transition: color 0.3s ease;
-    }
-
-    .back-link:hover {
-        color: #d4af37;
     }
 
     .detail-container {
@@ -32,15 +27,15 @@
     }
 
     .detail-header {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.2) 0%, rgba(212, 160, 36, 0.05) 100%);
         padding: 2rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .detail-code {
         display: inline-block;
-        background: rgba(212, 175, 55, 0.2);
-        color: #d4af37;
+        background: rgba(212, 160, 36, 0.2);
+        color: #d4a024;
         padding: 0.25rem 0.75rem;
         border-radius: 50px;
         font-size: 0.85rem;
@@ -71,7 +66,7 @@
     .section-title {
         font-size: 1.1rem;
         font-weight: 600;
-        color: #d4af37;
+        color: #d4a024;
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
@@ -129,7 +124,7 @@
     }
 
     .info-value.highlight {
-        color: #d4af37;
+        color: #d4a024;
         font-size: 1.1rem;
     }
 
@@ -174,8 +169,8 @@
     }
 
     .action-card {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
-        border: 1px solid rgba(212, 175, 55, 0.3);
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.05) 100%);
+        border: 1px solid rgba(212, 160, 36, 0.3);
     }
 
     .btn {
@@ -185,31 +180,20 @@
         border-radius: 8px;
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s ease;
-        border: none;
+                border: none;
         cursor: pointer;
         font-size: 1rem;
         text-align: center;
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
-        color: #1a1a1a;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-    }
-
-    .btn-danger {
-        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        background: #d4a024;
         color: #ffffff;
     }
 
-    .btn-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    .btn-danger {
+        background: #e74c3c;
+        color: #ffffff;
     }
 
     .btn-disabled {
