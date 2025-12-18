@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeuzedeelController;
@@ -32,4 +33,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/keuzedelen/{keuzedeel}', [KeuzedeelController::class, 'show'])->name('keuzedelen.show');
     Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
     Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelController::class, 'afmelden'])->name('keuzedelen.afmelden');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    Route::get('/enrollments', [AdminController::class, 'enrollments'])->name('enrollments');
+    Route::get('/enrollments/{keuzedeel}', [AdminController::class, 'enrollmentsByKeuzedeel'])->name('enrollments.detail');
+    Route::patch('/enrollments/{keuzedeel}/{user}', [AdminController::class, 'updateEnrollmentStatus'])->name('enrollments.update-status');
+    Route::delete('/enrollments/{keuzedeel}/{user}', [AdminController::class, 'removeEnrollment'])->name('enrollments.remove');
+    
+    Route::get('/keuzedelen', [AdminController::class, 'keuzedeelIndex'])->name('keuzedelen.index');
+    Route::get('/keuzedelen/create', [AdminController::class, 'keuzedeelCreate'])->name('keuzedelen.create');
+    Route::post('/keuzedelen', [AdminController::class, 'keuzedeelStore'])->name('keuzedelen.store');
+    Route::get('/keuzedelen/{keuzedeel}/edit', [AdminController::class, 'keuzedeelEdit'])->name('keuzedelen.edit');
+    Route::put('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelUpdate'])->name('keuzedelen.update');
+    Route::delete('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelDestroy'])->name('keuzedelen.destroy');
 });
