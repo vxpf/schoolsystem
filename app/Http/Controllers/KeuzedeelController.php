@@ -23,10 +23,13 @@ class KeuzedeelController extends Controller
     public function show(Keuzedeel $keuzedeel)
     {
         $user = Auth::user();
-        $isAangemeld = $user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->exists();
+        $enrollment = $user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->first();
+        $isAangemeld = $enrollment !== null;
+        $enrollmentStatus = $enrollment ? $enrollment->pivot->status : null;
+        $isVoltooid = $enrollmentStatus === 'voltooid';
         $aantalAanmeldingen = $keuzedeel->users()->count();
 
-        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'aantalAanmeldingen', 'user'));
+        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'user'));
     }
 
     public function aanmelden(Keuzedeel $keuzedeel)
@@ -36,6 +39,16 @@ class KeuzedeelController extends Controller
         // Check of al aangemeld
         if ($user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->exists()) {
             return back()->with('error', 'Je bent al aangemeld voor dit keuzedeel.');
+        }
+
+        // Check of keuzedeel al voltooid is
+        $voltooideInschrijving = $user->keuzedelen()
+            ->where('keuzedeel_id', $keuzedeel->id)
+            ->wherePivot('status', 'voltooid')
+            ->exists();
+        
+        if ($voltooideInschrijving) {
+            return back()->with('error', 'Je hebt dit keuzedeel al voltooid en kunt je niet opnieuw inschrijven.');
         }
 
         // Check of keuzedeel vol is

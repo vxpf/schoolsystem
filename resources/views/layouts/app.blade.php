@@ -168,11 +168,23 @@
 
         @auth
         <div class="header-nav">
-            <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
-            <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
             @if(Auth::user()->role === 'admin')
-                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.*') ? 'active' : '' }}">Admin</a>
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('admin.students') }}" class="{{ request()->routeIs('admin.students') ? 'active' : '' }}">Studenten</a>
+                <a href="{{ route('admin.enrollments') }}" class="{{ request()->routeIs('admin.enrollments*') ? 'active' : '' }}">Inschrijvingen</a>
+                <a href="{{ route('admin.keuzedelen.index') }}" class="{{ request()->routeIs('admin.keuzedelen*') ? 'active' : '' }}">Keuzedelen</a>
+            @else
+                <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
+                <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>
+                <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}" style="position: relative;">
+                    Notificaties
+                    @if(Auth::user()->unreadNotifications()->count() > 0)
+                        <span style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">
+                            {{ Auth::user()->unreadNotifications()->count() }}
+                        </span>
+                    @endif
+                </a>
             @endif
         </div>
         <div class="header-user">

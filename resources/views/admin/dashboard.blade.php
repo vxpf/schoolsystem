@@ -107,6 +107,10 @@
 </div>
 
 <div class="admin-actions">
+    <a href="{{ route('admin.students') }}" class="action-card">
+        <h3>👥 Studenten Overzicht</h3>
+        <p>Bekijk alle geregistreerde studenten met hun naam, email en inschrijvingen</p>
+    </a>
     <a href="{{ route('admin.enrollments') }}" class="action-card">
         <h3>📊 Inschrijvingen Beheren</h3>
         <p>Bekijk alle inschrijvingen per keuzedeel en beheer de status van studenten</p>

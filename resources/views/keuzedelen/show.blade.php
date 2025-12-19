@@ -216,9 +216,27 @@
     }
 
     .status-aangemeld {
-        background: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
-        border: 1px solid rgba(46, 204, 113, 0.3);
+        background: rgba(59, 130, 246, 0.2);
+        color: #60a5fa;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .status-goedgekeurd {
+        background: rgba(34, 197, 94, 0.2);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status-afgewezen {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .status-voltooid {
+        background: rgba(168, 85, 247, 0.2);
+        color: #c084fc;
+        border: 1px solid rgba(168, 85, 247, 0.3);
     }
 
     .alert {
@@ -323,17 +341,35 @@
         <div class="sidebar-card action-card">
             <h3 class="sidebar-title">Aanmelden</h3>
             
-            @if($isAangemeld)
-            <div class="status-badge status-aangemeld">
+            @if($isVoltooid)
+            <div class="status-badge status-voltooid">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Keuzedeel voltooid
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-top: 1rem;">
+                Je hebt dit keuzedeel succesvol afgerond. Je kunt je niet opnieuw inschrijven voor een voltooid keuzedeel.
+            </p>
+            @elseif($isAangemeld)
+            <div class="status-badge status-{{ $enrollmentStatus }}">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="20 6 9 17 4 12"/>
                 </svg>
-                Je bent aangemeld
+                Status: {{ ucfirst($enrollmentStatus) }}
             </div>
-            <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/afmelden') }}" method="POST">
+            @if($enrollmentStatus === 'aangemeld' || $enrollmentStatus === 'goedgekeurd')
+            <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/afmelden') }}" method="POST" style="margin-top: 1rem;">
                 @csrf
                 <button type="submit" class="btn btn-danger">Afmelden voor dit keuzedeel</button>
             </form>
+            @endif
+            @if($enrollmentStatus === 'afgewezen')
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-top: 1rem;">
+                Je aanmelding is afgewezen. Neem contact op met je docent voor meer informatie.
+            </p>
+            @endif
             @elseif($aantalAanmeldingen >= $keuzedeel->max_studenten)
             <button class="btn btn-disabled" disabled>Dit keuzedeel is vol</button>
             @else

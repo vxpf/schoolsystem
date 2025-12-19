@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeuzedeelController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -33,10 +34,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/keuzedelen/{keuzedeel}', [KeuzedeelController::class, 'show'])->name('keuzedelen.show');
     Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
     Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelController::class, 'afmelden'])->name('keuzedelen.afmelden');
+    
+    // Notification routes
+    Route::get('/notificaties', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notificaties/{id}/markeer-gelezen', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+    Route::post('/notificaties/markeer-alle-gelezen', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/students', [AdminController::class, 'students'])->name('students');
     
     Route::get('/enrollments', [AdminController::class, 'enrollments'])->name('enrollments');
     Route::get('/enrollments/{keuzedeel}', [AdminController::class, 'enrollmentsByKeuzedeel'])->name('enrollments.detail');
