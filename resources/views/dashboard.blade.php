@@ -4,282 +4,326 @@
 
 @section('styles')
 <style>
-    .dashboard-header {
-        margin-bottom: 2rem;
-    }
-
-    .dashboard-header h1 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 0.5rem;
-    }
-
-    .dashboard-header p {
-        color: #666;
-        font-size: 1rem;
-    }
-
-    .dashboard-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .dashboard-card {
-        background: #fff;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        border: 1px solid #e5e5e5;
-    }
-
-    .dashboard-card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-    }
-
-    .dashboard-card-title {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #1a1a1a;
-    }
-
-    .dashboard-card-icon {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, rgba(201, 162, 39, 0.2) 100%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #c9a227;
-    }
-
-    .dashboard-stat {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1a1a1a;
-        margin-bottom: 0.25rem;
-    }
-
-    .dashboard-stat-label {
-        font-size: 0.875rem;
-        color: #888;
-    }
-
-    .section-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1a1a1a;
-        margin-bottom: 1rem;
-    }
-
-    .keuzedelen-list {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .keuzedeel-card {
-        background: #fff;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        border: 1px solid #e5e5e5;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: all 0.2s;
-    }
-
-    .keuzedeel-card:hover {
-        border-color: #c9a227;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .keuzedeel-info h3 {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #1a1a1a;
-        margin-bottom: 0.25rem;
-    }
-
-    .keuzedeel-info p {
-        font-size: 0.875rem;
-        color: #666;
-        margin-bottom: 0.5rem;
-    }
-
-    .keuzedeel-meta {
-        display: flex;
-        gap: 1rem;
-        font-size: 0.8rem;
-        color: #888;
-    }
-
-    .keuzedeel-meta span {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-    }
-
-    .status-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-
-    .status-aangemeld {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .status-goedgekeurd {
-        background: #d1fae5;
-        color: #065f46;
-    }
-
-    .status-afgewezen {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    .status-voltooid {
-        background: #e0e7ff;
-        color: #3730a3;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 3rem;
-        background: #fff;
-        border-radius: 12px;
-        border: 1px dashed #ddd;
-    }
-
-    .empty-state-icon {
-        width: 64px;
-        height: 64px;
-        background: #f5f5f5;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 1rem;
-        color: #888;
-    }
-
-    .empty-state h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 0.5rem;
-    }
-
-    .empty-state p {
-        color: #666;
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 20px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, #c9a227 0%, #d4af37 100%);
-        color: #1a1a1a;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #d4af37 0%, #e6c349 100%);
-        transform: translateY(-1px);
-    }
-
     .welcome-banner {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        border-radius: 16px;
-        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        border-radius: var(--radius-xl);
+        padding: 2.5rem;
         margin-bottom: 2rem;
         color: #fff;
         position: relative;
         overflow: hidden;
+        box-shadow: var(--shadow-lg);
     }
 
     .welcome-banner::before {
         content: '';
         position: absolute;
         top: -50%;
-        right: -20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(212, 160, 36, 0.15) 0%, transparent 70%);
         pointer-events: none;
     }
 
+    .welcome-banner::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+    }
+
     .welcome-banner h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
+        font-size: 1.75rem;
+        font-weight: 700;
         margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
     }
 
     .welcome-banner h2 span {
-        color: #c9a227;
+        color: var(--accent-light);
     }
 
     .welcome-banner p {
-        color: #aaa;
-        font-size: 0.95rem;
+        color: var(--text-muted);
+        font-size: 1rem;
     }
 
     .user-info-card {
-        background: #fff;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        border: 1px solid #e5e5e5;
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: 1.75rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
         margin-bottom: 2rem;
     }
 
     .user-info-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        gap: 1.5rem;
     }
 
     .user-info-item {
         display: flex;
         flex-direction: column;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+        border: 1px solid var(--border-light);
     }
 
     .user-info-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #888;
-        margin-bottom: 0.25rem;
+        letter-spacing: 0.75px;
+        color: var(--text-muted);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
     }
 
     .user-info-value {
         font-size: 0.95rem;
-        font-weight: 500;
-        color: #1a1a1a;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .dashboard-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: 1.75rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+    }
+
+    .dashboard-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .dashboard-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+    }
+
+    .dashboard-card-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .dashboard-card-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.2) 100%);
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+    }
+
+    .dashboard-stat {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 0.25rem;
+        letter-spacing: -1px;
+    }
+
+    .dashboard-stat-label {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        letter-spacing: -0.3px;
+    }
+
+    .keuzedelen-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .keuzedeel-card {
+        background: var(--bg-card);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s ease;
+    }
+
+    .keuzedeel-card:hover {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateX(4px);
+    }
+
+    .keuzedeel-info h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.35rem;
+    }
+
+    .keuzedeel-info p {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.75rem;
+    }
+
+    .keuzedeel-meta {
+        display: flex;
+        gap: 1.25rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .keuzedeel-meta span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: var(--bg-light);
+        border-radius: 20px;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        border-radius: 24px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+
+    .status-aangemeld {
+        background: var(--warning-bg);
+        color: #b45309;
+    }
+
+    .status-goedgekeurd {
+        background: var(--success-bg);
+        color: #047857;
+    }
+
+    .status-afgewezen {
+        background: var(--danger-bg);
+        color: #b91c1c;
+    }
+
+    .status-voltooid {
+        background: var(--info-bg);
+        color: #1d4ed8;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: var(--bg-card);
+        border-radius: var(--radius-xl);
+        border: 2px dashed var(--border);
+    }
+
+    .empty-state-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--bg-light) 0%, var(--border-light) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-radius: var(--radius);
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
+        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(212, 160, 36, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .welcome-banner {
+            padding: 1.75rem;
+        }
+        
+        .welcome-banner h2 {
+            font-size: 1.5rem;
+        }
+        
+        .keuzedeel-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
     }
 </style>
 @endsection
@@ -307,6 +351,10 @@
         <div class="user-info-item">
             <span class="user-info-label">Klas</span>
             <span class="user-info-value">{{ $user->class ?? 'Niet ingesteld' }}</span>
+        </div>
+        <div class="user-info-item" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.05) 100%); border: 2px solid var(--accent); border-radius: var(--radius); padding: 1rem;">
+            <span class="user-info-label" style="color: var(--accent); font-weight: 700;">Huidige Periode</span>
+            <span class="user-info-value" style="color: var(--accent); font-size: 1.25rem; font-weight: 800;">{{ $user->huidige_periode }}</span>
         </div>
     </div>
 </div>

@@ -10,40 +10,102 @@
 
     .page-title {
         font-size: 2rem;
-        font-weight: 700;
+        font-weight: 800;
+        color: var(--text-dark);
         margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
     }
 
     .page-subtitle {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 1.1rem;
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, var(--bg-card) 100%);
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: start;
+        gap: 1rem;
+    }
+
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--info-bg);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--info);
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+
+    .info-content h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.25rem;
+    }
+
+    .info-content p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+
+    .prioriteit-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
+        border-radius: 50%;
+        font-weight: 800;
+        font-size: 0.85rem;
+        margin-right: 0.5rem;
     }
 
     .stats-bar {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        gap: 1.25rem;
         margin-bottom: 2rem;
     }
 
     .stat-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
         padding: 1.5rem;
         text-align: center;
+        box-shadow: var(--shadow);
+        transition: all 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
     }
 
     .stat-value {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #d4a024;
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--accent);
         margin-bottom: 0.25rem;
+        letter-spacing: -1px;
     }
 
     .stat-label {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 500;
     }
 
     .keuzedelen-list {
@@ -53,14 +115,22 @@
     }
 
     .keuzedeel-item {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
         padding: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: all 0.2s ease;
+    }
+
+    .keuzedeel-item:hover {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateX(4px);
     }
 
     .keuzedeel-info {
@@ -69,33 +139,37 @@
 
     .keuzedeel-code {
         display: inline-block;
-        background: rgba(212, 160, 36, 0.2);
-        color: #d4a024;
-        padding: 0.2rem 0.6rem;
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.2) 100%);
+        color: var(--accent);
+        padding: 0.3rem 0.75rem;
         border-radius: 50px;
         font-size: 0.75rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 0.5rem;
+        letter-spacing: 0.5px;
     }
 
     .keuzedeel-naam {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #ffffff;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-dark);
         margin: 0 0 0.5rem 0;
     }
 
     .keuzedeel-meta {
         display: flex;
-        gap: 1.5rem;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 0.9rem;
+        gap: 1.25rem;
+        color: var(--text-muted);
+        font-size: 0.875rem;
     }
 
     .keuzedeel-meta span {
         display: flex;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.5rem;
+        padding: 4px 10px;
+        background: var(--bg-light);
+        border-radius: 20px;
     }
 
     .keuzedeel-actions {
@@ -107,68 +181,85 @@
     .status-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+        padding: 0.6rem 1.25rem;
         border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        font-size: 0.8rem;
+        font-weight: 600;
     }
 
     .status-aangemeld {
-        background: rgba(52, 152, 219, 0.2);
-        color: #3498db;
+        background: var(--warning-bg);
+        color: #b45309;
     }
 
     .status-goedgekeurd {
-        background: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
+        background: var(--success-bg);
+        color: #047857;
     }
 
     .status-afgewezen {
-        background: rgba(231, 76, 60, 0.2);
-        color: #e74c3c;
+        background: var(--danger-bg);
+        color: #b91c1c;
     }
 
     .status-voltooid {
-        background: rgba(212, 175, 55, 0.2);
-        color: #d4af37;
+        background: var(--info-bg);
+        color: #1d4ed8;
     }
 
     .btn {
-        padding: 0.6rem 1.25rem;
-        border-radius: 8px;
-        font-weight: 500;
+        padding: 0.65rem 1.25rem;
+        border-radius: var(--radius);
+        font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         border: none;
         cursor: pointer;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         text-align: center;
     }
 
     .btn-outline {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff;
+        border: 2px solid var(--border);
+        color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(212, 160, 36, 0.05);
     }
 
     .btn-danger {
-        background: rgba(231, 76, 60, 0.2);
-        border: 1px solid rgba(231, 76, 60, 0.3);
-        color: #e74c3c;
+        background: var(--danger-bg);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: var(--danger);
+    }
+
+    .btn-danger:hover {
+        background: var(--danger);
+        color: #ffffff;
     }
 
     .btn-primary {
-        background: #d4a024;
-        color: #ffffff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
+        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
     }
 
     .empty-state {
         text-align: center;
         padding: 4rem 2rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        border: 1px dashed rgba(255, 255, 255, 0.2);
+        background: var(--bg-card);
+        border-radius: var(--radius-xl);
+        border: 2px dashed var(--border);
     }
 
     .empty-state-icon {
@@ -178,34 +269,36 @@
 
     .empty-state-title {
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--text-dark);
         margin-bottom: 0.5rem;
     }
 
     .empty-state-text {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-secondary);
         margin-bottom: 1.5rem;
     }
 
     .alert {
         padding: 1rem 1.5rem;
-        border-radius: 8px;
+        border-radius: var(--radius-lg);
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        font-weight: 500;
     }
 
     .alert-success {
-        background: rgba(46, 204, 113, 0.15);
-        border: 1px solid rgba(46, 204, 113, 0.3);
-        color: #2ecc71;
+        background: var(--success-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #047857;
     }
 
     .alert-error {
-        background: rgba(231, 76, 60, 0.15);
-        border: 1px solid rgba(231, 76, 60, 0.3);
-        color: #e74c3c;
+        background: var(--danger-bg);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #b91c1c;
     }
 
     @media (max-width: 768px) {
@@ -247,6 +340,14 @@
 </div>
 @endif
 
+<div class="info-box">
+    <div class="info-icon">ℹ️</div>
+    <div class="info-content">
+        <h3>Eén keuzedeel per periode</h3>
+        <p>Je kunt maar 1 keuzedeel per periode volgen. Je huidige periode is <strong>{{ $user->huidige_periode }}</strong>. Keuzedelen van andere periodes worden apart weergegeven.</p>
+    </div>
+</div>
+
 <div class="stats-bar">
     <div class="stat-card">
         <div class="stat-value">{{ $keuzedelen->count() }}</div>
@@ -286,6 +387,17 @@
                     </svg>
                     Aangemeld: {{ $keuzedeel->pivot->created_at->format('d-m-Y') }}
                 </span>
+                @if($keuzedeel->periode)
+                <span style="background: rgba(212, 160, 36, 0.1); padding: 4px 10px; border-radius: 20px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
+                    Periode: {{ $keuzedeel->periode }}
+                </span>
+                @endif
             </div>
         </div>
         <div class="keuzedeel-actions">

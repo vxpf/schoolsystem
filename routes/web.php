@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/notificaties', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notificaties/{id}/markeer-gelezen', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::post('/notificaties/markeer-alle-gelezen', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::delete('/notificaties/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::delete('/notificaties', [NotificationController::class, 'destroyAll'])->name('notifications.destroy-all');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -56,4 +58,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/keuzedelen/{keuzedeel}/edit', [AdminController::class, 'keuzedeelEdit'])->name('keuzedelen.edit');
     Route::put('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelUpdate'])->name('keuzedelen.update');
     Route::delete('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelDestroy'])->name('keuzedelen.destroy');
+    Route::post('/keuzedelen/{keuzedeel}/annuleer', [AdminController::class, 'annuleerKeuzedeel'])->name('keuzedelen.annuleer');
 });

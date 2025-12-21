@@ -10,36 +10,15 @@
 
     .page-title {
         font-size: 2rem;
-        font-weight: 700;
+        font-weight: 800;
+        color: var(--text-dark);
         margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
     }
 
     .page-subtitle {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 1.1rem;
-    }
-
-    .filters {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        flex-wrap: wrap;
-    }
-
-    .filter-btn {
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: transparent;
-        color: rgba(255, 255, 255, 0.7);
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-
-    .filter-btn.active {
-        background: rgba(212, 160, 36, 0.2);
-        border-color: #d4a024;
-        color: #d4a024;
+        color: var(--text-secondary);
+        font-size: 1.05rem;
     }
 
     .search-box {
@@ -50,61 +29,122 @@
 
     .search-input {
         flex: 1;
-        padding: 0.875rem 1.25rem;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-lg);
+        border: 2px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text-primary);
         font-size: 1rem;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(212, 160, 36, 0.1);
     }
 
     .search-input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--text-muted);
+    }
+
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: all 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .stat-value {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 0.25rem;
+        letter-spacing: -1px;
+    }
+
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 500;
     }
 
     .keuzedelen-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
         gap: 1.5rem;
     }
 
     .keuzedeel-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .keuzedeel-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent);
     }
 
     .keuzedeel-card.aangemeld {
-        border-color: rgba(46, 204, 113, 0.5);
+        border-color: var(--success);
+        border-width: 2px;
     }
 
     .keuzedeel-header {
-        background: linear-gradient(135deg, rgba(212, 160, 36, 0.2) 0%, rgba(212, 160, 36, 0.05) 100%);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
         padding: 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+    }
+
+    .keuzedeel-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
     }
 
     .keuzedeel-code {
         display: inline-block;
         background: rgba(212, 160, 36, 0.2);
-        color: #d4a024;
-        padding: 0.25rem 0.75rem;
+        color: var(--accent-light);
+        padding: 0.3rem 0.85rem;
         border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 600;
+        font-size: 0.75rem;
+        font-weight: 700;
         margin-bottom: 0.75rem;
+        letter-spacing: 0.5px;
     }
 
     .keuzedeel-naam {
-        font-size: 1.25rem;
-        font-weight: 600;
+        font-size: 1.15rem;
+        font-weight: 700;
         color: #ffffff;
         margin: 0;
-        line-height: 1.3;
+        line-height: 1.4;
     }
 
     .keuzedeel-body {
@@ -112,11 +152,11 @@
     }
 
     .keuzedeel-beschrijving {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.95rem;
-        line-height: 1.6;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.7;
         margin-bottom: 1.5rem;
-        min-height: 4rem;
+        min-height: 3.5rem;
     }
 
     .keuzedeel-meta {
@@ -129,24 +169,28 @@
     .meta-item {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
+        gap: 0.35rem;
+        padding: 0.75rem;
+        background: var(--bg-light);
+        border-radius: var(--radius);
     }
 
     .meta-label {
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.7rem;
+        color: var(--text-muted);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.75px;
+        font-weight: 600;
     }
 
     .meta-value {
         font-size: 1rem;
-        font-weight: 600;
-        color: #ffffff;
+        font-weight: 700;
+        color: var(--text-dark);
     }
 
     .meta-value.punten {
-        color: #d4a024;
+        color: var(--accent);
     }
 
     .capacity-bar {
@@ -156,38 +200,39 @@
     .capacity-label {
         display: flex;
         justify-content: space-between;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         margin-bottom: 0.5rem;
     }
 
     .capacity-label span:first-child {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-secondary);
     }
 
     .capacity-label span:last-child {
-        color: #ffffff;
-        font-weight: 500;
+        color: var(--text-dark);
+        font-weight: 600;
     }
 
     .capacity-track {
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
+        height: 8px;
+        background: var(--bg-light);
+        border-radius: 4px;
         overflow: hidden;
     }
 
     .capacity-fill {
         height: 100%;
-        background: linear-gradient(90deg, #2ecc71, #27ae60);
-        border-radius: 3px;
+        background: linear-gradient(90deg, var(--success), #059669);
+        border-radius: 4px;
+        transition: width 0.3s ease;
     }
 
     .capacity-fill.warning {
-        background: linear-gradient(90deg, #f39c12, #e67e22);
+        background: linear-gradient(90deg, var(--warning), #d97706);
     }
 
     .capacity-fill.full {
-        background: linear-gradient(90deg, #e74c3c, #c0392b);
+        background: linear-gradient(90deg, var(--danger), #dc2626);
     }
 
     .keuzedeel-actions {
@@ -196,41 +241,54 @@
     }
 
     .btn {
-        padding: 0.6rem 1.25rem;
-        border-radius: 8px;
-        font-weight: 500;
+        padding: 0.75rem 1.25rem;
+        border-radius: var(--radius);
+        font-weight: 600;
         text-decoration: none;
         border: none;
         cursor: pointer;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         text-align: center;
+        transition: all 0.2s ease;
     }
 
     .btn-primary {
-        background: #d4a024;
-        color: #ffffff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
+        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
     }
 
-    .btn-success {
-        background: #2ecc71;
-        color: #ffffff;
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
     }
 
     .btn-danger {
-        background: #e74c3c;
+        background: var(--danger);
         color: #ffffff;
+    }
+
+    .btn-danger:hover {
+        background: #dc2626;
     }
 
     .btn-outline {
         background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: #ffffff;
+        border: 2px solid var(--border);
+        color: var(--text-primary);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: rgba(212, 160, 36, 0.05);
     }
 
     .btn-disabled {
-        background: rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.5);
+        background: var(--bg-light);
+        color: var(--text-muted);
         cursor: not-allowed;
+        border: 1px solid var(--border);
     }
 
     .status-badge {
@@ -239,69 +297,43 @@
         gap: 0.5rem;
         padding: 0.5rem 1rem;
         border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        font-size: 0.8rem;
+        font-weight: 600;
     }
 
     .status-aangemeld {
-        background: rgba(46, 204, 113, 0.2);
-        color: #2ecc71;
+        background: var(--success-bg);
+        color: #047857;
     }
 
     .alert {
         padding: 1rem 1.5rem;
-        border-radius: 8px;
+        border-radius: var(--radius-lg);
         margin-bottom: 1.5rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
+        font-weight: 500;
     }
 
     .alert-success {
-        background: rgba(46, 204, 113, 0.15);
-        border: 1px solid rgba(46, 204, 113, 0.3);
-        color: #2ecc71;
+        background: var(--success-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #047857;
     }
 
     .alert-error {
-        background: rgba(231, 76, 60, 0.15);
-        border: 1px solid rgba(231, 76, 60, 0.3);
-        color: #e74c3c;
-    }
-
-    .stats-bar {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .stat-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
-    }
-
-    .stat-value {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #d4a024;
-        margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.7);
+        background: var(--danger-bg);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #b91c1c;
     }
 
     .empty-state {
         text-align: center;
         padding: 4rem 2rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        border: 1px dashed rgba(255, 255, 255, 0.2);
+        background: var(--bg-card);
+        border-radius: var(--radius-xl);
+        border: 2px dashed var(--border);
     }
 
     .empty-state-icon {
@@ -311,12 +343,13 @@
 
     .empty-state-title {
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--text-dark);
         margin-bottom: 0.5rem;
     }
 
     .empty-state-text {
-        color: rgba(255, 255, 255, 0.7);
+        color: var(--text-secondary);
     }
 
     @media (max-width: 768px) {
@@ -380,13 +413,23 @@
     @foreach($keuzedelen as $keuzedeel)
     @php
         $isAangemeld = in_array($keuzedeel->id, $mijnKeuzedelen);
+        $status = $isAangemeld && isset($keuzedeelStatussen[$keuzedeel->id]) ? $keuzedeelStatussen[$keuzedeel->id] : null;
+        $isVoltooid = $status === 'voltooid';
         $percentage = $keuzedeel->max_studenten > 0 ? ($keuzedeel->aanmeldingen_count / $keuzedeel->max_studenten) * 100 : 0;
         $capacityClass = $percentage >= 100 ? 'full' : ($percentage >= 75 ? 'warning' : '');
     @endphp
     <div class="keuzedeel-card {{ $isAangemeld ? 'aangemeld' : '' }}" data-naam="{{ strtolower($keuzedeel->naam) }}" data-code="{{ strtolower($keuzedeel->code) }}">
         <div class="keuzedeel-header">
             <span class="keuzedeel-code">{{ $keuzedeel->code }}</span>
-            @if($isAangemeld)
+            @if($isVoltooid)
+            <span class="status-badge status-voltooid" style="float: right;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Voltooid
+            </span>
+            @elseif($isAangemeld)
             <span class="status-badge status-aangemeld" style="float: right;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="20 6 9 17 4 12"/>
@@ -410,6 +453,12 @@
                     <span class="meta-label">Niveau</span>
                     <span class="meta-value">{{ $keuzedeel->niveau ?? 'N.v.t.' }}</span>
                 </div>
+                @if($keuzedeel->periode)
+                <div class="meta-item">
+                    <span class="meta-label">Periode</span>
+                    <span class="meta-value" style="color: var(--accent); font-weight: 700;">{{ $keuzedeel->periode }}</span>
+                </div>
+                @endif
             </div>
 
             <div class="capacity-bar">
@@ -423,7 +472,9 @@
             </div>
 
             <div class="keuzedeel-actions">
-                @if($isAangemeld)
+                @if($isVoltooid)
+                <button class="btn btn-disabled" disabled style="flex: 1;">Voltooid</button>
+                @elseif($isAangemeld)
                 <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/afmelden') }}" method="POST" style="flex: 1;">
                     @csrf
                     <button type="submit" class="btn btn-danger" style="width: 100%;">Afmelden</button>

@@ -4,34 +4,56 @@
 
 @section('styles')
 <style>
-    .admin-header {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(212, 160, 36, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .admin-header h1 {
-        font-size: 2rem;
-        color: #d4a024;
-    }
-
     .back-link {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #d4a024;
+        color: var(--accent);
         text-decoration: none;
         margin-bottom: 1.5rem;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        color: var(--accent-light);
+        transform: translateX(-4px);
+    }
+
+    .admin-header {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        padding: 2rem;
+        border-radius: var(--radius-xl);
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .admin-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+    }
+
+    .admin-header h1 {
+        font-size: 1.75rem;
+        color: #ffffff;
+        font-weight: 800;
+    }
+
+    .admin-header p {
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
     }
 
     .keuzedelen-grid {
@@ -40,16 +62,17 @@
     }
 
     .keuzedeel-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-card);
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid rgba(212, 160, 36, 0.2);
-        transition: all 0.3s ease;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow);
     }
 
     .keuzedeel-card:hover {
-        border-color: #d4a024;
-        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
     }
 
     .keuzedeel-header {
@@ -60,16 +83,16 @@
     }
 
     .keuzedeel-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #fff;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-dark);
         margin-bottom: 0.3rem;
     }
 
     .keuzedeel-code {
-        color: #d4a024;
-        font-size: 0.9rem;
-        font-weight: 500;
+        color: var(--accent);
+        font-size: 0.85rem;
+        font-weight: 600;
     }
 
     .keuzedeel-actions {
@@ -87,84 +110,122 @@
     .info-item {
         display: flex;
         flex-direction: column;
+        padding: 0.75rem;
+        background: var(--bg-light);
+        border-radius: var(--radius);
     }
 
     .info-label {
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.7rem;
+        color: var(--text-muted);
         margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
     }
 
     .info-value {
-        font-weight: 600;
-        color: #fff;
+        font-weight: 700;
+        color: var(--text-dark);
     }
 
     .keuzedeel-description {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.95rem;
-        line-height: 1.5;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.6;
         margin-bottom: 1rem;
     }
 
     .status-badge {
         display: inline-block;
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        padding: 0.4rem 0.9rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
     }
 
     .status-active {
-        background: rgba(34, 197, 94, 0.2);
-        color: #4ade80;
+        background: var(--success-bg);
+        color: #047857;
     }
 
     .status-inactive {
-        background: rgba(239, 68, 68, 0.2);
-        color: #f87171;
+        background: var(--danger-bg);
+        color: #b91c1c;
     }
 
     .btn-small {
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
-        border-radius: 6px;
+        border-radius: var(--radius);
         border: none;
         cursor: pointer;
-        font-weight: 500;
-        transition: all 0.2s;
+        font-weight: 600;
+        transition: all 0.2s ease;
         text-decoration: none;
         display: inline-block;
     }
 
     .btn-edit {
-        background: #d4a024;
-        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
     }
 
     .btn-edit:hover {
-        background: #b88a1e;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
     }
 
     .btn-delete {
-        background: rgba(239, 68, 68, 0.2);
-        color: #f87171;
+        background: var(--danger-bg);
+        color: var(--danger);
         border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     .btn-delete:hover {
-        background: rgba(239, 68, 68, 0.3);
+        background: var(--danger);
+        color: #ffffff;
     }
 
     .btn-create {
-        background: #d4a024;
-        color: #fff;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        color: var(--primary-dark);
         padding: 0.75rem 1.5rem;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
     }
 
     .btn-create:hover {
-        background: #b88a1e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
+    }
+
+    .alert {
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-lg);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background: var(--success-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #047857;
+    }
+
+    .alert-error {
+        background: var(--danger-bg);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #b91c1c;
+    }
+
+    .empty-state {
+        background: var(--bg-card);
+        padding: 3rem;
+        border-radius: var(--radius-xl);
+        text-align: center;
+        color: var(--text-muted);
+        border: 2px dashed var(--border);
     }
 </style>
 @endsection
@@ -174,8 +235,8 @@
 
 <div class="admin-header">
     <div>
-        <h1>📚 Keuzedelen Beheren</h1>
-        <p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">Beheer alle keuzedelen in het systeem</p>
+        <h1>Keuzedelen Beheren</h1>
+        <p>Beheer alle keuzedelen in het systeem</p>
     </div>
     <a href="{{ route('admin.keuzedelen.create') }}" class="btn-small btn-create">+ Nieuw Keuzedeel</a>
 </div>

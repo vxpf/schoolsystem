@@ -33,4 +33,19 @@ class NotificationController extends Controller
 
         return back()->with('success', 'Alle notificaties gemarkeerd als gelezen');
     }
+
+    public function destroy($id)
+    {
+        $notification = Auth::user()->notifications()->findOrFail($id);
+        $notification->delete();
+
+        return back()->with('success', 'Notificatie verwijderd');
+    }
+
+    public function destroyAll()
+    {
+        Auth::user()->notifications()->delete();
+
+        return redirect()->route('notifications.index')->with('success', 'Alle notificaties verwijderd');
+    }
 }

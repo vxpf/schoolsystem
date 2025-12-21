@@ -16,8 +16,75 @@ class AdminController extends Controller
         $totalKeuzedelen = Keuzedeel::count();
         $totalEnrollments = DB::table('keuzedeel_user')->count();
         $activeKeuzedelen = Keuzedeel::where('actief', true)->count();
+        
+        // Keuzedelen met te weinig inschrijvingen (minder dan 30% van max_studenten)
+        $keuzedelenMetWeinigInschrijvingen = Keuzedeel::where('actief', true)
+            ->withCount('users')
+            ->get()
+            ->filter(function($keuzedeel) {
+                $percentage = $keuzedeel->max_studenten > 0 ? ($keuzedeel->users_count / $keuzedeel->max_studenten) * 100 : 0;
+                return $percentage < 30 && $percentage > 0;
+            });
 
-        return view('admin.dashboard', compact('totalStudents', 'totalKeuzedelen', 'totalEnrollments', 'activeKeuzedelen'));
+        // Data voor grafieken
+        // 1. Inschrijvingen per keuzedeel (top 6)
+        $inschrijvingenPerKeuzedeel = Keuzedeel::withCount('users')
+            ->orderBy('users_count', 'desc')
+            ->limit(6)
+            ->get()
+            ->map(function($keuzedeel) {
+                return [
+                    'naam' => $keuzedeel->naam,
+                    'code' => $keuzedeel->code,
+                    'count' => $keuzedeel->users_count,
+                    'max' => $keuzedeel->max_studenten
+                ];
+            });
+
+        // 2. Status verdeling
+        $statusVerdeling = DB::table('keuzedeel_user')
+            ->select('status', DB::raw('count(*) as count'))
+            ->groupBy('status')
+            ->get()
+            ->pluck('count', 'status');
+
+        // 3. Inschrijvingen per periode
+        $inschrijvingenPerPeriode = Keuzedeel::withCount('users')
+            ->get()
+            ->groupBy('periode')
+            ->map(function($keuzedelen) {
+                return $keuzedelen->sum('users_count');
+            });
+
+        // 4. Bezettingsgraad per keuzedeel
+        $bezettingsgraad = Keuzedeel::withCount('users')
+            ->where('actief', true)
+            ->get()
+            ->map(function($keuzedeel) {
+                $percentage = $keuzedeel->max_studenten > 0 
+                    ? round(($keuzedeel->users_count / $keuzedeel->max_studenten) * 100) 
+                    : 0;
+                return [
+                    'naam' => $keuzedeel->naam,
+                    'percentage' => $percentage,
+                    'count' => $keuzedeel->users_count,
+                    'max' => $keuzedeel->max_studenten
+                ];
+            })
+            ->sortByDesc('percentage')
+            ->take(5);
+
+        return view('admin.dashboard', compact(
+            'totalStudents', 
+            'totalKeuzedelen', 
+            'totalEnrollments', 
+            'activeKeuzedelen', 
+            'keuzedelenMetWeinigInschrijvingen',
+            'inschrijvingenPerKeuzedeel',
+            'statusVerdeling',
+            'inschrijvingenPerPeriode',
+            'bezettingsgraad'
+        ));
     }
 
     public function students()
@@ -70,11 +137,10 @@ class AdminController extends Controller
         $validated = $request->validate([
             'naam' => 'required|string|max:255',
             'beschrijving' => 'nullable|string',
-            'code' => 'required|string|unique:keuzedelen,code',
+            'code' => 'required|string|unique:keuzedelen',
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
-            'actief' => 'boolean',
         ]);
 
         $validated['actief'] = $request->has('actief');
@@ -99,7 +165,6 @@ class AdminController extends Controller
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
-            'actief' => 'boolean',
         ]);
 
         $validated['actief'] = $request->has('actief');
@@ -174,5 +239,84 @@ class AdminController extends Controller
         $keuzedeel->users()->detach($user->id);
 
         return back()->with('success', 'Inschrijving succesvol verwijderd!');
+    }
+
+    public function annuleerKeuzedeel(Keuzedeel $keuzedeel)
+    {
+        // Haal alle studenten op die zijn aangemeld voor dit keuzedeel
+        $studenten = $keuzedeel->users()
+            ->wherePivot('status', '!=', 'voltooid')
+            ->get();
+
+        $herallocaties = 0;
+        $notificaties = 0;
+
+        foreach ($studenten as $student) {
+            // Zoek de volgende keuze van de student (hogere prioriteit nummer)
+            $huidigePrioriteit = $student->pivot->prioriteit;
+            
+            $volgendeKeuze = $student->keuzedelen()
+                ->where('keuzedeel_id', '!=', $keuzedeel->id)
+                ->wherePivot('prioriteit', '>', $huidigePrioriteit)
+                ->wherePivot('status', '!=', 'voltooid')
+                ->orderBy('keuzedeel_user.prioriteit', 'asc')
+                ->first();
+
+            // Verwijder de huidige inschrijving
+            $keuzedeel->users()->detach($student->id);
+
+            if ($volgendeKeuze) {
+                // Check of de volgende keuze nog plek heeft
+                $aantalInschrijvingen = $volgendeKeuze->users()->count();
+                
+                if ($aantalInschrijvingen < $volgendeKeuze->max_studenten) {
+                    // Update de status naar goedgekeurd voor automatische toewijzing
+                    $volgendeKeuze->users()->updateExistingPivot($student->id, [
+                        'status' => 'goedgekeurd'
+                    ]);
+
+                    // Stuur notificatie over herallocatie
+                    Notification::create([
+                        'user_id' => $student->id,
+                        'keuzedeel_id' => $volgendeKeuze->id,
+                        'type' => 'goedkeuring',
+                        'title' => 'Automatisch toegewezen aan alternatief keuzedeel',
+                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Je bent automatisch toegewezen aan je volgende keuze: "' . $volgendeKeuze->naam . '".',
+                    ]);
+
+                    $herallocaties++;
+                } else {
+                    // Volgende keuze is vol, stuur notificatie
+                    Notification::create([
+                        'user_id' => $student->id,
+                        'keuzedeel_id' => null,
+                        'type' => 'afwijzing',
+                        'title' => 'Keuzedeel geannuleerd',
+                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Je alternatieve keuze is helaas vol. Meld je aan voor een nieuw keuzedeel.',
+                    ]);
+                }
+            } else {
+                // Geen alternatieve keuze, stuur notificatie
+                Notification::create([
+                    'user_id' => $student->id,
+                    'keuzedeel_id' => null,
+                    'type' => 'afwijzing',
+                    'title' => 'Keuzedeel geannuleerd',
+                    'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Meld je aan voor een nieuw keuzedeel.',
+                ]);
+            }
+            
+            $notificaties++;
+        }
+
+        // Deactiveer het keuzedeel
+        $keuzedeel->update(['actief' => false]);
+
+        $message = "Keuzedeel geannuleerd. {$studenten->count()} student(en) zijn afgemeld.";
+        if ($herallocaties > 0) {
+            $message .= " {$herallocaties} student(en) zijn automatisch toegewezen aan hun volgende keuze.";
+        }
+
+        return back()->with('success', $message);
     }
 }

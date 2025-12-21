@@ -4,32 +4,53 @@
 
 @section('styles')
 <style>
-    .admin-header {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(212, 160, 36, 0.2);
-    }
-
-    .admin-header h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        color: #d4a024;
-    }
-
     .back-link {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #d4a024;
+        color: var(--accent);
         text-decoration: none;
         margin-bottom: 1.5rem;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        color: var(--accent-light);
+        transform: translateX(-4px);
+    }
+
+    .admin-header {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        padding: 2rem;
+        border-radius: var(--radius-xl);
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .admin-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+    }
+
+    .admin-header h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        font-weight: 800;
+    }
+
+    .admin-header p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
     }
 
     .keuzedeel-list {
@@ -39,16 +60,17 @@
     }
 
     .keuzedeel-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-card);
         padding: 1.5rem;
-        border-radius: 12px;
-        border: 1px solid rgba(212, 160, 36, 0.2);
-        transition: all 0.3s ease;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow);
     }
 
     .keuzedeel-card:hover {
-        border-color: #d4a024;
-        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
     }
 
     .keuzedeel-header {
@@ -59,16 +81,16 @@
     }
 
     .keuzedeel-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #fff;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-dark);
         margin-bottom: 0.3rem;
     }
 
     .keuzedeel-code {
-        color: #d4a024;
-        font-size: 0.9rem;
-        font-weight: 500;
+        color: var(--accent);
+        font-size: 0.85rem;
+        font-weight: 600;
     }
 
     .keuzedeel-stats {
@@ -78,11 +100,12 @@
     }
 
     .stat-badge {
-        background: rgba(212, 160, 36, 0.2);
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.2) 100%);
         padding: 0.5rem 1rem;
-        border-radius: 6px;
-        font-weight: 600;
-        color: #d4a024;
+        border-radius: 20px;
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.85rem;
     }
 
     .students-preview {
@@ -96,9 +119,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.75rem;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 6px;
+        padding: 1rem;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+        border: 1px solid var(--border-light);
     }
 
     .student-info {
@@ -107,59 +131,102 @@
     }
 
     .student-name {
-        font-weight: 500;
-        color: #fff;
+        font-weight: 600;
+        color: var(--text-dark);
     }
 
     .student-details {
         font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.6);
+        color: var(--text-muted);
     }
 
     .status-badge {
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        font-weight: 500;
+        padding: 0.4rem 0.9rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
     }
 
     .status-aangemeld {
-        background: rgba(59, 130, 246, 0.2);
-        color: #60a5fa;
+        background: var(--warning-bg);
+        color: #b45309;
     }
 
     .status-goedgekeurd {
-        background: rgba(34, 197, 94, 0.2);
-        color: #4ade80;
+        background: var(--success-bg);
+        color: #047857;
     }
 
     .status-afgewezen {
-        background: rgba(239, 68, 68, 0.2);
-        color: #f87171;
+        background: var(--danger-bg);
+        color: #b91c1c;
     }
 
     .status-voltooid {
-        background: rgba(168, 85, 247, 0.2);
-        color: #c084fc;
+        background: var(--info-bg);
+        color: #1d4ed8;
     }
 
     .view-all-link {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
         margin-top: 1rem;
-        color: #d4a024;
+        color: var(--accent);
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
     }
 
     .view-all-link:hover {
-        text-decoration: underline;
+        color: var(--accent-hover);
+        transform: translateX(4px);
     }
 
     .no-enrollments {
-        color: rgba(255, 255, 255, 0.6);
+        color: var(--text-muted);
         font-style: italic;
-        padding: 1rem;
+        padding: 1.5rem;
         text-align: center;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+    }
+
+    .alert {
+        padding: 1rem 1.5rem;
+        border-radius: var(--radius-lg);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+    }
+
+    .alert-success {
+        background: var(--success-bg);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #047857;
+    }
+
+    .alert-error {
+        background: var(--danger-bg);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #b91c1c;
+    }
+
+    .low-enrollment-warning {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.9rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        background: var(--warning-bg);
+        color: #b45309;
+        margin-left: 0.5rem;
+    }
+
+    .keuzedeel-card.low-enrollment {
+        border-left: 4px solid var(--warning);
     }
 </style>
 @endsection
@@ -168,8 +235,8 @@
 <a href="{{ route('admin.dashboard') }}" class="back-link">← Terug naar Dashboard</a>
 
 <div class="admin-header">
-    <h1>📊 Inschrijvingen per Keuzedeel</h1>
-    <p style="color: rgba(255, 255, 255, 0.8);">Overzicht van alle studenten die zich hebben ingeschreven per vak</p>
+    <h1>Inschrijvingen per Keuzedeel</h1>
+    <p>Overzicht van alle studenten die zich hebben ingeschreven per vak</p>
 </div>
 
 @if(session('success'))
@@ -186,10 +253,21 @@
 
 <div class="keuzedeel-list">
     @forelse($keuzedelen as $keuzedeel)
-        <div class="keuzedeel-card">
+        @php
+            $percentage = $keuzedeel->max_studenten > 0 ? ($keuzedeel->users_count / $keuzedeel->max_studenten) * 100 : 0;
+            $isLowEnrollment = $percentage < 30 && $percentage > 0;
+        @endphp
+        <div class="keuzedeel-card {{ $isLowEnrollment ? 'low-enrollment' : '' }}">
             <div class="keuzedeel-header">
                 <div>
-                    <div class="keuzedeel-title">{{ $keuzedeel->naam }}</div>
+                    <div class="keuzedeel-title">
+                        {{ $keuzedeel->naam }}
+                        @if($isLowEnrollment)
+                        <span class="low-enrollment-warning">
+                            ⚠️ Weinig inschrijvingen ({{ round($percentage) }}%)
+                        </span>
+                        @endif
+                    </div>
                     <div class="keuzedeel-code">{{ $keuzedeel->code }}</div>
                 </div>
                 <div class="keuzedeel-stats">

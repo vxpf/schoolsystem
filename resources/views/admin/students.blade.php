@@ -4,100 +4,53 @@
 
 @section('styles')
 <style>
-    .admin-header {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 2rem;
-        border-radius: 12px;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(212, 160, 36, 0.2);
-    }
-
-    .admin-header h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        color: #d4a024;
-    }
-
     .back-link {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        color: #d4a024;
+        color: var(--accent);
         text-decoration: none;
         margin-bottom: 1.5rem;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        color: var(--accent-light);
+        transform: translateX(-4px);
     }
 
-    .students-table {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
+    .admin-header {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        padding: 2rem;
+        border-radius: var(--radius-xl);
+        margin-bottom: 2rem;
+        position: relative;
         overflow: hidden;
-        border: 1px solid rgba(212, 160, 36, 0.2);
+        box-shadow: var(--shadow-lg);
     }
 
-    .table-header {
-        background: rgba(212, 160, 36, 0.1);
-        padding: 1rem 1.5rem;
-        display: grid;
-        grid-template-columns: 2fr 2fr 1.5fr 1fr 1fr;
-        gap: 1rem;
-        font-weight: 600;
-        color: #d4a024;
-        font-size: 0.9rem;
+    .admin-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
     }
 
-    .table-row {
-        padding: 1.5rem;
-        display: grid;
-        grid-template-columns: 2fr 2fr 1.5fr 1fr 1fr;
-        gap: 1rem;
-        align-items: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        transition: all 0.2s;
+    .admin-header h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        font-weight: 800;
     }
 
-    .table-row:hover {
-        background: rgba(255, 255, 255, 0.03);
-    }
-
-    .table-row:last-child {
-        border-bottom: none;
-    }
-
-    .student-name {
-        font-weight: 500;
-        color: #fff;
-    }
-
-    .student-email {
-        color: rgba(255, 255, 255, 0.8);
+    .admin-header p {
+        color: var(--text-muted);
         font-size: 0.95rem;
-    }
-
-    .student-info {
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.9rem;
-    }
-
-    .student-badge {
-        display: inline-block;
-        background: rgba(212, 160, 36, 0.2);
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        font-size: 0.85rem;
-        color: #d4a024;
-        font-weight: 500;
-    }
-
-    .no-students {
-        padding: 3rem;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.6);
-        font-style: italic;
     }
 
     .search-box {
@@ -106,23 +59,96 @@
 
     .search-input {
         width: 100%;
-        max-width: 400px;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        border: 1px solid rgba(212, 160, 36, 0.3);
-        background: rgba(0, 0, 0, 0.3);
-        color: #fff;
+        max-width: 450px;
+        padding: 1rem 1.25rem;
+        border-radius: var(--radius-lg);
+        border: 2px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text-primary);
         font-size: 0.95rem;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
     }
 
     .search-input:focus {
         outline: none;
-        border-color: #d4a024;
-        background: rgba(0, 0, 0, 0.4);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(212, 160, 36, 0.1);
     }
 
     .search-input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: var(--text-muted);
+    }
+
+    .students-table {
+        background: var(--bg-card);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+    }
+
+    .table-header {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        padding: 1rem 1.5rem;
+        display: grid;
+        grid-template-columns: 2fr 2fr 1.5fr 1fr 1fr;
+        gap: 1rem;
+        font-weight: 600;
+        color: var(--accent-light);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .table-row {
+        padding: 1.25rem 1.5rem;
+        display: grid;
+        grid-template-columns: 2fr 2fr 1.5fr 1fr 1fr;
+        gap: 1rem;
+        align-items: center;
+        border-bottom: 1px solid var(--border-light);
+        transition: all 0.2s ease;
+    }
+
+    .table-row:hover {
+        background: var(--bg-light);
+    }
+
+    .table-row:last-child {
+        border-bottom: none;
+    }
+
+    .student-name {
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .student-email {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .student-info {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .student-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.1) 0%, rgba(212, 160, 36, 0.2) 100%);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--accent);
+        font-weight: 600;
+    }
+
+    .no-students {
+        padding: 3rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-style: italic;
     }
 
     @media (max-width: 1024px) {
@@ -145,8 +171,8 @@
 <a href="{{ route('admin.dashboard') }}" class="back-link">← Terug naar Dashboard</a>
 
 <div class="admin-header">
-    <h1>👥 Studenten Overzicht</h1>
-    <p style="color: rgba(255, 255, 255, 0.8);">Overzicht van alle geregistreerde studenten</p>
+    <h1>Studenten Overzicht</h1>
+    <p>Overzicht van alle geregistreerde studenten</p>
 </div>
 
 <div class="search-box">
