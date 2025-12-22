@@ -42,12 +42,39 @@
         border-radius: var(--radius);
         border: 1px solid var(--border);
         box-shadow: var(--shadow);
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-light));
+        transform: scaleX(0);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: left;
     }
 
     .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
+        border-color: var(--accent);
+        box-shadow: 0 8px 30px rgba(212, 160, 36, 0.15);
+    }
+
+    .stat-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .stat-card:hover .stat-value {
+        color: var(--accent);
+    }
+
+    .stat-card:hover .stat-icon {
+        transform: scale(1.1) rotate(5deg);
     }
 
     .stat-card h3 {
@@ -64,6 +91,7 @@
         font-weight: 800;
         color: var(--text-dark);
         letter-spacing: -1px;
+        transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stat-card .stat-icon {
@@ -77,6 +105,7 @@
         color: var(--accent);
         font-size: 1.5rem;
         margin-bottom: 1rem;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .admin-actions {
@@ -93,14 +122,46 @@
         border: 1px solid var(--border);
         text-decoration: none;
         color: var(--text-primary);
-        transition: all 0.2s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .action-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.05) 0%, transparent 50%);
+        opacity: 0;
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .action-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-light));
+        transform: scaleX(0);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: left;
     }
 
     .action-card:hover {
-        transform: translateY(-2px);
         border-color: var(--accent);
-        box-shadow: var(--shadow-md);
+        box-shadow: 0 12px 35px rgba(212, 160, 36, 0.2);
+        transform: scale(1.02);
+    }
+
+    .action-card:hover::before {
+        opacity: 1;
+    }
+
+    .action-card:hover::after {
+        transform: scaleX(1);
     }
 
     .action-card h3 {
@@ -366,7 +427,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Kleurenschema
     const colors = {
-        primary: '#1e293b',
+        primary: '#2d4a3e',
         accent: '#d4a024',
         success: '#10b981',
         warning: '#f59e0b',

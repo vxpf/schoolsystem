@@ -183,6 +183,172 @@
             gap: 0.5rem;
         }
     }
+
+    /* Custom Delete Modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        border-radius: 16px;
+        padding: 0;
+        max-width: 480px;
+        width: 90%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(212, 160, 36, 0.2);
+        animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+
+    .modal-header {
+        padding: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+    }
+
+    .modal-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    }
+
+    .modal-icon {
+        width: 64px;
+        height: 64px;
+        background: rgba(239, 68, 68, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        border: 2px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .modal-icon svg {
+        width: 32px;
+        height: 32px;
+        color: #ef4444;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-body {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .modal-text {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-student-name {
+        color: var(--accent-light);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .modal-footer {
+        padding: 1.5rem 2rem;
+        background: rgba(0, 0, 0, 0.2);
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .modal-btn {
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .modal-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-btn:hover::before {
+        left: 100%;
+    }
+
+    .modal-btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-btn-delete {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    }
+
+    .modal-btn-delete:hover {
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .modal-btn-delete:active {
+        transform: translateY(0);
+    }
 </style>
 @endsection
 
@@ -261,10 +427,10 @@
                 </form>
             </div>
             <div class="action-buttons">
-                <form action="{{ route('admin.enrollments.remove', [$keuzedeel, $student]) }}" method="POST" onsubmit="return confirm('Weet je zeker dat je deze inschrijving wilt verwijderen?');">
+                <form action="{{ route('admin.enrollments.remove', [$keuzedeel, $student]) }}" method="POST" class="delete-form" data-student-name="{{ $student->name }}">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn-small btn-delete">Verwijderen</button>
+                    <button type="button" class="btn-small btn-delete delete-btn">Verwijderen</button>
                 </form>
             </div>
         </div>
@@ -274,4 +440,70 @@
         </div>
     @endforelse
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+            </div>
+            <h2 class="modal-title">Inschrijving Verwijderen</h2>
+        </div>
+        <div class="modal-body">
+            <p class="modal-text">Weet je zeker dat je de inschrijving van</p>
+            <p class="modal-student-name" id="modalStudentName"></p>
+            <p class="modal-text">wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="closeDeleteModal()">Annuleren</button>
+            <button type="button" class="modal-btn modal-btn-delete" id="confirmDeleteBtn">Verwijderen</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentForm = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            currentForm = this.closest('.delete-form');
+            const studentName = currentForm.dataset.studentName;
+            
+            document.getElementById('modalStudentName').textContent = studentName;
+            document.getElementById('deleteModal').classList.add('active');
+        });
+    });
+    
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        if (currentForm) {
+            currentForm.submit();
+        }
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeDeleteModal();
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDeleteModal();
+        }
+    });
+});
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('active');
+    currentForm = null;
+}
+</script>
 @endsection

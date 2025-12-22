@@ -228,6 +228,7 @@
     .keuzedeel-card.low-enrollment {
         border-left: 4px solid var(--warning);
     }
+
 </style>
 @endsection
 
