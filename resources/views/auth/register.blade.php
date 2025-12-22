@@ -17,7 +17,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
-            background: #1a1a1a;
+            background: #2d4a3e;
         }
 
         .login-container {
@@ -28,7 +28,7 @@
 
         .login-left {
             flex: 1;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #1a2e26 0%, #2d4a3e 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -57,7 +57,7 @@
         .login-logo {
             width: 100px;
             height: 100px;
-            background: #ffc107;
+            background: #d4a024;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -178,8 +178,8 @@
         }
 
         .btn-primary {
-            background: #d4af37;
-            color: #1a1a1a;
+            background: #d4a024;
+            color: #ffffff;
         }
 
         .form-footer {

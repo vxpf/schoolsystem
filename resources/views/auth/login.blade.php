@@ -221,8 +221,8 @@
         }
 
         .btn-primary {
-            background: #d4af37;
-            color: #1a1a1a;
+            background: #d4a024;
+            color: #ffffff;
         }
 
         .btn-microsoft {

@@ -89,7 +89,9 @@ class KeuzedeelController extends Controller
             'status' => 'aangemeld'
         ]);
 
-        return back()->with('success', 'Je bent succesvol aangemeld voor ' . $keuzedeel->naam . ' (periode ' . $huidigePeriode . ')!');
+        $successMessage = '🎉 Gelukt! Je bent succesvol aangemeld voor het keuzedeel "' . $keuzedeel->naam . '" (periode ' . $huidigePeriode . '). Je ontvangt een bevestiging zodra je aanmelding is goedgekeurd door de docent.';
+        
+        return back()->with('success', $successMessage);
     }
 
     public function afmelden(Keuzedeel $keuzedeel)

@@ -213,11 +213,28 @@
         border-radius: var(--radius);
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.2s ease;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         border: none;
         cursor: pointer;
         font-size: 0.875rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .btn:hover::before {
+        left: 100%;
     }
 
     .btn-outline {
@@ -229,7 +246,8 @@
     .btn-outline:hover {
         border-color: var(--accent);
         color: var(--accent);
-        background: rgba(212, 160, 36, 0.05);
+        background: rgba(212, 160, 36, 0.08);
+        box-shadow: 0 4px 15px rgba(212, 160, 36, 0.15);
     }
 
     .btn-danger {
@@ -239,8 +257,14 @@
     }
 
     .btn-danger:hover {
-        background: var(--danger);
+        background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
         color: #ffffff;
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn-danger:active {
+        transform: translateY(0) scale(0.98);
     }
 
     .btn-primary {
@@ -250,8 +274,12 @@
     }
 
     .btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
+        box-shadow: 0 8px 25px rgba(212, 160, 36, 0.45);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0) scale(0.98);
     }
 
     .empty-state {
@@ -280,19 +308,54 @@
     }
 
     .alert {
-        padding: 1rem 1.5rem;
+        padding: 1.25rem 1.75rem;
         border-radius: var(--radius-lg);
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
+        align-items: flex-start;
+        gap: 1rem;
         font-weight: 500;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        box-shadow: var(--shadow-md);
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    }
+
+    .alert.fade-out {
+        animation: fadeOut 0.4s ease-out forwards;
+    }
+
+    .alert svg {
+        flex-shrink: 0;
+        margin-top: 2px;
     }
 
     .alert-success {
-        background: var(--success-bg);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        color: #047857;
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 2px solid #10b981;
+        color: #065f46;
     }
 
     .alert-error {
@@ -446,4 +509,20 @@
     <a href="{{ url('/keuzedelen') }}" class="btn btn-primary">Bekijk keuzedelen</a>
 </div>
 @endif
+
+<script>
+// Auto-dismiss alerts
+document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert');
+    
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.classList.add('fade-out');
+            setTimeout(() => {
+                alert.remove();
+            }, 400);
+        }, 5000);
+    });
+});
+</script>
 @endsection

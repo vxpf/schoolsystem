@@ -8,9 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #0f172a;
-            --primary: #1e293b;
-            --primary-light: #334155;
+            --primary-dark: #1a2e26;
+            --primary: #2d4a3e;
+            --primary-light: #3d5a4d;
             --accent: #d4a024;
             --accent-light: #f4d03f;
             --accent-hover: #b8891f;
@@ -37,6 +37,8 @@
             --radius: 8px;
             --radius-lg: 12px;
             --radius-xl: 16px;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * {
@@ -125,17 +127,50 @@
             padding: 0.5rem 1rem;
             border-radius: var(--radius);
             position: relative;
-            transition: all 0.2s ease;
+            transition: color 0.3s var(--transition-smooth);
+            overflow: hidden;
+        }
+
+        .header-nav a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-light);
+            transition: all 0.3s var(--transition-smooth);
+            transform: translateX(-50%);
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(212, 160, 36, 0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s var(--transition-smooth);
         }
 
         .header-nav a:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-nav a:hover::before {
+            width: 80%;
+        }
+
+        .header-nav a:hover::after {
+            opacity: 1;
         }
 
         .header-nav a.active {
             color: var(--accent-light);
-            background: rgba(212, 160, 36, 0.15);
+        }
+
+        .header-nav a.active::before {
+            width: 80%;
+            background: var(--accent);
         }
 
         .header-user {
@@ -162,11 +197,30 @@
             color: var(--primary-dark);
             font-size: 13px;
             box-shadow: 0 2px 8px rgba(212, 160, 36, 0.25);
-            transition: transform 0.2s ease;
+            transition: all 0.4s var(--transition-smooth);
+            position: relative;
+        }
+
+        .header-user-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light), var(--accent));
+            opacity: 0;
+            z-index: -1;
+            transition: all 0.4s var(--transition-smooth);
+            filter: blur(6px);
         }
 
         .header-user-avatar:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            box-shadow: 0 4px 20px rgba(212, 160, 36, 0.5);
+        }
+
+        .header-user-avatar:hover::before {
+            opacity: 0.6;
+            inset: -6px;
         }
 
         .header-user-link {
@@ -188,7 +242,24 @@
             border: none;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.35s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s var(--transition-smooth);
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
@@ -198,19 +269,26 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
+            box-shadow: 0 8px 25px rgba(212, 160, 36, 0.45);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .btn-outline {
@@ -222,6 +300,7 @@
         .btn-outline:hover {
             background: var(--accent);
             color: var(--primary-dark);
+            box-shadow: 0 4px 20px rgba(212, 160, 36, 0.4);
         }
 
         .main-content {

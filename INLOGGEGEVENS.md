@@ -29,6 +29,7 @@
 | 1234585 | Sarah Kemp | sarah.kemp@leerling.tcr.nl | 25998BOL | PALVSOD2F |
 | 1234586 | Solomon Ball | solomon.ball@leerling.tcr.nl | 25998BOL | PALVSOD2F |
 | 1234587 | Victor Gilmore | victor.gilmore@leerling.tcr.nl | 25604BOL | PALVSOD2F |
+| 9024886 | Test Student Email | 9024886@student.zadkine.nl | 25998BOL | PALVSOD2F |
 
 ## Hoe in te loggen
 1. Ga naar http://localhost/schoolsystem/public/
@@ -41,3 +42,40 @@
 - Alle studenten hebben dezelfde wachtwoord voor testdoeleinden
 - De studenten zijn geïmporteerd uit het bestand `studentenschoolsystem.csv`
 - Elke student heeft een uniek leerlingnummer, naam, e-mailadres, opleiding en klas
+
+## 📧 Email Notificaties
+
+Het systeem verstuurt automatisch emails naar studenten bij:
+- **Aanmelding voor een keuzedeel** - Bevestigingsmail met keuzedeel details
+
+### Test Student voor Email
+- **Email**: 9024886@student.zadkine.nl
+- **Wachtwoord**: Welkom2024!
+- Deze student is speciaal aangemaakt om email functionaliteit te testen
+
+### Email Configuratie (.env)
+
+Voor **development/testing** met Mailtrap:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@tcr.nl"
+MAIL_FROM_NAME="TCR Keuzedelen"
+```
+
+Voor **local testing** (emails worden opgeslagen in log):
+```
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS="noreply@tcr.nl"
+MAIL_FROM_NAME="TCR Keuzedelen"
+```
+
+### Email Testen
+1. Log in met test student (9024886@student.zadkine.nl)
+2. Meld je aan voor een keuzedeel
+3. Check je inbox (of `storage/logs/laravel.log` bij log driver)
+4. Je ontvangt een professionele bevestigingsmail met alle details

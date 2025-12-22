@@ -46,6 +46,21 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class)->where('is_read', false);
     }
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isSlb()
+    {
+        return $this->role === 'slb';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
