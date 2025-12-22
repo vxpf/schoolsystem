@@ -451,6 +451,7 @@
     </div>
 
     <div class="detail-sidebar">
+        @if(Auth::user()->role === 'student')
         <div class="sidebar-card action-card">
             <h3 class="sidebar-title">Aanmelden</h3>
             
@@ -492,6 +493,7 @@
             </form>
             @endif
         </div>
+        @endif
 
         <div class="sidebar-card">
             <h3 class="sidebar-title">Informatie</h3>

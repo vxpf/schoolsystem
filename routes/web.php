@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeuzedeelController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SlbController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -59,4 +60,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelUpdate'])->name('keuzedelen.update');
     Route::delete('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelDestroy'])->name('keuzedelen.destroy');
     Route::post('/keuzedelen/{keuzedeel}/annuleer', [AdminController::class, 'annuleerKeuzedeel'])->name('keuzedelen.annuleer');
+});
+
+// SLB routes
+Route::middleware(['auth'])->prefix('slb')->name('slb.')->group(function () {
+    Route::get('/dashboard', [SlbController::class, 'dashboard'])->name('dashboard');
+    Route::get('/presentatie', [SlbController::class, 'presentatie'])->name('presentatie');
+    Route::get('/presentatie/{keuzedeel}', [SlbController::class, 'keuzedeelSlide'])->name('keuzedeel-slide');
 });

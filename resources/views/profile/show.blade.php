@@ -300,6 +300,7 @@
                 </label>
                 <span>{{ $user->email }}</span>
             </div>
+            @if($user->role === 'student')
             <div class="info-item">
                 <label>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -321,16 +322,18 @@
                 </label>
                 <span class="{{ $user->opleiding ? '' : 'not-set' }}">{{ $user->opleiding ?? 'Niet ingesteld' }}</span>
             </div>
+            @endif
             <div class="info-item">
                 <label>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     Rol
                 </label>
-                <span style="text-transform: capitalize;">{{ $user->role }}</span>
+                <span style="text-transform: capitalize;">{{ $user->role === 'slb' ? 'Studieloopbaanbegeleider' : $user->role }}</span>
             </div>
         </div>
     </div>
 
+    @if($user->role === 'student')
     <div class="profile-section">
         <h2>
             <span class="section-icon">📚</span>
@@ -357,5 +360,6 @@
             </div>
         @endif
     </div>
+    @endif
 </div>
 @endsection

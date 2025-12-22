@@ -43,39 +43,18 @@
 - De studenten zijn geïmporteerd uit het bestand `studentenschoolsystem.csv`
 - Elke student heeft een uniek leerlingnummer, naam, e-mailadres, opleiding en klas
 
-## 📧 Email Notificaties
+## Admin Account
+- **Email**: admin@tcr.nl
+- **Wachtwoord**: admin123
 
-Het systeem verstuurt automatisch emails naar studenten bij:
-- **Aanmelding voor een keuzedeel** - Bevestigingsmail met keuzedeel details
+## SLB Account (Studieloopbaanbegeleider)
+- **Email**: slb@tcr.nl
+- **Wachtwoord**: slb123
+- **Functie**: Kan keuzedeelinformatie bekijken en presenteren in PowerPoint-stijl aan studenten
 
-### Test Student voor Email
-- **Email**: 9024886@student.zadkine.nl
-- **Wachtwoord**: Welkom2024!
-- Deze student is speciaal aangemaakt om email functionaliteit te testen
-
-### Email Configuratie (.env)
-
-Voor **development/testing** met Mailtrap:
-```
-MAIL_MAILER=smtp
-MAIL_HOST=sandbox.smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=your_mailtrap_username
-MAIL_PASSWORD=your_mailtrap_password
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS="noreply@tcr.nl"
-MAIL_FROM_NAME="TCR Keuzedelen"
-```
-
-Voor **local testing** (emails worden opgeslagen in log):
-```
-MAIL_MAILER=log
-MAIL_FROM_ADDRESS="noreply@tcr.nl"
-MAIL_FROM_NAME="TCR Keuzedelen"
-```
-
-### Email Testen
-1. Log in met test student (9024886@student.zadkine.nl)
-2. Meld je aan voor een keuzedeel
-3. Check je inbox (of `storage/logs/laravel.log` bij log driver)
-4. Je ontvangt een professionele bevestigingsmail met alle details
+### SLB Functies
+1. **Dashboard** - Overzicht van alle keuzedelen met statistieken
+2. **Presentatie Modus** - PowerPoint-achtige presentatie om door keuzedelen te klikken
+   - Navigeer met pijltjestoetsen (← →) of klik
+   - Druk F11 voor volledig scherm
+   - Escape om terug te gaan naar dashboard

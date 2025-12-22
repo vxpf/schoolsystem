@@ -583,20 +583,22 @@
             </div>
 
             <div class="keuzedeel-actions">
-                @if($isVoltooid)
-                <button class="btn btn-disabled" disabled style="flex: 1;">Voltooid</button>
-                @elseif($isAangemeld)
-                <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/afmelden') }}" method="POST" style="flex: 1;">
-                    @csrf
-                    <button type="submit" class="btn btn-danger" style="width: 100%;">Afmelden</button>
-                </form>
-                @elseif($percentage >= 100)
-                <button class="btn btn-disabled" disabled style="flex: 1;">Vol</button>
-                @else
-                <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/aanmelden') }}" method="POST" style="flex: 1;">
-                    @csrf
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Aanmelden</button>
-                </form>
+                @if(Auth::user()->role === 'student')
+                    @if($isVoltooid)
+                    <button class="btn btn-disabled" disabled style="flex: 1;">Voltooid</button>
+                    @elseif($isAangemeld)
+                    <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/afmelden') }}" method="POST" style="flex: 1;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger" style="width: 100%;">Afmelden</button>
+                    </form>
+                    @elseif($percentage >= 100)
+                    <button class="btn btn-disabled" disabled style="flex: 1;">Vol</button>
+                    @else
+                    <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/aanmelden') }}" method="POST" style="flex: 1;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Aanmelden</button>
+                    </form>
+                    @endif
                 @endif
                 <a href="{{ url('/keuzedelen/' . $keuzedeel->id) }}" class="btn btn-outline">Details</a>
             </div>

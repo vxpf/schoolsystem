@@ -326,6 +326,10 @@
                 <a href="{{ route('admin.students') }}" class="{{ request()->routeIs('admin.students') ? 'active' : '' }}">Studenten</a>
                 <a href="{{ route('admin.enrollments') }}" class="{{ request()->routeIs('admin.enrollments*') ? 'active' : '' }}">Inschrijvingen</a>
                 <a href="{{ route('admin.keuzedelen.index') }}" class="{{ request()->routeIs('admin.keuzedelen*') ? 'active' : '' }}">Keuzedelen</a>
+            @elseif(Auth::user()->role === 'slb')
+                <a href="{{ route('slb.dashboard') }}" class="{{ request()->routeIs('slb.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('slb.presentatie') }}" class="{{ request()->routeIs('slb.presentatie') ? 'active' : '' }}">Presentatie</a>
+                <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Alle Keuzedelen</a>
             @else
                 <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
                 <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>

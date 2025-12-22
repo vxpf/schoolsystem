@@ -167,9 +167,52 @@ class AdminController extends Controller
             'max_studenten' => 'required|integer|min:1',
         ]);
 
+        // Bewaar oude waarden voor vergelijking
+        $oudeNaam = $keuzedeel->naam;
+        $wasActief = $keuzedeel->actief;
+
         $validated['actief'] = $request->has('actief');
 
         $keuzedeel->update($validated);
+
+        // Stuur notificaties naar ingeschreven studenten bij belangrijke wijzigingen
+        $ingeschrevenStudenten = $keuzedeel->users()
+            ->wherePivot('status', '!=', 'voltooid')
+            ->get();
+
+        if ($ingeschrevenStudenten->count() > 0) {
+            // Notificatie als keuzedeel inactief wordt gezet
+            if ($wasActief && !$validated['actief']) {
+                foreach ($ingeschrevenStudenten as $student) {
+                    Notification::create([
+                        'user_id' => $student->id,
+                        'keuzedeel_id' => $keuzedeel->id,
+                        'type' => 'wijziging',
+                        'title' => 'Keuzedeel gedeactiveerd',
+                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is tijdelijk gedeactiveerd. Neem contact op met je docent voor meer informatie.',
+                    ]);
+                }
+            }
+            // Notificatie bij andere wijzigingen
+            else {
+                $wijzigingen = [];
+                if ($oudeNaam !== $validated['naam']) {
+                    $wijzigingen[] = 'naam gewijzigd naar "' . $validated['naam'] . '"';
+                }
+                
+                if (count($wijzigingen) > 0 || $request->has('notify_students')) {
+                    foreach ($ingeschrevenStudenten as $student) {
+                        Notification::create([
+                            'user_id' => $student->id,
+                            'keuzedeel_id' => $keuzedeel->id,
+                            'type' => 'wijziging',
+                            'title' => 'Keuzedeel bijgewerkt',
+                            'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is bijgewerkt. Bekijk de details voor de laatste informatie.',
+                        ]);
+                    }
+                }
+            }
+        }
 
         return redirect()->route('admin.keuzedelen.index')
             ->with('success', 'Keuzedeel succesvol bijgewerkt!');
@@ -236,6 +279,15 @@ class AdminController extends Controller
 
     public function removeEnrollment(Keuzedeel $keuzedeel, User $user)
     {
+        // Stuur notificatie naar student voordat we de inschrijving verwijderen
+        Notification::create([
+            'user_id' => $user->id,
+            'keuzedeel_id' => $keuzedeel->id,
+            'type' => 'verwijdering',
+            'title' => 'Inschrijving verwijderd',
+            'message' => 'Je inschrijving voor het keuzedeel "' . $keuzedeel->naam . '" is verwijderd door een beheerder. Neem contact op met je docent als je vragen hebt.',
+        ]);
+
         $keuzedeel->users()->detach($user->id);
 
         return back()->with('success', 'Inschrijving succesvol verwijderd!');
