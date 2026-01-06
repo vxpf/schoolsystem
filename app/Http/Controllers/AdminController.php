@@ -302,75 +302,20 @@ class AdminController extends Controller
             ->wherePivot('status', '!=', 'voltooid')
             ->get();
 
-        $herallocaties = 0;
-        $notificaties = 0;
-
         foreach ($studenten as $student) {
-            // Zoek de volgende keuze van de student (hogere prioriteit nummer)
-            $huidigePrioriteit = $student->pivot->prioriteit;
-            
-            $volgendeKeuze = $student->keuzedelen()
-                ->where('keuzedeel_id', '!=', $keuzedeel->id)
-                ->wherePivot('prioriteit', '>', $huidigePrioriteit)
-                ->wherePivot('status', '!=', 'voltooid')
-                ->orderBy('keuzedeel_user.prioriteit', 'asc')
-                ->first();
-
-            // Verwijder de huidige inschrijving
+            // Verwijder de inschrijving
             $keuzedeel->users()->detach($student->id);
 
-            if ($volgendeKeuze) {
-                // Check of de volgende keuze nog plek heeft
-                $aantalInschrijvingen = $volgendeKeuze->users()->count();
-                
-                if ($aantalInschrijvingen < $volgendeKeuze->max_studenten) {
-                    // Update de status naar goedgekeurd voor automatische toewijzing
-                    $volgendeKeuze->users()->updateExistingPivot($student->id, [
-                        'status' => 'goedgekeurd'
-                    ]);
-
-                    // Stuur notificatie over herallocatie
-                    Notification::create([
-                        'user_id' => $student->id,
-                        'keuzedeel_id' => $volgendeKeuze->id,
-                        'type' => 'goedkeuring',
-                        'title' => 'Automatisch toegewezen aan alternatief keuzedeel',
-                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Je bent automatisch toegewezen aan je volgende keuze: "' . $volgendeKeuze->naam . '".',
-                    ]);
-
-                    $herallocaties++;
-                } else {
-                    // Volgende keuze is vol, stuur notificatie
-                    Notification::create([
-                        'user_id' => $student->id,
-                        'keuzedeel_id' => null,
-                        'type' => 'afwijzing',
-                        'title' => 'Keuzedeel geannuleerd',
-                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Je alternatieve keuze is helaas vol. Meld je aan voor een nieuw keuzedeel.',
-                    ]);
-                }
-            } else {
-                // Geen alternatieve keuze, stuur notificatie
-                Notification::create([
-                    'user_id' => $student->id,
-                    'keuzedeel_id' => null,
-                    'type' => 'afwijzing',
-                    'title' => 'Keuzedeel geannuleerd',
-                    'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Meld je aan voor een nieuw keuzedeel.',
-                ]);
-            }
-            
-            $notificaties++;
+            // Stuur notificatie
+            Notification::create([
+                'user_id' => $student->id,
+                'keuzedeel_id' => null,
+                'type' => 'afwijzing',
+                'title' => 'Keuzedeel geannuleerd',
+                'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd vanwege te weinig inschrijvingen. Meld je aan voor een nieuw keuzedeel.',
+            ]);
         }
 
-        // Deactiveer het keuzedeel
-        $keuzedeel->update(['actief' => false]);
-
-        $message = "Keuzedeel geannuleerd. {$studenten->count()} student(en) zijn afgemeld.";
-        if ($herallocaties > 0) {
-            $message .= " {$herallocaties} student(en) zijn automatisch toegewezen aan hun volgende keuze.";
-        }
-
-        return back()->with('success', $message);
+        return back()->with('success', 'Keuzedeel geannuleerd.');
     }
 }
