@@ -210,6 +210,14 @@
                     <div class="error-message">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="min_studenten" class="form-label">Min. Studenten *</label>
+                <input type="number" id="min_studenten" name="min_studenten" class="form-input" value="{{ old('min_studenten', $keuzedeel->min_studenten) }}" min="1" required>
+                @error('min_studenten')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
         <div class="form-group">

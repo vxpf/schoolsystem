@@ -520,6 +520,10 @@
 
             <div class="capacity-section">
                 <div class="info-item">
+                    <span class="info-label">Minimum studenten</span>
+                    <span class="info-value">{{ $keuzedeel->min_studenten }}</span>
+                </div>
+                <div class="info-item">
                     <span class="info-label">Plaatsen over</span>
                     <span class="info-value">{{ max(0, $plaatsenOver) }}</span>
                 </div>

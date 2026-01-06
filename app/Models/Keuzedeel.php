@@ -18,6 +18,7 @@ class Keuzedeel extends Model
         'studiepunten',
         'niveau',
         'max_studenten',
+        'min_studenten',
         'actief',
     ];
 
@@ -30,5 +31,15 @@ class Keuzedeel extends Model
         return $this->belongsToMany(User::class, 'keuzedeel_user')
             ->withPivot('status')
             ->withTimestamps();
+    }
+
+    public function getEnrolledStudentsCount()
+    {
+        return $this->users()->wherePivot('status', 'goedgekeurd')->count();
+    }
+
+    public function canStart()
+    {
+        return $this->getEnrolledStudentsCount() >= $this->min_studenten;
     }
 }

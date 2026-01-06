@@ -382,6 +382,20 @@
         color: #047857;
     }
 
+    .status-voltooid {
+        background: var(--info-bg);
+        color: #1d4ed8;
+    }
+
+    .keuzedeel-card.voltooid {
+        opacity: 0.6;
+        border-color: var(--border);
+    }
+
+    .keuzedeel-card.voltooid .keuzedeel-header {
+        background: linear-gradient(135deg, rgba(29, 78, 216, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
+    }
+
     .alert {
         padding: 1.25rem 1.75rem;
         border-radius: var(--radius-lg);
@@ -529,7 +543,7 @@
         $percentage = $keuzedeel->max_studenten > 0 ? ($keuzedeel->aanmeldingen_count / $keuzedeel->max_studenten) * 100 : 0;
         $capacityClass = $percentage >= 100 ? 'full' : ($percentage >= 75 ? 'warning' : '');
     @endphp
-    <div class="keuzedeel-card {{ $isAangemeld ? 'aangemeld' : '' }}" data-naam="{{ strtolower($keuzedeel->naam) }}" data-code="{{ strtolower($keuzedeel->code) }}">
+    <div class="keuzedeel-card {{ $isAangemeld ? 'aangemeld' : '' }} {{ $isVoltooid ? 'voltooid' : '' }}" data-naam="{{ strtolower($keuzedeel->naam) }}" data-code="{{ strtolower($keuzedeel->code) }}">
         <div class="keuzedeel-header">
             <span class="keuzedeel-code">{{ $keuzedeel->code }}</span>
             @if($isVoltooid)
@@ -538,7 +552,7 @@
                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                     <polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
-                Voltooid
+                Niet beschikbaar
             </span>
             @elseif($isAangemeld)
             <span class="status-badge status-aangemeld" style="float: right;">

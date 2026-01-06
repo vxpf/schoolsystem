@@ -84,6 +84,12 @@ class KeuzedeelController extends Controller
             return back()->with('error', 'Dit keuzedeel is vol. Probeer een ander keuzedeel.');
         }
 
+        // Check of keuzedeel het minimum aantal studenten kan bereiken
+        $beschikbarePlaatsen = $keuzedeel->max_studenten - $aantalAanmeldingen;
+        if ($beschikbarePlaatsen < $keuzedeel->min_studenten) {
+            return back()->with('error', 'Dit keuzedeel kan het minimum aantal van ' . $keuzedeel->min_studenten . ' studenten niet bereiken. Er zijn nog maar ' . $beschikbarePlaatsen . ' plaatsen beschikbaar.');
+        }
+
         // Aanmelden
         $user->keuzedelen()->attach($keuzedeel->id, [
             'status' => 'aangemeld'

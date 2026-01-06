@@ -141,6 +141,7 @@ class AdminController extends Controller
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
+            'min_studenten' => 'required|integer|min:1',
         ]);
 
         $validated['actief'] = $request->has('actief');
@@ -165,6 +166,7 @@ class AdminController extends Controller
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
+            'min_studenten' => 'required|integer|min:1',
         ]);
 
         // Bewaar oude waarden voor vergelijking
