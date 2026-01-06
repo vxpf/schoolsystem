@@ -49,8 +49,8 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-primary);
+            background: #ffffff;
+            color: #1a1a1a;
             line-height: 1.6;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
@@ -307,6 +307,38 @@
             max-width: 1280px;
             margin: 0 auto;
             padding: 2.5rem 2rem;
+            background: #ffffff;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        p, span, label {
+            color: #333333;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth);
+        }
+
+        a:hover {
+            color: var(--primary-light);
         }
 
         @yield('styles')
