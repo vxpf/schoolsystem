@@ -38,7 +38,7 @@ class KeuzedeelController extends Controller
         return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'user'));
     }
 
-    public function aanmelden(Keuzedeel $keuzedeel)
+    public function aanmelden(Request $request, Keuzedeel $keuzedeel)
     {
         $user = Auth::user();
 
