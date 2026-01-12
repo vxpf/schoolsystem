@@ -349,6 +349,18 @@
     .modal-btn-delete:active {
         transform: translateY(0);
     }
+
+    .eerder-badge-inline {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 2px 8px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
 </style>
 @endsection
 
@@ -406,7 +418,20 @@
     @forelse($students as $student)
         <div class="table-row">
             <div class="student-cell">
-                <span class="student-name">{{ $student->name }}</span>
+                <span class="student-name">
+                    {{ $student->name }}
+                    @if($student->pivot->eerder_gedaan)
+                        <span class="eerder-badge-inline">
+                            @if($student->pivot->eerder_markering === 'x')
+                                ✓ Gekoppeld
+                            @elseif($student->pivot->eerder_markering === 'pv')
+                                ⚠ Poging Vergeven
+                            @else
+                                ✓ Eerder gedaan
+                            @endif
+                        </span>
+                    @endif
+                </span>
                 <span class="student-email">{{ $student->email }}</span>
                 <span class="enrollment-date" style="margin-top: 0.25rem;">
                     Ingeschreven: {{ $student->pivot->created_at->format('d-m-Y H:i') }}
