@@ -137,6 +137,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'naam' => 'required|string|max:255',
             'beschrijving' => 'nullable|string',
+            'wat_leer_je' => 'nullable|string',
             'code' => 'required|string|unique:keuzedelen',
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
@@ -162,6 +163,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'naam' => 'required|string|max:255',
             'beschrijving' => 'nullable|string',
+            'wat_leer_je' => 'nullable|string',
             'code' => 'required|string|unique:keuzedelen,code,' . $keuzedeel->id,
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
