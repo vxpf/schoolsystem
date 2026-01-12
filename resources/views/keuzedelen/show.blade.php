@@ -442,8 +442,7 @@
                     Wat leer je?
                 </h2>
                 <p class="detail-text">
-                    In dit keuzedeel ontwikkel je kennis en vaardigheden die aansluiten bij je opleiding. 
-                    Je werkt aan praktijkgerichte opdrachten en leert theorie die direct toepasbaar is in je toekomstige beroep.
+                    {{ $keuzedeel->wat_leer_je ?? 'In dit keuzedeel ontwikkel je kennis en vaardigheden die aansluiten bij je opleiding. Je werkt aan praktijkgerichte opdrachten en leert theorie die direct toepasbaar is in je toekomstige beroep.' }}
                     Na succesvolle afronding ontvang je {{ $keuzedeel->studiepunten }} studiepunten.
                 </p>
             </div>

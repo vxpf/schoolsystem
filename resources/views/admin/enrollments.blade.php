@@ -4,23 +4,6 @@
 
 @section('styles')
 <style>
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: var(--accent);
-        text-decoration: none;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-    }
-
-    .back-link:hover {
-        color: var(--accent-light);
-        transform: translateX(-4px);
-    }
-
     .admin-header {
         background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
         padding: 2rem;
@@ -39,6 +22,43 @@
         right: 0;
         height: 4px;
         background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+    }
+
+    .admin-header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .back-link:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(-2px);
+    }
+
+    .back-link svg {
+        width: 16px;
+        height: 16px;
+        transition: transform 0.2s ease;
+    }
+
+    .back-link:hover svg {
+        transform: translateX(-2px);
     }
 
     .admin-header h1 {
@@ -245,9 +265,16 @@
 @endsection
 
 @section('content')
-<a href="{{ route('admin.dashboard') }}" class="back-link">← Terug naar Dashboard</a>
-
 <div class="admin-header">
+    <div class="admin-header-top">
+        <a href="{{ route('admin.dashboard') }}" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            Terug naar Dashboard
+        </a>
+    </div>
     <h1>Inschrijvingen per Keuzedeel</h1>
     <p>Overzicht van alle studenten die zich hebben ingeschreven per vak</p>
 </div>

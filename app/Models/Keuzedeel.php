@@ -14,6 +14,7 @@ class Keuzedeel extends Model
     protected $fillable = [
         'naam',
         'beschrijving',
+        'wat_leer_je',
         'code',
         'studiepunten',
         'niveau',

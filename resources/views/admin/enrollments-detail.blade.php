@@ -18,18 +18,41 @@
         color: #d4a024;
     }
 
-    .back-link {
+    .back-link,
+    .back-link:visited,
+    .back-link:link {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        color: #d4a024;
+        gap: 0.6rem;
+        color: #ffffff !important;
         text-decoration: none;
         margin-bottom: 1.5rem;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.7rem 1.4rem;
+        background: linear-gradient(135deg, #2d4a3e 0%, #3d5a4d 100%);
+        border: none;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(45, 74, 62, 0.3);
+        letter-spacing: 0.3px;
     }
 
     .back-link:hover {
-        text-decoration: underline;
+        color: #ffffff !important;
+        background: linear-gradient(135deg, #3d5a4d 0%, #4a6b5c 100%);
+        transform: translateX(-4px);
+        box-shadow: 0 4px 12px rgba(45, 74, 62, 0.4);
+    }
+
+    .back-link svg {
+        transition: transform 0.3s ease;
+        opacity: 0.9;
+    }
+
+    .back-link:hover svg {
+        transform: translateX(-3px);
+        opacity: 1;
     }
 
     .keuzedeel-info {
@@ -365,7 +388,13 @@
 @endsection
 
 @section('content')
-<a href="{{ route('admin.enrollments') }}" class="back-link">← Terug naar Inschrijvingen</a>
+<a href="{{ route('admin.enrollments') }}" class="back-link">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+    </svg>
+    Terug naar Inschrijvingen
+</a>
 
 <div class="admin-header">
     <h1>{{ $keuzedeel->naam }}</h1>
