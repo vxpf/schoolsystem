@@ -47,26 +47,10 @@
         overflow: hidden;
     }
 
-    .stat-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent), var(--accent-light));
-        transform: scaleX(0);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        transform-origin: left;
-    }
 
     .stat-card:hover {
         border-color: var(--accent);
         box-shadow: 0 8px 30px rgba(212, 160, 36, 0.15);
-    }
-
-    .stat-card:hover::before {
-        transform: scaleX(1);
     }
 
     .stat-card:hover .stat-value {

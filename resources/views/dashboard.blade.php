@@ -15,26 +15,6 @@
         box-shadow: var(--shadow-lg);
     }
 
-    .welcome-banner::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(212, 160, 36, 0.15) 0%, transparent 70%);
-        pointer-events: none;
-    }
-
-    .welcome-banner::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
-    }
 
     .welcome-banner h2 {
         font-size: 1.75rem;

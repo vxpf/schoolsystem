@@ -260,25 +260,6 @@
     .btn-danger:active {
         transform: translateY(0) scale(0.98);
     }
-
-    .btn-disabled {
-        background: var(--bg-light);
-        color: var(--text-muted);
-        cursor: not-allowed;
-        border: 1px solid var(--border);
-    }
-
-    .btn-disabled::before {
-        display: none;
-    }
-
-    .status-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1rem;
-        border-radius: var(--radius);
         font-size: 0.9rem;
         font-weight: 600;
         width: 100%;
@@ -373,10 +354,85 @@
         line-height: 1.6;
     }
 
-    @media (max-width: 968px) {
-        .detail-container {
-            grid-template-columns: 1fr;
-        }
+    .alternatives-section {
+        margin-top: 2rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba(212, 160, 36, 0.03) 0%, var(--bg-card) 100%);
+        border: 2px dashed var(--border);
+        border-radius: var(--radius-xl);
+    }
+
+    .alternatives-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .alternatives-header svg {
+        color: var(--accent);
+    }
+
+    .alternatives-header h3 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin: 0;
+    }
+
+    .alternatives-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .alternative-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+        transition: all 0.2s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .alternative-card:hover {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateX(4px);
+    }
+
+    .alternative-info {
+        flex: 1;
+    }
+
+    .alternative-info h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin: 0 0 0.5rem 0;
+    }
+
+    .alternative-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        flex-wrap: wrap;
+    }
+
+    .alternative-meta span {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .btn-small {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
+        width: auto;
+        display: inline-block;
     }
 </style>
 
@@ -540,6 +596,51 @@
     </div>
 </div>
 
+@if($isVol && !$isAangemeld && $alternatieven->count() > 0)
+<div class="alternatives-section">
+    <div class="alternatives-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+        <h3>Dit keuzedeel is vol - Bekijk alternatieven</h3>
+    </div>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
+        Dit keuzedeel heeft geen plaatsen meer beschikbaar. Hieronder vind je vergelijkbare keuzedelen waar je je wel voor kunt aanmelden:
+    </p>
+    <div class="alternatives-grid">
+        @foreach($alternatieven as $alternatief)
+        <div class="alternative-card">
+            <div class="alternative-info">
+                <h4>{{ $alternatief->naam }}</h4>
+                <div class="alternative-meta">
+                    <span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        {{ $alternatief->studiepunten }} SP
+                    </span>
+                    <span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        {{ $alternatief->aanmeldingen_count }} / {{ $alternatief->max_studenten }}
+                    </span>
+                </div>
+            </div>
+            <div class="alternative-action">
+                <a href="{{ url('/keuzedelen/' . $alternatief->id) }}" class="btn btn-primary btn-small">Bekijk details</a>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
 <script>
 // Auto-dismiss alerts
 document.addEventListener('DOMContentLoaded', function() {
@@ -556,3 +657,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+

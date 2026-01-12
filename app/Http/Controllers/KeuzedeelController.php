@@ -34,8 +34,38 @@ class KeuzedeelController extends Controller
         $enrollmentStatus = $enrollment ? $enrollment->pivot->status : null;
         $isVoltooid = $enrollmentStatus === 'voltooid';
         $aantalAanmeldingen = $keuzedeel->users()->count();
+        $isVol = $aantalAanmeldingen >= $keuzedeel->max_studenten;
 
-        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'user'));
+        // Haal alternatieve keuzedelen op als dit keuzedeel vol is
+        $alternatieven = collect();
+        if ($isVol && !$isAangemeld) {
+            $huidigePeriode = $user->huidige_periode;
+            $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
+            
+            // Haal keuzedelen op die:
+            // - Actief zijn
+            // - In dezelfde periode zijn
+            // - Niet vol zijn
+            // - Niet het huidige keuzedeel zijn
+            // - Student is niet al aangemeld
+            $mijnKeuzedeelIds = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
+            
+            $alternatieven = Keuzedeel::where('actief', true)
+                ->where('id', '!=', $keuzedeel->id)
+                ->whereNotIn('id', $mijnKeuzedeelIds)
+                ->withCount(['users as aanmeldingen_count'])
+                ->get()
+                ->filter(function($alt) use ($keuzedeelPeriode) {
+                    $altPeriode = $alt->periode ?? $keuzedeelPeriode;
+                    return $altPeriode === $keuzedeelPeriode;
+                })
+                ->filter(function($alt) {
+                    return $alt->aanmeldingen_count < $alt->max_studenten;
+                })
+                ->take(3);
+        }
+
+        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'isVol', 'alternatieven', 'user'));
     }
 
     public function aanmelden(Request $request, Keuzedeel $keuzedeel)
