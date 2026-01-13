@@ -145,10 +145,6 @@
         opacity: 1;
     }
 
-    .keuzedeel-card:hover .keuzedeel-header::after {
-        transform: scaleX(1.1);
-    }
-
     .keuzedeel-card.aangemeld {
         border-color: var(--success);
         border-width: 2px;
@@ -158,6 +154,7 @@
         background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
         padding: 1.5rem;
         position: relative;
+        overflow: hidden;
     }
 
     .keuzedeel-header::after {
@@ -169,6 +166,12 @@
         height: 3px;
         background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    .keuzedeel-card:hover .keuzedeel-header::after {
+        transform: scaleX(1);
     }
 
     .keuzedeel-code {

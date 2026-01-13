@@ -49,6 +49,13 @@
         right: 0;
         height: 4px;
         background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .detail-main:hover .detail-header::after {
+        transform: scaleX(1);
     }
 
     .detail-code {
