@@ -1,10 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Admin\KeuzedeelCrudController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\KeuzedeelStudentController;
+use App\Http\Controllers\KeuzedeelController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SlbController;
 use Illuminate\Support\Facades\Auth;
@@ -30,12 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profiel', [ProfileController::class, 'show'])->name('profile.show');
     
-    // Keuzedelen routes (student)
-    Route::get('/keuzedelen', [KeuzedeelStudentController::class, 'index'])->name('keuzedelen.index');
-    Route::get('/keuzedelen/mijn', [KeuzedeelStudentController::class, 'mijnKeuzedelen'])->name('keuzedelen.mijn');
-    Route::get('/keuzedelen/{keuzedeel}', [KeuzedeelStudentController::class, 'show'])->name('keuzedelen.show');
-    Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelStudentController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
-    Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelStudentController::class, 'afmelden'])->name('keuzedelen.afmelden');
+    // Keuzedelen routes
+    Route::get('/keuzedelen', [KeuzedeelController::class, 'index'])->name('keuzedelen.index');
+    Route::get('/keuzedelen/mijn', [KeuzedeelController::class, 'mijnKeuzedelen'])->name('keuzedelen.mijn');
+    Route::get('/keuzedelen/{keuzedeel}', [KeuzedeelController::class, 'show'])->name('keuzedelen.show');
+    Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
+    Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelController::class, 'afmelden'])->name('keuzedelen.afmelden');
     
     // Inbox routes
     Route::get('/inbox', [NotificationController::class, 'index'])->name('inbox.index');
@@ -54,9 +53,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/enrollments/{keuzedeel}/{user}', [AdminController::class, 'updateEnrollmentStatus'])->name('enrollments.update-status');
     Route::delete('/enrollments/{keuzedeel}/{user}', [AdminController::class, 'removeEnrollment'])->name('enrollments.remove');
     
-    // Keuzedelen CRUD (resource controller)
-    Route::resource('keuzedelen', KeuzedeelCrudController::class)->except(['show']);
-    Route::post('/keuzedelen/{keuzedeel}/annuleer', [KeuzedeelCrudController::class, 'annuleer'])->name('keuzedelen.annuleer');
+    Route::get('/keuzedelen', [AdminController::class, 'keuzedeelIndex'])->name('keuzedelen.index');
+    Route::get('/keuzedelen/create', [AdminController::class, 'keuzedeelCreate'])->name('keuzedelen.create');
+    Route::post('/keuzedelen', [AdminController::class, 'keuzedeelStore'])->name('keuzedelen.store');
+    Route::get('/keuzedelen/{keuzedeel}/edit', [AdminController::class, 'keuzedeelEdit'])->name('keuzedelen.edit');
+    Route::put('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelUpdate'])->name('keuzedelen.update');
+    Route::delete('/keuzedelen/{keuzedeel}', [AdminController::class, 'keuzedeelDestroy'])->name('keuzedelen.destroy');
+    Route::post('/keuzedelen/{keuzedeel}/annuleer', [AdminController::class, 'annuleerKeuzedeel'])->name('keuzedelen.annuleer');
 });
 
 // SLB routes

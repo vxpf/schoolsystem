@@ -6,7 +6,7 @@ use App\Models\Keuzedeel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class KeuzedeelStudentController extends Controller
+class KeuzedeelController extends Controller
 {
     public function index(Request $request)
     {
@@ -42,8 +42,12 @@ class KeuzedeelStudentController extends Controller
             ->get()
             ->pluck('pivot.status', 'id')
             ->toArray();
+        
+        $niveaus = Keuzedeel::where('actief', true)->distinct()->pluck('niveau')->filter()->sort()->values();
+        $periodes = Keuzedeel::where('actief', true)->distinct()->pluck('periode')->filter()->sort()->values();
+        $studiepuntenOpties = Keuzedeel::where('actief', true)->distinct()->pluck('studiepunten')->filter()->sort()->values();
 
-        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user'));
+        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user', 'niveaus', 'periodes', 'studiepuntenOpties'));
     }
 
     public function show(Keuzedeel $keuzedeel)
@@ -137,7 +141,7 @@ class KeuzedeelStudentController extends Controller
             'status' => 'aangemeld'
         ]);
 
-        $successMessage = '🎉 Gelukt! Je bent succesvol aangemeld voor het keuzedeel "' . $keuzedeel->naam . '" (periode ' . $huidigePeriode . '). Je ontvangt een bevestiging zodra je aanmelding is goedgekeurd door de docent.';
+        $successMessage = 'Gelukt! Je bent succesvol aangemeld voor het keuzedeel "' . $keuzedeel->naam . '" (periode ' . $huidigePeriode . '). Je ontvangt een bevestiging zodra je aanmelding is goedgekeurd door de docent.';
         
         return back()->with('success', $successMessage);
     }

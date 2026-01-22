@@ -308,62 +308,8 @@
             <p class="start-hint">Druk op de pijltoets of klik op Volgende om te beginnen</p>
         </div>
 
-        <!-- Keuzedeel Slides -->
-        @foreach($keuzedelen as $index => $keuzedeel)
-        <div class="slide keuzedeel-slide" data-slide="{{ $index + 1 }}">
-            <div class="slide-header">
-                <h1 class="keuzedeel-title">{{ $keuzedeel->naam }}</h1>
-                <span class="keuzedeel-code">{{ $keuzedeel->code }}</span>
-            </div>
-            
-            <div class="content-grid">
-                <div class="info-section">
-                    <h3>Informatie</h3>
-                    <div class="info-item">
-                        <span class="info-label">Studiepunten</span>
-                        <span class="info-value">{{ $keuzedeel->studiepunten }} SP</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Niveau</span>
-                        <span class="info-value">{{ $keuzedeel->niveau ?? '-' }}</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Capaciteit</span>
-                        <span class="info-value">{{ $keuzedeel->max_studenten }} studenten</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Ingeschreven</span>
-                        <span class="info-value">{{ $keuzedeel->users_count }}</span>
-                    </div>
-                </div>
-                
-                <div class="info-section">
-                    <h3>Beschrijving</h3>
-                    <p class="beschrijving">
-                        {{ $keuzedeel->beschrijving ?? 'Geen beschrijving beschikbaar.' }}
-                    </p>
-                </div>
-            </div>
-
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-number">{{ $keuzedeel->studiepunten }}</div>
-                    <div class="stat-label">Studiepunten</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">{{ $keuzedeel->users_count }}/{{ $keuzedeel->max_studenten }}</div>
-                    <div class="stat-label">Bezetting</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">{{ $keuzedeel->max_studenten - $keuzedeel->users_count }}</div>
-                    <div class="stat-label">Beschikbaar</div>
-                </div>
-            </div>
-        </div>
-        @endforeach
-
         <!-- End Slide -->
-        <div class="slide title-slide" data-slide="{{ count($keuzedelen) + 1 }}">
+        <div class="slide title-slide" data-slide="1">
             <div class="logo">TCR</div>
             <h1>Vragen?</h1>
             <p class="subtitle">Bedankt voor jullie aandacht</p>
@@ -375,7 +321,7 @@
     </a>
 
     <div class="slide-counter">
-        <span id="currentSlide">1</span> / <span id="totalSlides">{{ count($keuzedelen) + 2 }}</span>
+        <span id="currentSlide">1</span> / <span id="totalSlides">2</span>
     </div>
 
     <div class="nav-controls">
