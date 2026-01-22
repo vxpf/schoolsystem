@@ -42,12 +42,8 @@ class KeuzedeelStudentController extends Controller
             ->get()
             ->pluck('pivot.status', 'id')
             ->toArray();
-        
-        $niveaus = Keuzedeel::where('actief', true)->distinct()->pluck('niveau')->filter()->sort()->values();
-        $periodes = Keuzedeel::where('actief', true)->distinct()->pluck('periode')->filter()->sort()->values();
-        $studiepuntenOpties = Keuzedeel::where('actief', true)->distinct()->pluck('studiepunten')->filter()->sort()->values();
 
-        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user', 'niveaus', 'periodes', 'studiepuntenOpties'));
+        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user'));
     }
 
     public function show(Keuzedeel $keuzedeel)
@@ -60,11 +56,18 @@ class KeuzedeelStudentController extends Controller
         $aantalAanmeldingen = $keuzedeel->users()->count();
         $isVol = $aantalAanmeldingen >= $keuzedeel->max_studenten;
 
+        // Haal alternatieve keuzedelen op als dit keuzedeel vol is
         $alternatieven = collect();
-        if ($isVol && !$isAangemeld) {
+        if (($isVol && !$isAangemeld) || $enrollmentStatus === 'afgewezen') {
             $huidigePeriode = $user->huidige_periode;
             $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
             
+            // Haal keuzedelen op die:
+            // - Actief zijn
+            // - In dezelfde periode zijn
+            // - Niet vol zijn
+            // - Niet het huidige keuzedeel zijn
+            // - Student is niet al aangemeld
             $mijnKeuzedeelIds = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
             
             $alternatieven = Keuzedeel::where('actief', true)

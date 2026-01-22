@@ -247,6 +247,9 @@
         padding: 1.5rem;
         position: relative;
         overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 
     .keuzedeel-header::after {
@@ -264,6 +267,41 @@
 
     .keuzedeel-card:hover .keuzedeel-header::after {
         transform: scaleX(1);
+    }
+
+    .keuzedeel-header-left {
+        flex: 1;
+    }
+
+    .capacity-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .capacity-badge.vol {
+        background: rgba(239, 68, 68, 0.25);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.5);
+    }
+
+    .capacity-badge.bijna-vol {
+        background: rgba(217, 119, 6, 0.25);
+        color: #fed7aa;
+        border: 1px solid rgba(217, 119, 6, 0.5);
+    }
+
+    .capacity-badge.beschikbaar {
+        background: rgba(16, 185, 129, 0.25);
+        color: #a7f3d0;
+        border: 1px solid rgba(16, 185, 129, 0.5);
     }
 
     .keuzedeel-code {
@@ -491,6 +529,74 @@
         background: linear-gradient(135deg, rgba(29, 78, 216, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
     }
 
+    .alternatives-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #10b981;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 0.75rem;
+    }
+
+    .alternatives-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .alternative-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--bg-light);
+        border-radius: var(--radius);
+        border: 1px solid var(--border-light);
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+
+    .alternative-item:hover {
+        border-color: var(--accent);
+        background: rgba(212, 160, 36, 0.05);
+    }
+
+    .alternative-item-name {
+        font-weight: 500;
+        color: var(--text-dark);
+        flex: 1;
+    }
+
+    .alternative-item-capacity {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        margin: 0 0.75rem;
+    }
+
+    .alternative-item-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    .alternative-item-link:hover {
+        color: var(--accent-light);
+        transform: translateX(2px);
+    }
+
     .alert {
         padding: 1.25rem 1.75rem;
         border-radius: var(--radius-lg);
@@ -698,27 +804,36 @@
         $isVoltooid = $status === 'voltooid';
         $percentage = $keuzedeel->max_studenten > 0 ? ($keuzedeel->aanmeldingen_count / $keuzedeel->max_studenten) * 100 : 0;
         $capacityClass = $percentage >= 100 ? 'full' : ($percentage >= 75 ? 'warning' : '');
+        $capacityBadgeClass = $percentage >= 100 ? 'vol' : ($percentage >= 75 ? 'bijna-vol' : 'beschikbaar');
+        $capacityBadgeText = $percentage >= 100 ? '🔴 Vol' : ($percentage >= 75 ? '🟡 Bijna vol' : '🟢 Beschikbaar');
     @endphp
     <div class="keuzedeel-card {{ $isAangemeld ? 'aangemeld' : '' }} {{ $isVoltooid ? 'voltooid' : '' }}" data-naam="{{ strtolower($keuzedeel->naam) }}" data-code="{{ strtolower($keuzedeel->code) }}">
         <div class="keuzedeel-header">
-            <span class="keuzedeel-code">{{ $keuzedeel->code }}</span>
-            @if($isVoltooid)
-            <span class="status-badge status-voltooid" style="float: right;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                    <polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                Niet beschikbaar
-            </span>
-            @elseif($isAangemeld)
-            <span class="status-badge status-aangemeld" style="float: right;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                Aangemeld
-            </span>
-            @endif
-            <h3 class="keuzedeel-naam">{{ $keuzedeel->naam }}</h3>
+            <div class="keuzedeel-header-left">
+                <span class="keuzedeel-code">{{ $keuzedeel->code }}</span>
+                <h3 class="keuzedeel-naam">{{ $keuzedeel->naam }}</h3>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;">
+                <span class="capacity-badge {{ $capacityBadgeClass }}">
+                    {{ $capacityBadgeText }}
+                </span>
+                @if($isVoltooid)
+                <span class="status-badge status-voltooid">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    Niet beschikbaar
+                </span>
+                @elseif($isAangemeld)
+                <span class="status-badge status-aangemeld">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Aangemeld
+                </span>
+                @endif
+            </div>
         </div>
         <div class="keuzedeel-body">
             <p class="keuzedeel-beschrijving">
@@ -772,6 +887,29 @@
                 @endif
                 <a href="{{ url('/keuzedelen/' . $keuzedeel->id) }}" class="btn btn-outline">Details</a>
             </div>
+
+            @if($percentage >= 100 && isset($alternatieven[$keuzedeel->id]) && $alternatieven[$keuzedeel->id]->count() > 0)
+            <div class="alternatives-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                {{ $alternatieven[$keuzedeel->id]->count() }} alternatieven beschikbaar
+            </div>
+            <div class="alternatives-list">
+                @foreach($alternatieven[$keuzedeel->id] as $alt)
+                <div class="alternative-item">
+                    <span class="alternative-item-name">{{ $alt->naam }}</span>
+                    <span class="alternative-item-capacity">{{ $alt->aanmeldingen_count }}/{{ $alt->max_studenten }}</span>
+                    <a href="{{ url('/keuzedelen/' . $alt->id) }}" class="alternative-item-link">
+                        Bekijk
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </a>
+                </div>
+                @endforeach
+            </div>
+            @endif
         </div>
     </div>
     @endforeach

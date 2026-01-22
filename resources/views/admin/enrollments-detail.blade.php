@@ -137,7 +137,7 @@
         padding: 0.5rem;
         border-radius: 6px;
         border: 1px solid rgba(212, 160, 36, 0.3);
-        background: rgba(0, 0, 0, 0.3);
+        background: #1a1a1a;
         color: #fff;
         font-size: 0.9rem;
     }
@@ -145,6 +145,12 @@
     .status-select:focus {
         outline: none;
         border-color: #d4a024;
+        background: #222222;
+    }
+
+    .status-select option {
+        background: #1a1a1a;
+        color: #fff;
     }
 
     .action-buttons {

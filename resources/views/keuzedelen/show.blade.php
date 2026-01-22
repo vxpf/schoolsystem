@@ -603,7 +603,11 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 @if(isset($isVol) && $isVol && !$isAangemeld && isset($alternatieven) && $alternatieven->count() > 0)
+=======
+@if(($isVol && !$isAangemeld || $enrollmentStatus === 'afgewezen') && $alternatieven->count() > 0)
+>>>>>>> Stashed changes
 <div class="alternatives-section">
     <div class="alternatives-header">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -611,10 +615,20 @@
             <line x1="12" y1="16" x2="12" y2="12"/>
             <line x1="12" y1="8" x2="12.01" y2="8"/>
         </svg>
-        <h3>Dit keuzedeel is vol - Bekijk alternatieven</h3>
+        <h3>
+            @if($isVol && !$isAangemeld)
+                Dit keuzedeel is vol - Bekijk alternatieven
+            @elseif($enrollmentStatus === 'afgewezen')
+                Je aanmelding is afgewezen - Bekijk alternatieven
+            @endif
+        </h3>
     </div>
     <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.95rem;">
-        Dit keuzedeel heeft geen plaatsen meer beschikbaar. Hieronder vind je vergelijkbare keuzedelen waar je je wel voor kunt aanmelden:
+        @if($isVol && !$isAangemeld)
+            Dit keuzedeel heeft geen plaatsen meer beschikbaar. Hieronder vind je vergelijkbare keuzedelen waar je je wel voor kunt aanmelden:
+        @elseif($enrollmentStatus === 'afgewezen')
+            Je aanmelding voor dit keuzedeel is helaas afgewezen. Hieronder vind je vergelijkbare keuzedelen waar je je wel voor kunt aanmelden:
+        @endif
     </p>
     <div class="alternatives-grid">
         @foreach($alternatieven as $alternatief)
