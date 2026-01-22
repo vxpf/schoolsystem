@@ -264,14 +264,23 @@
 
 <div class="action-section">
     <h2>🎯 Snelle Acties</h2>
-    <a href="{{ route('slb.presentatie') }}" class="presentatie-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-        </svg>
-        Start Presentatie Modus
-    </a>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <a href="{{ route('slb.presentatie') }}" class="presentatie-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            Start Presentatie Modus
+        </a>
+        <a href="{{ route('slb.cijfers') }}" class="presentatie-btn" style="background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%); color: var(--primary-dark);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                <path d="M9 12l2 2 4-4"/>
+            </svg>
+            Studenten Cijfers
+        </a>
+    </div>
 </div>
 
 <div class="action-section">
@@ -299,4 +308,5 @@
         @endforeach
     </div>
 </div>
+
 @endsection

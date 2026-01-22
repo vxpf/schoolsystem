@@ -40,4 +40,48 @@ class SlbController extends Controller
         
         return view('slb.keuzedeel-slide', compact('keuzedeel', 'ingeschrevenStudenten'));
     }
+
+    public function cijfers()
+    {
+        // Haal alle studenten op met al hun keuzedelen
+        $studenten = User::where('role', 'student')
+            ->with(['keuzedelen' => function($query) {
+                $query->orderBy('naam');
+            }])
+            ->orderBy('name')
+            ->get()
+            ->filter(function($student) {
+                return $student->keuzedelen->count() > 0;
+            });
+
+        return view('slb.cijfers', compact('studenten'));
+    }
+
+    public function updateCijfer(Request $request, Keuzedeel $keuzedeel, User $user)
+    {
+        $validated = $request->validate([
+            'cijfer' => 'required|numeric|min:1|max:10'
+        ]);
+
+        // Check of het keuzedeel voltooid is
+        $enrollment = $keuzedeel->users()->where('user_id', $user->id)->first();
+        if (!$enrollment || $enrollment->pivot->status !== 'voltooid') {
+            return back()->with('error', 'Je kunt alleen cijfers geven aan voltooide keuzedelen.');
+        }
+
+        $keuzedeel->users()->updateExistingPivot($user->id, [
+            'cijfer' => $validated['cijfer']
+        ]);
+
+        // Stuur notificatie naar student
+        \App\Models\Notification::create([
+            'user_id' => $user->id,
+            'keuzedeel_id' => $keuzedeel->id,
+            'type' => 'cijfer',
+            'title' => 'Cijfer ontvangen',
+            'message' => 'Je hebt een cijfer ontvangen voor het keuzedeel "' . $keuzedeel->naam . '": ' . number_format($validated['cijfer'], 1),
+        ]);
+
+        return back()->with('success', 'Cijfer succesvol bijgewerkt en student is op de hoogte gesteld!');
+    }
 }

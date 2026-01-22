@@ -372,14 +372,19 @@
                 <a href="{{ route('admin.keuzedelen.index') }}" class="{{ request()->routeIs('admin.keuzedelen*') ? 'active' : '' }}">Keuzedelen</a>
             @elseif(Auth::user()->role === 'slb')
                 <a href="{{ route('slb.dashboard') }}" class="{{ request()->routeIs('slb.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('slb.cijfers') }}" class="{{ request()->routeIs('slb.cijfers') ? 'active' : '' }}">Cijfers</a>
                 <a href="{{ route('slb.presentatie') }}" class="{{ request()->routeIs('slb.presentatie') ? 'active' : '' }}">Presentatie</a>
                 <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Alle Keuzedelen</a>
             @else
                 <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
                 <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>
                 <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
-                <a href="{{ route('notifications.index') }}" class="{{ request()->routeIs('notifications.*') ? 'active' : '' }}" style="position: relative;">
-                    Notificaties
+                <a href="{{ route('inbox.index') }}" class="{{ request()->routeIs('inbox.*') ? 'active' : '' }}" style="position: relative;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                        <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
+                        <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+                    </svg>
+                    Inbox
                     @if(Auth::user()->unreadNotifications()->count() > 0)
                         <span style="position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">
                             {{ Auth::user()->unreadNotifications()->count() }}

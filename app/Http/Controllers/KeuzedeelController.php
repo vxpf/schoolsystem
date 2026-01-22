@@ -8,12 +8,38 @@ use Illuminate\Support\Facades\Auth;
 
 class KeuzedeelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $keuzedelen = Keuzedeel::where('actief', true)
-            ->withCount(['users as aanmeldingen_count'])
-            ->get();
+        
+        // Start query
+        $query = Keuzedeel::where('actief', true);
+        
+        // Filter op niveau
+        if ($request->filled('niveau')) {
+            $query->where('niveau', $request->niveau);
+        }
+        
+        // Filter op periode
+        if ($request->filled('periode')) {
+            $query->where('periode', $request->periode);
+        }
+        
+        // Filter op studiepunten
+        if ($request->filled('studiepunten')) {
+            $query->where('studiepunten', $request->studiepunten);
+        }
+        
+        // Filter op beschikbaarheid
+        if ($request->filled('beschikbaarheid')) {
+            if ($request->beschikbaarheid === 'beschikbaar') {
+                $query->whereRaw('(SELECT COUNT(*) FROM keuzedeel_user WHERE keuzedeel_id = keuzedelen.id) < max_studenten');
+            } elseif ($request->beschikbaarheid === 'vol') {
+                $query->whereRaw('(SELECT COUNT(*) FROM keuzedeel_user WHERE keuzedeel_id = keuzedelen.id) >= max_studenten');
+            }
+        }
+        
+        $keuzedelen = $query->withCount(['users as aanmeldingen_count'])->get();
         
         $mijnKeuzedelen = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
         
@@ -22,8 +48,13 @@ class KeuzedeelController extends Controller
             ->get()
             ->pluck('pivot.status', 'id')
             ->toArray();
+        
+        // Haal unieke waarden op voor filters
+        $niveaus = Keuzedeel::where('actief', true)->distinct()->pluck('niveau')->filter()->sort()->values();
+        $periodes = Keuzedeel::where('actief', true)->distinct()->pluck('periode')->filter()->sort()->values();
+        $studiepuntenOpties = Keuzedeel::where('actief', true)->distinct()->pluck('studiepunten')->filter()->sort()->values();
 
-        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user'));
+        return view('keuzedelen.index', compact('keuzedelen', 'mijnKeuzedelen', 'keuzedeelStatussen', 'user', 'niveaus', 'periodes', 'studiepuntenOpties'));
     }
 
     public function show(Keuzedeel $keuzedeel)

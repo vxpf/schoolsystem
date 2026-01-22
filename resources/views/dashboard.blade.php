@@ -5,7 +5,10 @@
 @section('styles')
 <style>
     .welcome-banner {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        background: linear-gradient(135deg, rgba(45, 74, 62, 0.95) 0%, rgba(58, 90, 74, 0.95) 100%),
+                    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="tech-grid" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="transparent"/><circle cx="50" cy="50" r="1" fill="%23d4a024" opacity="0.3"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23d4a024" stroke-width="0.2" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23tech-grid)"/><g opacity="0.1"><path d="M100 200 Q300 100 500 200 T900 200" stroke="%23d4a024" stroke-width="2" fill="none"/><circle cx="100" cy="200" r="4" fill="%23d4a024"/><circle cx="500" cy="200" r="4" fill="%23d4a024"/><circle cx="900" cy="200" r="4" fill="%23d4a024"/></g></svg>');
+        background-size: cover;
+        background-position: center;
         border-radius: var(--radius-xl);
         padding: 2.5rem;
         margin-bottom: 2rem;
@@ -116,6 +119,24 @@
         align-items: center;
         justify-content: center;
         color: var(--accent);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dashboard-card-icon::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(212, 160, 36, 0.3), transparent);
+        animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
     }
 
     .dashboard-stat {

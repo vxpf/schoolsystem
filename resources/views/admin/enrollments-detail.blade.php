@@ -441,6 +441,7 @@
         <div>Studentnummer</div>
         <div>Klas</div>
         <div>Status</div>
+        <div>Cijfer</div>
         <div>Acties</div>
     </div>
 
@@ -469,15 +470,24 @@
             <div>{{ $student->student_number }}</div>
             <div>{{ $student->class }}</div>
             <div>
-                <form action="{{ route('admin.enrollments.update-status', [$keuzedeel, $student]) }}" method="POST" style="display: inline;">
+                <form action="{{ route('admin.enrollments.update-status', [$keuzedeel, $student]) }}" method="POST" style="display: inline;" id="status-form-{{ $student->id }}">
                     @csrf
                     @method('PATCH')
-                    <select name="status" class="status-select" onchange="this.form.submit()">
+                    <select name="status" class="status-select" onchange="document.getElementById('status-form-{{ $student->id }}').submit()">
                         <option value="aangemeld" {{ $student->pivot->status == 'aangemeld' ? 'selected' : '' }}>Aangemeld</option>
                         <option value="goedgekeurd" {{ $student->pivot->status == 'goedgekeurd' ? 'selected' : '' }}>Goedgekeurd</option>
                         <option value="afgewezen" {{ $student->pivot->status == 'afgewezen' ? 'selected' : '' }}>Afgewezen</option>
                         <option value="voltooid" {{ $student->pivot->status == 'voltooid' ? 'selected' : '' }}>Voltooid</option>
                     </select>
+                </form>
+            </div>
+            <div>
+                <form action="{{ route('admin.enrollments.update-status', [$keuzedeel, $student]) }}" method="POST" style="display: flex; gap: 0.5rem; align-items: center;" id="cijfer-form-{{ $student->id }}">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="{{ $student->pivot->status }}">
+                    <input type="number" name="cijfer" class="status-select" style="width: 80px;" min="1" max="10" step="0.1" value="{{ $student->pivot->cijfer ?? '' }}" placeholder="-">
+                    <button type="submit" class="btn-small" style="padding: 0.4rem 0.8rem; background: var(--accent); color: var(--primary-dark); border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Opslaan</button>
                 </form>
             </div>
             <div class="action-buttons">

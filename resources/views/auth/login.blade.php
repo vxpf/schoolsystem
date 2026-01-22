@@ -28,7 +28,9 @@
 
         .login-left {
             flex: 1;
-            background: #2d4a3e;
+            background: linear-gradient(rgba(45, 74, 62, 0.92), rgba(45, 74, 62, 0.92)),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><pattern id="circuit" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse"><rect width="200" height="200" fill="%232d4a3e"/><circle cx="100" cy="100" r="3" fill="%23d4a024" opacity="0.3"/><path d="M100 100 L150 100 M100 100 L100 150 M100 100 L50 100 M100 100 L100 50" stroke="%23d4a024" stroke-width="0.5" opacity="0.2"/><circle cx="50" cy="50" r="2" fill="%23d4a024" opacity="0.2"/><circle cx="150" cy="150" r="2" fill="%23d4a024" opacity="0.2"/><path d="M50 50 L150 150 M150 50 L50 150" stroke="%23d4a024" stroke-width="0.3" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23circuit)"/></svg>');
+            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -45,8 +47,46 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #2d4a3e 0%, #3a5a4a 100%);
-            opacity: 0.95;
+            background: linear-gradient(135deg, rgba(45, 74, 62, 0.95) 0%, rgba(58, 90, 74, 0.95) 100%);
+            opacity: 1;
+            animation: pulse 20s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+        }
+
+        .tech-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .tech-decoration::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(212, 160, 36, 0.03) 10px,
+                rgba(212, 160, 36, 0.03) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
         }
 
         .login-branding {
@@ -298,13 +338,28 @@
 <body>
     <div class="login-container">
         <div class="login-left">
+            <div class="tech-decoration"></div>
             <div class="login-branding">
-                <div class="login-logo">TCR</div>
+                <div class="login-logo" style="position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, #d4a024 25%, transparent 25%, transparent 75%, #d4a024 75%, #d4a024), linear-gradient(45deg, #d4a024 25%, transparent 25%, transparent 75%, #d4a024 75%, #d4a024); background-size: 20px 20px; background-position: 0 0, 10px 10px; opacity: 0.1; animation: slide 10s linear infinite;"></div>
+                    TCR
+                </div>
                 <h1>Techniek College <span>Rotterdam</span></h1>
                 <p>Kies je keuzedelen en bouw aan je toekomst in de techniek</p>
             </div>
-            <div class="login-tagline">
-                <p>Je toekomst is goud waard</p>
+            <div class="login-tagline" style="position: relative;">
+                <div style="position: absolute; top: -20px; right: -20px; width: 60px; height: 60px; opacity: 0.1;">
+                    <svg viewBox="0 0 24 24" fill="#d4a024">
+                        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                        <path fill="#2d4a3e" d="M12 4.5L4 8.5v7.5c0 4.1 2.9 7.9 6.8 8.9l1.2.3 1.2-.3c3.9-1 6.8-4.8 6.8-8.9V8.5l-8-4zm-2 11.5l-3-3 1.4-1.4L10 13.2l3.6-3.6L15 11l-5 5z"/>
+                    </svg>
+                </div>
+                <p style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.7;">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Je toekomst is goud waard
+                </p>
             </div>
             <div class="login-features" style="display: none;">
                 <div class="login-feature">

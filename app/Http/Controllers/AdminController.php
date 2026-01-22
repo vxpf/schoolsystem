@@ -239,14 +239,21 @@ class AdminController extends Controller
     public function updateEnrollmentStatus(Request $request, Keuzedeel $keuzedeel, User $user)
     {
         $validated = $request->validate([
-            'status' => 'required|in:aangemeld,goedgekeurd,afgewezen,voltooid'
+            'status' => 'required|in:aangemeld,goedgekeurd,afgewezen,voltooid',
+            'cijfer' => 'nullable|numeric|min:1|max:10'
         ]);
 
         $oldStatus = $keuzedeel->users()->where('user_id', $user->id)->first()->pivot->status;
 
-        $keuzedeel->users()->updateExistingPivot($user->id, [
+        $updateData = [
             'status' => $validated['status']
-        ]);
+        ];
+
+        if (isset($validated['cijfer'])) {
+            $updateData['cijfer'] = $validated['cijfer'];
+        }
+
+        $keuzedeel->users()->updateExistingPivot($user->id, $updateData);
 
         if ($validated['status'] === 'afgewezen' && $oldStatus !== 'afgewezen') {
             Notification::create([

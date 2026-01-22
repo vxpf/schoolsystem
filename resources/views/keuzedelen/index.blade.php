@@ -49,6 +49,76 @@
         color: var(--text-muted);
     }
 
+    .filter-section {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow);
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .filter-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .filter-select {
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--bg-light);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(212, 160, 36, 0.1);
+    }
+
+    .filter-select:hover {
+        border-color: var(--accent);
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-start;
+        padding-top: 0.5rem;
+    }
+
+    .btn-secondary {
+        background: var(--bg-light);
+        color: var(--text-dark);
+        border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+        background: var(--border);
+        border-color: var(--text-muted);
+    }
+
     .stats-bar {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -117,12 +187,32 @@
 
     .keuzedeel-card {
         background: var(--bg-card);
-        border: 1px solid var(--border);
         border-radius: var(--radius-xl);
         overflow: hidden;
         box-shadow: var(--shadow);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         position: relative;
+    }
+
+    .keuzedeel-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+        transform: scaleX(0);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: left;
+    }
+
+    .keuzedeel-card:hover::before {
+        transform: scaleX(1);
     }
 
     .keuzedeel-card::after {
@@ -151,7 +241,9 @@
     }
 
     .keuzedeel-header {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        background: linear-gradient(135deg, rgba(45, 74, 62, 0.95) 0%, rgba(58, 90, 74, 0.95) 100%),
+                    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><defs><pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="%23d4a024" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23dots)"/></svg>');
+        background-size: cover;
         padding: 1.5rem;
         position: relative;
         overflow: hidden;
@@ -536,6 +628,67 @@
     <input type="text" class="search-input" id="searchInput" placeholder="Zoek keuzedelen op naam of code...">
 </div>
 
+<div class="filter-section">
+    <form method="GET" action="{{ route('keuzedelen.index') }}" id="filterForm">
+        <div class="filter-grid">
+            <div class="filter-item">
+                <label for="niveau" class="filter-label">Niveau</label>
+                <select name="niveau" id="niveau" class="filter-select">
+                    <option value="">Alle niveaus</option>
+                    @foreach($niveaus as $niveau)
+                        <option value="{{ $niveau }}" {{ request('niveau') == $niveau ? 'selected' : '' }}>{{ $niveau }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="periode" class="filter-label">Periode</label>
+                <select name="periode" id="periode" class="filter-select">
+                    <option value="">Alle periodes</option>
+                    @foreach($periodes as $periode)
+                        <option value="{{ $periode }}" {{ request('periode') == $periode ? 'selected' : '' }}>Periode {{ $periode }}</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="studiepunten" class="filter-label">Studiepunten</label>
+                <select name="studiepunten" id="studiepunten" class="filter-select">
+                    <option value="">Alle studiepunten</option>
+                    @foreach($studiepuntenOpties as $sp)
+                        <option value="{{ $sp }}" {{ request('studiepunten') == $sp ? 'selected' : '' }}>{{ $sp }} punten</option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="filter-item">
+                <label for="beschikbaarheid" class="filter-label">Beschikbaarheid</label>
+                <select name="beschikbaarheid" id="beschikbaarheid" class="filter-select">
+                    <option value="">Alle keuzedelen</option>
+                    <option value="beschikbaar" {{ request('beschikbaarheid') == 'beschikbaar' ? 'selected' : '' }}>Beschikbaar</option>
+                    <option value="vol" {{ request('beschikbaarheid') == 'vol' ? 'selected' : '' }}>Vol</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                </svg>
+                Filter toepassen
+            </button>
+            <a href="{{ route('keuzedelen.index') }}" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+                Reset filters
+            </a>
+        </div>
+    </form>
+</div>
+
 @if($keuzedelen->count() > 0)
 <div class="keuzedelen-grid" id="keuzedeelGrid">
     @foreach($keuzedelen as $keuzedeel)
@@ -632,6 +785,7 @@
 @endif
 
 <script>
+// Search functionaliteit
 document.getElementById('searchInput').addEventListener('input', function() {
     const query = this.value.toLowerCase();
     const cards = document.querySelectorAll('.keuzedeel-card');
@@ -648,8 +802,18 @@ document.getElementById('searchInput').addEventListener('input', function() {
     });
 });
 
-// Auto-dismiss alerts
+// Auto-submit filters bij wijziging
 document.addEventListener('DOMContentLoaded', function() {
+    const filterSelects = document.querySelectorAll('.filter-select');
+    const filterForm = document.getElementById('filterForm');
+    
+    filterSelects.forEach(select => {
+        select.addEventListener('change', function() {
+            filterForm.submit();
+        });
+    });
+    
+    // Auto-dismiss alerts
     const alerts = document.querySelectorAll('.alert');
     
     alerts.forEach(alert => {

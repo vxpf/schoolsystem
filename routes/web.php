@@ -36,12 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
     Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelController::class, 'afmelden'])->name('keuzedelen.afmelden');
     
-    // Notification routes
-    Route::get('/notificaties', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::post('/notificaties/{id}/markeer-gelezen', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
-    Route::post('/notificaties/markeer-alle-gelezen', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
-    Route::delete('/notificaties/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
-    Route::delete('/notificaties', [NotificationController::class, 'destroyAll'])->name('notifications.destroy-all');
+    // Inbox routes
+    Route::get('/inbox', [NotificationController::class, 'index'])->name('inbox.index');
+    Route::post('/inbox/{id}/markeer-gelezen', [NotificationController::class, 'markAsRead'])->name('inbox.mark-read');
+    Route::post('/inbox/markeer-alle-gelezen', [NotificationController::class, 'markAllAsRead'])->name('inbox.mark-all-read');
+    Route::delete('/inbox/{id}', [NotificationController::class, 'destroy'])->name('inbox.destroy');
+    Route::delete('/inbox', [NotificationController::class, 'destroyAll'])->name('inbox.destroy-all');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -67,4 +67,7 @@ Route::middleware(['auth'])->prefix('slb')->name('slb.')->group(function () {
     Route::get('/dashboard', [SlbController::class, 'dashboard'])->name('dashboard');
     Route::get('/presentatie', [SlbController::class, 'presentatie'])->name('presentatie');
     Route::get('/presentatie/{keuzedeel}', [SlbController::class, 'keuzedeelSlide'])->name('keuzedeel-slide');
+    Route::get('/cijfers', [SlbController::class, 'cijfers'])->name('cijfers');
+    Route::patch('/cijfer/{keuzedeel}/{user}', [SlbController::class, 'updateCijfer'])->name('update-cijfer');
+    Route::get('/cijfers/student', [SlbController::class, 'studentCijfers'])->name('student-cijfers');
 });

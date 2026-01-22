@@ -30,7 +30,7 @@ class Keuzedeel extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'keuzedeel_user')
-            ->withPivot('status')
+            ->withPivot('status', 'eerder_gedaan', 'eerder_markering', 'cijfer')
             ->withTimestamps();
     }
 

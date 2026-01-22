@@ -16,7 +16,7 @@ class NotificationController extends Controller
 
         $user->notifications()->update(['is_read' => true]);
 
-        return view('notifications.index', compact('notifications', 'user'));
+        return view('inbox.index', compact('notifications', 'user'));
     }
 
     public function markAsRead($id)
@@ -24,14 +24,14 @@ class NotificationController extends Controller
         $notification = Auth::user()->notifications()->findOrFail($id);
         $notification->update(['is_read' => true]);
 
-        return back()->with('success', 'Notificatie gemarkeerd als gelezen');
+        return back()->with('success', 'Bericht gemarkeerd als gelezen');
     }
 
     public function markAllAsRead()
     {
         Auth::user()->notifications()->update(['is_read' => true]);
 
-        return back()->with('success', 'Alle notificaties gemarkeerd als gelezen');
+        return back()->with('success', 'Alle berichten gemarkeerd als gelezen');
     }
 
     public function destroy($id)
@@ -39,13 +39,13 @@ class NotificationController extends Controller
         $notification = Auth::user()->notifications()->findOrFail($id);
         $notification->delete();
 
-        return back()->with('success', 'Notificatie verwijderd');
+        return back()->with('success', 'Bericht verwijderd');
     }
 
     public function destroyAll()
     {
         Auth::user()->notifications()->delete();
 
-        return redirect()->route('notifications.index')->with('success', 'Alle notificaties verwijderd');
+        return redirect()->route('inbox.index')->with('success', 'Alle berichten verwijderd');
     }
 }

@@ -603,7 +603,7 @@
     </div>
 </div>
 
-@if($isVol && !$isAangemeld && $alternatieven->count() > 0)
+@if(isset($isVol) && $isVol && !$isAangemeld && isset($alternatieven) && $alternatieven->count() > 0)
 <div class="alternatives-section">
     <div class="alternatives-header">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
