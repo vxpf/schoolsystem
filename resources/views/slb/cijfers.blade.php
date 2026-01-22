@@ -4,38 +4,57 @@
 
 @section('styles')
 <style>
-    .cijfers-header {
-        background: linear-gradient(135deg, rgba(45, 74, 62, 0.95) 0%, rgba(58, 90, 74, 0.95) 100%),
-                    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="tech-grid" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="transparent"/><circle cx="50" cy="50" r="1" fill="%23d4a024" opacity="0.3"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23d4a024" stroke-width="0.2" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23tech-grid)"/></svg>');
-        background-size: cover;
-        padding: 2rem;
-        border-radius: var(--radius-xl);
+    .page-header {
         margin-bottom: 2rem;
-        box-shadow: var(--shadow-lg);
-        color: #fff;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
     }
 
-    .cijfers-header h1 {
-        font-size: 2rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
+    .page-header h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.25rem;
     }
 
-    .cijfers-header h1 span {
-        color: var(--accent-light);
+    .page-header p {
+        color: var(--text-muted);
+        font-size: 0.875rem;
     }
 
-    .cijfers-header p {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 1rem;
+    .alert {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1rem;
+        border-radius: 6px;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
     }
 
-    .cijfers-container {
+    .alert-success {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+    }
+
+    .alert-error {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #991b1b;
+    }
+
+    .alert svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+
+    .cijfers-table-container {
         background: var(--bg-card);
-        border-radius: var(--radius-xl);
-        padding: 2rem;
         border: 1px solid var(--border);
-        box-shadow: var(--shadow);
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     .cijfers-table {
@@ -43,32 +62,34 @@
         border-collapse: collapse;
     }
 
-    .cijfers-table thead tr {
-        border-bottom: 2px solid var(--border);
+    .cijfers-table thead {
+        background: var(--bg-light);
     }
 
     .cijfers-table th {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
         text-align: left;
-        font-weight: 700;
-        color: var(--text-dark);
-        font-size: 0.9rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--text-muted);
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        border-bottom: 1px solid var(--border);
     }
 
-    .cijfers-table tbody tr {
+    .cijfers-table td {
+        padding: 0.875rem 1rem;
+        font-size: 0.875rem;
+        color: var(--text-primary);
         border-bottom: 1px solid var(--border-light);
-        transition: background 0.2s ease;
+    }
+
+    .cijfers-table tbody tr:last-child td {
+        border-bottom: none;
     }
 
     .cijfers-table tbody tr:hover {
         background: var(--bg-light);
-    }
-
-    .cijfers-table td {
-        padding: 1rem;
-        color: var(--text-primary);
     }
 
     .student-name {
@@ -77,8 +98,36 @@
     }
 
     .keuzedeel-name {
-        font-weight: 600;
-        color: var(--primary);
+        font-weight: 500;
+        color: var(--text-dark);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .status-voltooid {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .status-goedgekeurd {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-afgewezen {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-aangemeld {
+        background: #fef3c7;
+        color: #92400e;
     }
 
     .cijfer-form {
@@ -88,82 +137,80 @@
     }
 
     .cijfer-input {
-        width: 80px;
-        padding: 0.6rem;
-        border: 2px solid var(--border);
-        border-radius: 8px;
+        width: 70px;
+        padding: 0.5rem;
+        border: 1px solid var(--border);
+        border-radius: 4px;
         text-align: center;
-        font-weight: 700;
-        font-size: 1rem;
-        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.875rem;
     }
 
     .cijfer-input:focus {
         outline: none;
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(212, 160, 36, 0.1);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(45, 74, 62, 0.1);
     }
 
-    .cijfer-badge {
+    .cijfer-display {
         display: inline-block;
-        padding: 0.5rem 1rem;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-        color: var(--primary-dark);
-        border-radius: 8px;
+        padding: 0.375rem 0.75rem;
+        background: var(--bg-light);
+        border-radius: 4px;
         font-weight: 700;
-        font-size: 1.1rem;
-        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
+        font-size: 0.9375rem;
+        color: var(--text-dark);
+        min-width: 50px;
+        text-align: center;
     }
 
     .btn-save {
-        padding: 0.6rem 1.2rem;
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-        color: var(--primary-dark);
+        padding: 0.5rem 0.875rem;
+        background: var(--primary);
+        color: #fff;
         border: none;
-        border-radius: 8px;
+        border-radius: 4px;
         cursor: pointer;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
+        font-weight: 500;
+        font-size: 0.8125rem;
+        transition: background 0.15s ease;
     }
 
     .btn-save:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(212, 160, 36, 0.4);
+        background: var(--primary-dark);
     }
 
-    .alert {
-        padding: 1rem 1.5rem;
-        border-radius: var(--radius-lg);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-weight: 500;
-    }
-
-    .alert-success {
-        background: var(--success-bg);
-        border: 1px solid var(--success);
-        color: #047857;
-    }
-
-    .alert-error {
-        background: var(--danger-bg);
-        border: 1px solid var(--danger);
-        color: #b91c1c;
-    }
-
-    .no-data {
+    .empty-state {
+        padding: 4rem 2rem;
         text-align: center;
-        padding: 3rem;
+    }
+
+    .empty-state svg {
+        width: 48px;
+        height: 48px;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
         color: var(--text-muted);
     }
 
+    .text-muted {
+        color: var(--text-muted);
+        font-size: 0.8125rem;
+    }
+
     @media (max-width: 768px) {
-        .cijfers-table {
-            display: block;
+        .cijfers-table-container {
             overflow-x: auto;
         }
     }
@@ -171,16 +218,15 @@
 @endsection
 
 @section('content')
-<div class="cijfers-header">
-    <h1>📊 Studenten <span>Cijfers</span></h1>
-    <p>Bekijk alle studenten en geef cijfers aan voltooide keuzedelen</p>
+<div class="page-header">
+    <h1>Cijfers beheren</h1>
+    <p>Geef cijfers aan studenten met voltooide keuzedelen</p>
 </div>
 
 @if(session('success'))
 <div class="alert alert-success">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="20 6 9 17 4 12"/>
     </svg>
     {{ session('success') }}
 </div>
@@ -188,7 +234,7 @@
 
 @if(session('error'))
 <div class="alert alert-error">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"/>
         <line x1="15" y1="9" x2="9" y2="15"/>
         <line x1="9" y1="9" x2="15" y2="15"/>
@@ -197,59 +243,54 @@
 </div>
 @endif
 
-<div class="cijfers-container">
+<div class="cijfers-table-container">
     @if($studenten->count() > 0)
     <table class="cijfers-table">
         <thead>
             <tr>
                 <th>Student</th>
-                <th>Studentnummer</th>
+                <th>Nummer</th>
                 <th>Klas</th>
                 <th>Keuzedeel</th>
-                <th style="text-align: center;">Status</th>
-                <th style="text-align: center;">Cijfer</th>
+                <th>Status</th>
+                <th>Cijfer</th>
             </tr>
         </thead>
         <tbody>
             @foreach($studenten as $student)
                 @foreach($student->keuzedelen as $keuzedeel)
-                <tr style="{{ $keuzedeel->pivot->status === 'voltooid' ? 'background: rgba(212, 160, 36, 0.05);' : '' }}">
+                <tr>
                     <td class="student-name">{{ $student->name }}</td>
                     <td>{{ $student->student_number }}</td>
                     <td>{{ $student->class }}</td>
                     <td class="keuzedeel-name">{{ $keuzedeel->naam }}</td>
-                    <td style="text-align: center;">
-                        <span style="display: inline-block; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; 
-                            @if($keuzedeel->pivot->status == 'voltooid') background: var(--info-bg); color: #1d4ed8;
-                            @elseif($keuzedeel->pivot->status == 'goedgekeurd') background: var(--success-bg); color: #047857;
-                            @elseif($keuzedeel->pivot->status == 'afgewezen') background: var(--danger-bg); color: #b91c1c;
-                            @else background: var(--warning-bg); color: #b45309;
-                            @endif">
+                    <td>
+                        <span class="status-badge status-{{ $keuzedeel->pivot->status }}">
                             {{ ucfirst($keuzedeel->pivot->status) }}
                         </span>
                     </td>
-                    <td style="text-align: center;">
+                    <td>
                         @if($keuzedeel->pivot->status === 'voltooid')
                             @if($keuzedeel->pivot->cijfer)
-                                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                                    <span class="cijfer-badge">{{ number_format($keuzedeel->pivot->cijfer, 1) }}</span>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span class="cijfer-display">{{ number_format($keuzedeel->pivot->cijfer, 1) }}</span>
                                     <form action="{{ route('slb.update-cijfer', [$keuzedeel, $student]) }}" method="POST" class="cijfer-form">
                                         @csrf
                                         @method('PATCH')
                                         <input type="number" name="cijfer" class="cijfer-input" min="1" max="10" step="0.1" value="{{ $keuzedeel->pivot->cijfer }}" required>
-                                        <button type="submit" class="btn-save">Wijzigen</button>
+                                        <button type="submit" class="btn-save">Wijzig</button>
                                     </form>
                                 </div>
                             @else
-                                <form action="{{ route('slb.update-cijfer', [$keuzedeel, $student]) }}" method="POST" class="cijfer-form" style="justify-content: center;">
+                                <form action="{{ route('slb.update-cijfer', [$keuzedeel, $student]) }}" method="POST" class="cijfer-form">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="number" name="cijfer" class="cijfer-input" min="1" max="10" step="0.1" placeholder="Cijfer" required>
+                                    <input type="number" name="cijfer" class="cijfer-input" min="1" max="10" step="0.1" placeholder="-" required>
                                     <button type="submit" class="btn-save">Opslaan</button>
                                 </form>
                             @endif
                         @else
-                            <span style="color: var(--text-muted); font-size: 0.9rem;">Nog niet voltooid</span>
+                            <span class="text-muted">-</span>
                         @endif
                     </td>
                 </tr>
@@ -258,12 +299,15 @@
         </tbody>
     </table>
     @else
-    <div class="no-data">
-        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 1rem; opacity: 0.3;">
-            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+    <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
-        <h3 style="color: var(--text-dark); margin-bottom: 0.5rem;">Geen voltooide keuzedelen</h3>
-        <p>Er zijn nog geen studenten met voltooide keuzedelen om cijfers aan te geven.</p>
+        <h3>Geen gegevens</h3>
+        <p>Er zijn nog geen studenten met keuzedelen om cijfers aan te geven.</p>
     </div>
     @endif
 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keuzedelen Presentatie - TCR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,18 +13,18 @@
         }
 
         :root {
-            --primary-dark: #1a3d2e;
-            --primary: #2d5a45;
-            --primary-light: #3d7a5c;
+            --primary-dark: #1e3a2f;
+            --primary: #2d4a3e;
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
             --accent: #d4a024;
-            --accent-light: #f4d03f;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-dark);
             min-height: 100vh;
-            color: #ffffff;
+            color: var(--text-light);
             overflow: hidden;
         }
 
@@ -38,8 +38,8 @@
             display: none;
             width: 100%;
             height: 100%;
-            padding: 4rem;
-            animation: fadeIn 0.5s ease-out;
+            padding: 3rem 4rem;
+            animation: fadeIn 0.3s ease-out;
         }
 
         .slide.active {
@@ -48,8 +48,8 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Title Slide */
@@ -59,48 +59,38 @@
             text-align: center;
         }
 
-        .title-slide h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, var(--accent-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .title-slide .subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 3rem;
-        }
-
         .title-slide .logo {
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             background: var(--accent);
-            border-radius: 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            font-weight: 800;
+            font-size: 1.75rem;
+            font-weight: 700;
             color: var(--primary-dark);
             margin-bottom: 2rem;
-            box-shadow: 0 20px 60px rgba(212, 160, 36, 0.3);
+        }
+
+        .title-slide h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
         }
 
         .title-slide .start-hint {
             position: absolute;
             bottom: 4rem;
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
 
         /* Keuzedeel Slide */
@@ -112,53 +102,55 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .keuzedeel-slide .keuzedeel-title {
-            font-size: 3rem;
-            font-weight: 800;
+            font-size: 2.25rem;
+            font-weight: 700;
             max-width: 70%;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .keuzedeel-slide .keuzedeel-code {
             background: var(--accent);
             color: var(--primary-dark);
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.25rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
         }
 
         .keuzedeel-slide .content-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2.5rem;
             flex: 1;
         }
 
         .keuzedeel-slide .info-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .keuzedeel-slide .info-section h3 {
-            font-size: 1.25rem;
-            color: var(--accent-light);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .keuzedeel-slide .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .keuzedeel-slide .info-item:last-child {
@@ -166,45 +158,49 @@
         }
 
         .keuzedeel-slide .info-label {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-muted);
+            font-size: 0.9375rem;
         }
 
         .keuzedeel-slide .info-value {
-            font-weight: 700;
-            color: #ffffff;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9375rem;
         }
 
         .keuzedeel-slide .beschrijving {
-            font-size: 1.1rem;
+            font-size: 1.0625rem;
             line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.85);
         }
 
         .keuzedeel-slide .stats-bar {
             display: flex;
-            gap: 2rem;
+            gap: 1rem;
             margin-top: auto;
-            padding-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .keuzedeel-slide .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem 2rem;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.25rem 1.5rem;
+            border-radius: 8px;
             text-align: center;
             flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .keuzedeel-slide .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--accent-light);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
         }
 
         .keuzedeel-slide .stat-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
         }
 
         /* Navigation */
@@ -214,36 +210,33 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             z-index: 100;
         }
 
         .nav-btn {
             background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .nav-btn:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: var(--primary-dark);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .nav-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
-            transform: none;
         }
 
         .slide-counter {
@@ -251,10 +244,10 @@
             top: 2rem;
             right: 2rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
 
         .exit-btn {
@@ -263,13 +256,13 @@
             left: 2rem;
             background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.15s ease;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -277,7 +270,8 @@
         }
 
         .exit-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
         }
 
         /* Progress bar */
@@ -285,7 +279,7 @@
             position: fixed;
             bottom: 0;
             left: 0;
-            height: 4px;
+            height: 3px;
             background: var(--accent);
             transition: width 0.3s ease;
         }
@@ -293,14 +287,14 @@
         /* Fullscreen hint */
         .fullscreen-hint {
             position: fixed;
-            bottom: 6rem;
+            bottom: 5.5rem;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.5);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -311,7 +305,7 @@
             <div class="logo">TCR</div>
             <h1>Keuzedelen Overzicht</h1>
             <p class="subtitle">Techniek College Rotterdam - {{ date('Y') }}</p>
-            <p class="start-hint">Druk op → of klik op "Volgende" om te beginnen</p>
+            <p class="start-hint">Druk op de pijltoets of klik op Volgende om te beginnen</p>
         </div>
 
         <!-- Keuzedeel Slides -->
@@ -324,29 +318,29 @@
             
             <div class="content-grid">
                 <div class="info-section">
-                    <h3>📋 Keuzedeel Informatie</h3>
+                    <h3>Informatie</h3>
                     <div class="info-item">
                         <span class="info-label">Studiepunten</span>
                         <span class="info-value">{{ $keuzedeel->studiepunten }} SP</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Niveau</span>
-                        <span class="info-value">{{ $keuzedeel->niveau ?? 'Niet gespecificeerd' }}</span>
+                        <span class="info-value">{{ $keuzedeel->niveau ?? '-' }}</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Max. Studenten</span>
-                        <span class="info-value">{{ $keuzedeel->max_studenten }}</span>
+                        <span class="info-label">Capaciteit</span>
+                        <span class="info-value">{{ $keuzedeel->max_studenten }} studenten</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Huidige Inschrijvingen</span>
+                        <span class="info-label">Ingeschreven</span>
                         <span class="info-value">{{ $keuzedeel->users_count }}</span>
                     </div>
                 </div>
                 
                 <div class="info-section">
-                    <h3>📝 Beschrijving</h3>
+                    <h3>Beschrijving</h3>
                     <p class="beschrijving">
-                        {{ $keuzedeel->beschrijving ?? 'Geen beschrijving beschikbaar voor dit keuzedeel.' }}
+                        {{ $keuzedeel->beschrijving ?? 'Geen beschrijving beschikbaar.' }}
                     </p>
                 </div>
             </div>
@@ -362,7 +356,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">{{ $keuzedeel->max_studenten - $keuzedeel->users_count }}</div>
-                    <div class="stat-label">Plaatsen Vrij</div>
+                    <div class="stat-label">Beschikbaar</div>
                 </div>
             </div>
         </div>
@@ -370,9 +364,9 @@
 
         <!-- End Slide -->
         <div class="slide title-slide" data-slide="{{ count($keuzedelen) + 1 }}">
-            <div class="logo">✓</div>
+            <div class="logo">TCR</div>
             <h1>Vragen?</h1>
-            <p class="subtitle">Bedankt voor jullie aandacht!</p>
+            <p class="subtitle">Bedankt voor jullie aandacht</p>
         </div>
     </div>
 

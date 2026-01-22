@@ -6,31 +6,26 @@ use App\Models\Keuzedeel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class KeuzedeelController extends Controller
+class KeuzedeelStudentController extends Controller
 {
     public function index(Request $request)
     {
         $user = Auth::user();
         
-        // Start query
         $query = Keuzedeel::where('actief', true);
         
-        // Filter op niveau
         if ($request->filled('niveau')) {
             $query->where('niveau', $request->niveau);
         }
         
-        // Filter op periode
         if ($request->filled('periode')) {
             $query->where('periode', $request->periode);
         }
         
-        // Filter op studiepunten
         if ($request->filled('studiepunten')) {
             $query->where('studiepunten', $request->studiepunten);
         }
         
-        // Filter op beschikbaarheid
         if ($request->filled('beschikbaarheid')) {
             if ($request->beschikbaarheid === 'beschikbaar') {
                 $query->whereRaw('(SELECT COUNT(*) FROM keuzedeel_user WHERE keuzedeel_id = keuzedelen.id) < max_studenten');
@@ -43,13 +38,11 @@ class KeuzedeelController extends Controller
         
         $mijnKeuzedelen = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
         
-        // Haal de statussen op van de aangemelde keuzedelen
         $keuzedeelStatussen = $user->keuzedelen()
             ->get()
             ->pluck('pivot.status', 'id')
             ->toArray();
         
-        // Haal unieke waarden op voor filters
         $niveaus = Keuzedeel::where('actief', true)->distinct()->pluck('niveau')->filter()->sort()->values();
         $periodes = Keuzedeel::where('actief', true)->distinct()->pluck('periode')->filter()->sort()->values();
         $studiepuntenOpties = Keuzedeel::where('actief', true)->distinct()->pluck('studiepunten')->filter()->sort()->values();
@@ -67,18 +60,11 @@ class KeuzedeelController extends Controller
         $aantalAanmeldingen = $keuzedeel->users()->count();
         $isVol = $aantalAanmeldingen >= $keuzedeel->max_studenten;
 
-        // Haal alternatieve keuzedelen op als dit keuzedeel vol is
         $alternatieven = collect();
         if ($isVol && !$isAangemeld) {
             $huidigePeriode = $user->huidige_periode;
             $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
             
-            // Haal keuzedelen op die:
-            // - Actief zijn
-            // - In dezelfde periode zijn
-            // - Niet vol zijn
-            // - Niet het huidige keuzedeel zijn
-            // - Student is niet al aangemeld
             $mijnKeuzedeelIds = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
             
             $alternatieven = Keuzedeel::where('actief', true)
@@ -103,7 +89,6 @@ class KeuzedeelController extends Controller
     {
         $user = Auth::user();
 
-        // Check of keuzedeel al voltooid is
         $enrollment = $user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->first();
         
         if ($enrollment) {
@@ -113,14 +98,11 @@ class KeuzedeelController extends Controller
             return back()->with('error', 'Je bent al aangemeld voor dit keuzedeel.');
         }
 
-        // Check of student al een keuzedeel heeft voor deze periode (inclusief voltooide)
         $huidigePeriode = $user->huidige_periode;
         
-        // Haal alle keuzedelen van de student op en filter op periode
         $alleKeuzedelen = $user->keuzedelen()->get();
         
         foreach ($alleKeuzedelen as $bestaandKeuzedeel) {
-            // Als keuzedeel geen periode heeft, beschouw het als huidige periode
             $keuzedeelPeriode = $bestaandKeuzedeel->periode ?? $huidigePeriode;
             
             if ($keuzedeelPeriode === $huidigePeriode) {
@@ -133,25 +115,21 @@ class KeuzedeelController extends Controller
             }
         }
 
-        // Check of keuzedeel in de juiste periode is
         $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
         if ($keuzedeelPeriode !== $huidigePeriode) {
             return back()->with('error', 'Dit keuzedeel is voor periode ' . $keuzedeelPeriode . ', maar jij zit in periode ' . $huidigePeriode . '.');
         }
 
-        // Check of keuzedeel vol is
         $aantalAanmeldingen = $keuzedeel->users()->count();
         if ($aantalAanmeldingen >= $keuzedeel->max_studenten) {
             return back()->with('error', 'Dit keuzedeel is vol. Probeer een ander keuzedeel.');
         }
 
-        // Check of keuzedeel het minimum aantal studenten kan bereiken
         $beschikbarePlaatsen = $keuzedeel->max_studenten - $aantalAanmeldingen;
         if ($beschikbarePlaatsen < $keuzedeel->min_studenten) {
             return back()->with('error', 'Dit keuzedeel kan het minimum aantal van ' . $keuzedeel->min_studenten . ' studenten niet bereiken. Er zijn nog maar ' . $beschikbarePlaatsen . ' plaatsen beschikbaar.');
         }
 
-        // Aanmelden
         $user->keuzedelen()->attach($keuzedeel->id, [
             'status' => 'aangemeld'
         ]);
@@ -165,14 +143,12 @@ class KeuzedeelController extends Controller
     {
         $user = Auth::user();
 
-        // Check of aangemeld
         $enrollment = $user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->first();
         
         if (!$enrollment) {
             return back()->with('error', 'Je bent niet aangemeld voor dit keuzedeel.');
         }
 
-        // Check of keuzedeel voltooid of afgewezen is
         if ($enrollment->pivot->status === 'voltooid') {
             return back()->with('error', 'Je kunt je niet afmelden voor een voltooid keuzedeel.');
         }
@@ -181,7 +157,6 @@ class KeuzedeelController extends Controller
             return back()->with('error', 'Je kunt je niet afmelden voor een afgewezen keuzedeel. Neem contact op met je docent.');
         }
 
-        // Afmelden (alleen voor aangemeld en goedgekeurd)
         $user->keuzedelen()->detach($keuzedeel->id);
 
         return back()->with('success', 'Je bent afgemeld voor ' . $keuzedeel->naam . '.');
