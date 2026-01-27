@@ -141,6 +141,7 @@ class AdminController extends Controller
             'code' => 'required|string|unique:keuzedelen',
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
+            'opleiding' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
             'min_studenten' => 'required|integer|min:1',
         ]);
@@ -167,6 +168,7 @@ class AdminController extends Controller
             'code' => 'required|string|unique:keuzedelen,code,' . $keuzedeel->id,
             'studiepunten' => 'required|integer|min:0',
             'niveau' => 'nullable|string|max:255',
+            'opleiding' => 'nullable|string|max:255',
             'max_studenten' => 'required|integer|min:1',
             'min_studenten' => 'required|integer|min:1',
         ]);

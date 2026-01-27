@@ -242,6 +242,15 @@
             </div>
 
             <div class="form-group">
+                <label for="opleiding" class="form-label">Opleiding</label>
+                <input type="text" id="opleiding" name="opleiding" class="form-input" value="{{ old('opleiding', $keuzedeel->opleiding) }}" placeholder="bijv. Elektrotechniek">
+                <div class="form-help">Laat leeg voor alle opleidingen, of vul de specifieke opleiding in</div>
+                @error('opleiding')
+                    <div class="error-message">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
                 <label for="max_studenten" class="form-label">Max. Studenten *</label>
                 <input type="number" id="max_studenten" name="max_studenten" class="form-input" value="{{ old('max_studenten', $keuzedeel->max_studenten) }}" min="1" required>
                 @error('max_studenten')

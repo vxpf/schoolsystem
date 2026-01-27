@@ -18,6 +18,7 @@ class Keuzedeel extends Model
         'code',
         'studiepunten',
         'niveau',
+        'opleiding',
         'max_studenten',
         'min_studenten',
         'actief',

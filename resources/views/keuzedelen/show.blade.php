@@ -546,6 +546,18 @@
                 Je aanmelding is afgewezen. Neem contact op met je docent voor meer informatie.
             </p>
             @endif
+            @elseif($keuzedeel->opleiding && $keuzedeel->opleiding !== $user->opleiding)
+            <button class="btn btn-disabled" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-right: 0.5rem;">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Niet beschikbaar voor jouw opleiding
+            </button>
+            <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; margin-top: 1rem;">
+                Dit keuzedeel is alleen beschikbaar voor studenten van <strong>{{ $keuzedeel->opleiding }}</strong>. Jij bent ingeschreven voor <strong>{{ $user->opleiding }}</strong>.
+            </p>
             @elseif($aantalAanmeldingen >= $keuzedeel->max_studenten)
             <button class="btn btn-disabled" disabled>Dit keuzedeel is vol</button>
             @else

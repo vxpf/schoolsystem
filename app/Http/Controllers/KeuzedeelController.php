@@ -96,6 +96,11 @@ class KeuzedeelController extends Controller
     {
         $user = Auth::user();
 
+        // Check if student's opleiding matches keuzedeel's opleiding
+        if ($keuzedeel->opleiding && $keuzedeel->opleiding !== $user->opleiding) {
+            return back()->with('error', 'Dit keuzedeel is alleen beschikbaar voor studenten van de opleiding "' . $keuzedeel->opleiding . '". Jij bent ingeschreven voor "' . $user->opleiding . '".');
+        }
+
         $enrollment = $user->keuzedelen()->where('keuzedeel_id', $keuzedeel->id)->first();
         
         if ($enrollment) {
