@@ -1,59 +1,282 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎓 TCR Keuzedelen Beheersysteem
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Een volledig functioneel webapplicatie voor het beheren van keuzedelen bij Techniek College Rotterdam, gebouwd met Laravel 11 en moderne web technologieën.
 
-## About Laravel
+## ✨ Belangrijkste Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🔄 Automatische 2e Keuze Fallback Systeem
+- Studenten selecteren verplicht een 2e keuze bij aanmelding
+- Automatische verplaatsing naar 2e keuze bij afwijzing of annulering
+- Notificaties voor alle statuswijzigingen
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👨‍🎓 Student Functionaliteit
+- Keuzedelen overzicht met zoeken en filteren
+- Aanmelden voor keuzedelen met 2-staps proces
+- Mijn keuzedelen dashboard
+- Inbox voor notificaties
+- Suggesties van alternatieve keuzedelen
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 👨‍💼 Admin Functionaliteit
+- Keuzedelen beheer (CRUD)
+- Inschrijvingen goedkeuren/afwijzen
+- Keuzedelen annuleren met automatische fallback
+- Studenten overzicht
+- Dashboard met statistieken
 
-## Learning Laravel
+### 👨‍🏫 SLB Functionaliteit
+- Presentatiemodus voor keuzedelen
+- Cijferbeheer
+- Student voortgang overzicht
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛡️ Beveiliging & Compliance
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+✅ **Beveiliging:**
+- Password hashing met bcrypt
+- CSRF bescherming
+- SQL injectie preventie (Eloquent ORM)
+- XSS bescherming
 
-## Laravel Sponsors
+✅ **AVG/GDPR Compliant:**
+- Privacy policy pagina
+- Cookie consent manager
+- Veilige data opslag
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+✅ **Accessibility:**
+- ARIA labels
+- Keyboard navigation
+- Semantic HTML
+- Responsive design
 
-### Premium Partners
+✅ **SEO Optimized:**
+- Meta tags
+- Open Graph tags
+- Semantic markup
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Installatie
 
-## Contributing
+### Vereisten
+- PHP 8.2 of hoger
+- MySQL 5.7 of hoger
+- Composer
+- XAMPP (of andere Apache/MySQL stack)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Stappen
 
-## Code of Conduct
+1. **Clone het project**
+```bash
+cd c:\xampp\htdocs
+git clone [repository-url] schoolsystem
+cd schoolsystem
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **Installeer dependencies**
+```bash
+composer install
+```
 
-## Security Vulnerabilities
+3. **Configureer environment**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. **Database configuratie**
+Bewerk `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=schoolsystem
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## License
+5. **Maak database aan**
+```sql
+CREATE DATABASE schoolsystem CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. **Run migrations en seeders**
+```bash
+php artisan migrate:fresh --seed
+```
+
+7. **Start de applicatie**
+```bash
+php artisan serve
+```
+
+Bezoek: `http://localhost:8000`
+
+## 👤 Test Accounts
+
+### Student
+- **Email:** `alivia.williamson@leerling.tcr.nl`
+- **Password:** `Welkom2024!`
+
+### Admin
+- **Email:** `admin@tcr.nl`
+- **Password:** `admin123`
+
+### SLB Docent
+- **Email:** `slb@tcr.nl`
+- **Password:** `slb123`
+
+## 📁 Project Structuur
+
+```
+schoolsystem/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AdminController.php
+│   │   │   ├── KeuzedeelController.php
+│   │   │   ├── NotificationController.php
+│   │   │   └── ...
+│   │   └── Middleware/
+│   └── Models/
+│       ├── User.php
+│       ├── Keuzedeel.php
+│       └── Notification.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── docs/
+│   ├── ERD-Diagram.drawio
+│   ├── Activity-Diagram-Enrollment.drawio
+│   ├── Sitemap.drawio
+│   ├── UseCase-Diagram.drawio
+│   ├── Wireframes.drawio
+│   └── PROJECT-DOCUMENTATIE.md
+├── public/
+│   └── js/
+│       └── cookie-consent.js
+├── resources/
+│   └── views/
+│       ├── keuzedelen/
+│       ├── admin/
+│       ├── slb/
+│       ├── privacy.blade.php
+│       └── layouts/
+└── routes/
+    └── web.php
+```
+
+## 📚 Documentatie
+
+Alle project documentatie is te vinden in de `/docs` folder:
+
+- **PROJECT-DOCUMENTATIE.md** - Volledige project documentatie met MoSCoW, backlog, sprints, reflectie
+- **ERD-Diagram.drawio** - Entity Relationship Diagram (import in draw.io)
+- **Activity-Diagram-Enrollment.drawio** - Activity diagram voor aanmeldingsproces
+- **Sitemap.drawio** - Complete sitemap van de applicatie
+- **UseCase-Diagram.drawio** - Use case diagram met alle actors
+- **Wireframes.drawio** - Wireframes van belangrijkste pagina's
+
+### Diagrammen Openen
+1. Ga naar [draw.io](https://app.diagrams.net/)
+2. Klik op "Open Existing Diagram"
+3. Selecteer een `.drawio` bestand uit de `/docs` folder
+4. Bekijk en bewerk het diagram
+
+## 🎯 Leerdoelen Behaald
+
+### Ontwerpen
+✅ ERD (gevorderd)  
+✅ Activity Diagram (eindexamenniveau)  
+✅ Sitemap (eindexamenniveau)  
+✅ Use Case Diagram (beginner)  
+✅ Wireframes (eindexamenniveau)  
+
+### Programmeren
+✅ Codestructuur (eindexamenniveau)  
+✅ Projectstructuur (eindexamenniveau)  
+✅ OOP (eindexamenniveau)  
+✅ PHP (eindexamenniveau)  
+✅ Laravel (gevorderd)  
+✅ JavaScript (eindexamenniveau)  
+✅ Accessibility (eindexamenniveau)  
+✅ SEO (eindexamenniveau)  
+✅ Hash en Salt (bcrypt)  
+✅ Voorkomen SQL injecties (Eloquent ORM)  
+
+### Project
+✅ MoSCoW (eindexamenniveau)  
+✅ User Stories (eindexamenniveau)  
+✅ Backlog (beginner)  
+✅ Sprint Planning (eindexamenniveau)  
+✅ Scrum-board gebruik (eindexamenniveau)  
+✅ Reflecteren (eindexamenniveau)  
+✅ Retrospective (eindexamenniveau)  
+✅ Versiebeheer (eindexamenniveau)  
+
+### IT Skills
+✅ AVG/GDPR (eindexamenniveau)  
+✅ Bestandsystemen (eindexamenniveau)  
+
+## 🔧 Technische Stack
+
+- **Backend:** PHP 8.2, Laravel 11
+- **Frontend:** Blade Templates, Vanilla JavaScript ES6+
+- **Database:** MySQL 8.0
+- **Styling:** Custom CSS met CSS Variables
+- **Icons:** SVG icons
+- **Versiebeheer:** Git
+- **Server:** Apache (XAMPP)
+
+## 🌟 Belangrijkste Functionaliteiten
+
+### 2e Keuze Systeem
+Het unieke 2e keuze systeem zorgt ervoor dat studenten nooit zonder keuzedeel zitten:
+1. Student selecteert 1e keuze keuzedeel
+2. Student selecteert verplicht 2e keuze (met live preview)
+3. Bij afwijzing of annulering: automatisch naar 2e keuze
+4. Status wordt automatisch "goedgekeurd" voor 2e keuze
+5. Student ontvangt notificatie over verplaatsing
+
+### Notificatiesysteem
+- Real-time notificaties voor alle statuswijzigingen
+- Inbox met ongelezen badge
+- Markeer als gelezen functionaliteit
+- Verwijder notificaties
+
+### Admin Dashboard
+- Overzicht van alle keuzedelen
+- Statistieken (totaal studenten, keuzedelen, inschrijvingen)
+- Snel inschrijvingen goedkeuren/afwijzen
+- Keuzedelen annuleren met automatische fallback
+
+## 🐛 Troubleshooting
+
+### Database connectie error
+```bash
+php artisan config:clear
+php artisan cache:clear
+```
+
+### Migrations error
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Permission errors (Linux/Mac)
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+## 📝 License
+
+Dit project is ontwikkeld voor educatieve doeleinden bij Techniek College Rotterdam.
+
+## 👨‍💻 Ontwikkelaar
+
+**Naam:** [Jouw Naam]  
+**Opleiding:** Software Development  
+**School:** Techniek College Rotterdam  
+**Jaar:** 2026  
+
+---
+
+**Versie:** 1.0  
+**Laatste update:** 30 januari 2026  
+**Status:** ✅ Productie-ready

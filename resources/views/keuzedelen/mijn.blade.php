@@ -462,6 +462,18 @@
                 </span>
                 @endif
             </div>
+            @if($keuzedeel->pivot->second_choice_keuzedeel_id)
+            @php
+                $secondChoice = \App\Models\Keuzedeel::find($keuzedeel->pivot->second_choice_keuzedeel_id);
+            @endphp
+            @if($secondChoice)
+            <div style="margin-top: 0.75rem; padding: 0.75rem; background: rgba(59, 130, 246, 0.1); border-left: 3px solid var(--primary); border-radius: 4px;">
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                    <strong style="color: var(--primary);">2e keuze:</strong> {{ $secondChoice->naam }}
+                </p>
+            </div>
+            @endif
+            @endif
         </div>
         <div class="keuzedeel-actions">
             <span class="status-badge status-{{ $keuzedeel->pivot->status }}">

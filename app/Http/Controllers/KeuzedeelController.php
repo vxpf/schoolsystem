@@ -58,38 +58,23 @@ class KeuzedeelController extends Controller
         $enrollmentStatus = $enrollment ? $enrollment->pivot->status : null;
         $isVoltooid = $enrollmentStatus === 'voltooid';
         $aantalAanmeldingen = $keuzedeel->users()->count();
-        $isVol = $aantalAanmeldingen >= $keuzedeel->max_studenten;
+        $availableKeuzedelen = Keuzedeel::where('actief', true)->get();
 
-        // Haal alternatieve keuzedelen op als dit keuzedeel vol is
-        $alternatieven = collect();
-        if (($isVol && !$isAangemeld) || $enrollmentStatus === 'afgewezen') {
-            $huidigePeriode = $user->huidige_periode;
-            $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
-            
-            // Haal keuzedelen op die:
-            // - Actief zijn
-            // - In dezelfde periode zijn
-            // - Niet vol zijn
-            // - Niet het huidige keuzedeel zijn
-            // - Student is niet al aangemeld
-            $mijnKeuzedeelIds = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
-            
-            $alternatieven = Keuzedeel::where('actief', true)
-                ->where('id', '!=', $keuzedeel->id)
-                ->whereNotIn('id', $mijnKeuzedeelIds)
-                ->withCount(['users as aanmeldingen_count'])
-                ->get()
-                ->filter(function($alt) use ($keuzedeelPeriode) {
-                    $altPeriode = $alt->periode ?? $keuzedeelPeriode;
-                    return $altPeriode === $keuzedeelPeriode;
-                })
-                ->filter(function($alt) {
-                    return $alt->aanmeldingen_count < $alt->max_studenten;
-                })
-                ->take(3);
-        }
+        // Get student's enrolled keuzedeel IDs
+        $mijnKeuzedeelIds = $user->keuzedelen()->pluck('keuzedeel_id')->toArray();
 
-        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'isVol', 'alternatieven', 'user'));
+        // Get alternative keuzedelen (similar courses)
+        $suggesties = Keuzedeel::where('actief', true)
+            ->where('id', '!=', $keuzedeel->id)
+            ->whereNotIn('id', $mijnKeuzedeelIds)
+            ->withCount('users')
+            ->get()
+            ->filter(function($k) {
+                return $k->users_count < $k->max_studenten;
+            })
+            ->take(4);
+
+        return view('keuzedelen.show', compact('keuzedeel', 'isAangemeld', 'enrollmentStatus', 'isVoltooid', 'aantalAanmeldingen', 'user', 'availableKeuzedelen', 'suggesties'));
     }
 
     public function aanmelden(Request $request, Keuzedeel $keuzedeel)
@@ -142,8 +127,15 @@ class KeuzedeelController extends Controller
             return back()->with('error', 'Dit keuzedeel kan het minimum aantal van ' . $keuzedeel->min_studenten . ' studenten niet bereiken. Er zijn nog maar ' . $beschikbarePlaatsen . ' plaatsen beschikbaar.');
         }
 
+        // Validate 2nd choice
+        $secondChoiceId = $request->input('second_choice_keuzedeel_id');
+        if (!$secondChoiceId) {
+            return back()->with('error', 'Je moet een 2e keuze selecteren.');
+        }
+
         $user->keuzedelen()->attach($keuzedeel->id, [
-            'status' => 'aangemeld'
+            'status' => 'aangemeld',
+            'second_choice_keuzedeel_id' => $secondChoiceId
         ]);
 
         $successMessage = 'Gelukt! Je bent succesvol aangemeld voor het keuzedeel "' . $keuzedeel->naam . '" (periode ' . $huidigePeriode . '). Je ontvangt een bevestiging zodra je aanmelding is goedgekeurd door de docent.';

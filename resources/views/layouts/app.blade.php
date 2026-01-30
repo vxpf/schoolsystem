@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@yield('meta_description', 'TCR Keuzedelen - Kies en beheer je keuzedelen voor je opleiding')">
+    <meta name="keywords" content="keuzedelen, TCR, opleiding, MBO, studiepunten">
+    <meta name="author" content="Techniek College Rotterdam">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="@yield('title', 'Keuzedelen') - TCR Keuzedelen">
+    <meta property="og:description" content="@yield('meta_description', 'TCR Keuzedelen - Kies en beheer je keuzedelen voor je opleiding')">
+    
+    <!-- Accessibility -->
+    <meta name="theme-color" content="#2d4a3e">
+    
     <title>@yield('title', 'Keuzedelen') - TCR Keuzedelen</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -358,7 +373,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="/" class="header-logo">
+        <a href="{{ Auth::check() ? route('keuzedelen.index') : route('login') }}" class="header-logo">
             <div class="header-logo-icon">TCR</div>
             <div class="header-logo-text">Techniek College <span>Keuzedelen</span></div>
         </a>
@@ -413,5 +428,8 @@
     <main class="main-content">
         @yield('content')
     </main>
+
+    <!-- Cookie Consent Script -->
+    <script src="{{ asset('js/cookie-consent.js') }}"></script>
 </body>
 </html>

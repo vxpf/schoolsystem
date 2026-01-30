@@ -32,23 +32,8 @@ class User extends Authenticatable
     public function keuzedelen()
     {
         return $this->belongsToMany(Keuzedeel::class, 'keuzedeel_user')
-            ->withPivot('status', 'eerder_gedaan', 'eerder_markering', 'cijfer')
+            ->withPivot('status', 'second_choice_keuzedeel_id')
             ->withTimestamps();
-    }
-
-    public function eerderKeuzedelen()
-    {
-        return $this->keuzedelen()
-            ->wherePivot('eerder_gedaan', true)
-            ->get();
-    }
-
-    public function heeftEerderKeuzedeel($keuzedeelId)
-    {
-        return $this->keuzedelen()
-            ->where('keuzedeel_id', $keuzedeelId)
-            ->wherePivot('eerder_gedaan', true)
-            ->exists();
     }
 
     public function notifications()

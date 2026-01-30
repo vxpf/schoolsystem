@@ -258,6 +258,35 @@ class AdminController extends Controller
         $keuzedeel->users()->updateExistingPivot($user->id, $updateData);
 
         if ($validated['status'] === 'afgewezen' && $oldStatus !== 'afgewezen') {
+            // Get student's 2nd choice and move them automatically
+            $enrollment = $keuzedeel->users()->where('user_id', $user->id)->withPivot('second_choice_keuzedeel_id')->first();
+            $secondChoiceId = $enrollment ? $enrollment->pivot->second_choice_keuzedeel_id : null;
+            
+            if ($secondChoiceId) {
+                $secondKeuzedeel = Keuzedeel::find($secondChoiceId);
+                if ($secondKeuzedeel) {
+                    // Remove from rejected course
+                    $keuzedeel->users()->detach($user->id);
+                    
+                    // Add to 2nd choice with goedgekeurd status
+                    $alreadyEnrolled = $secondKeuzedeel->users()->where('user_id', $user->id)->exists();
+                    if (!$alreadyEnrolled) {
+                        $secondKeuzedeel->users()->attach($user->id, ['status' => 'goedgekeurd']);
+                    } else {
+                        $secondKeuzedeel->users()->updateExistingPivot($user->id, ['status' => 'goedgekeurd']);
+                    }
+                    
+                    Notification::create([
+                        'user_id' => $user->id,
+                        'keuzedeel_id' => $secondKeuzedeel->id,
+                        'type' => 'goedkeuring',
+                        'title' => 'Automatisch verplaatst naar 2e keuze',
+                        'message' => 'Je aanmelding voor "' . $keuzedeel->naam . '" is afgewezen. Je bent automatisch ingeschreven voor je 2e keuze: "' . $secondKeuzedeel->naam . '".',
+                    ]);
+                    return back()->with('success', 'Aanmelding afgewezen. Student automatisch verplaatst naar 2e keuze.');
+                }
+            }
+            
             Notification::create([
                 'user_id' => $user->id,
                 'keuzedeel_id' => $keuzedeel->id,
@@ -311,13 +340,41 @@ class AdminController extends Controller
         // Haal alle studenten op die zijn aangemeld voor dit keuzedeel
         $studenten = $keuzedeel->users()
             ->wherePivot('status', '!=', 'voltooid')
+            ->withPivot('second_choice_keuzedeel_id')
             ->get();
 
+        $movedCount = 0;
+
         foreach ($studenten as $student) {
+            $secondChoiceId = $student->pivot->second_choice_keuzedeel_id;
+            
             // Verwijder de inschrijving
             $keuzedeel->users()->detach($student->id);
 
-            // Stuur notificatie
+            if ($secondChoiceId) {
+                $secondKeuzedeel = Keuzedeel::find($secondChoiceId);
+                if ($secondKeuzedeel) {
+                    // Add to 2nd choice with goedgekeurd status
+                    $alreadyEnrolled = $secondKeuzedeel->users()->where('user_id', $student->id)->exists();
+                    if (!$alreadyEnrolled) {
+                        $secondKeuzedeel->users()->attach($student->id, ['status' => 'goedgekeurd']);
+                    } else {
+                        $secondKeuzedeel->users()->updateExistingPivot($student->id, ['status' => 'goedgekeurd']);
+                    }
+                    
+                    Notification::create([
+                        'user_id' => $student->id,
+                        'keuzedeel_id' => $secondKeuzedeel->id,
+                        'type' => 'goedkeuring',
+                        'title' => 'Automatisch verplaatst naar 2e keuze',
+                        'message' => 'Het keuzedeel "' . $keuzedeel->naam . '" is geannuleerd. Je bent automatisch ingeschreven voor je 2e keuze: "' . $secondKeuzedeel->naam . '".',
+                    ]);
+                    $movedCount++;
+                    continue;
+                }
+            }
+
+            // Geen 2e keuze of 2e keuze niet gevonden
             Notification::create([
                 'user_id' => $student->id,
                 'keuzedeel_id' => null,
@@ -327,6 +384,6 @@ class AdminController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Keuzedeel geannuleerd.');
+        return back()->with('success', "Keuzedeel geannuleerd. $movedCount studenten automatisch verplaatst naar hun 2e keuze.");
     }
 }

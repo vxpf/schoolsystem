@@ -561,10 +561,67 @@
             @elseif($aantalAanmeldingen >= $keuzedeel->max_studenten)
             <button class="btn btn-disabled" disabled>Dit keuzedeel is vol</button>
             @else
-            <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/aanmelden') }}" method="POST">
+            <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/aanmelden') }}" method="POST" id="enrollmentForm">
                 @csrf
-                <button type="submit" class="btn btn-primary">Aanmelden voor dit keuzedeel</button>
+                
+                <!-- Stap 1: Selecteer 2e keuze -->
+                <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">1</div>
+                        <label for="second_choice" style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0;">
+                            Selecteer eerst je 2e keuze
+                        </label>
+                    </div>
+                    <select name="second_choice_keuzedeel_id" id="second_choice" required style="width: 100%; padding: 0.85rem; border-radius: var(--radius); border: 2px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-size: 0.95rem; font-weight: 500;">
+                        <option value="">-- Kies een alternatief keuzedeel --</option>
+                        @foreach($availableKeuzedelen as $other)
+                            @if($other->id !== $keuzedeel->id)
+                            <option value="{{ $other->id }}">{{ $other->naam }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <div id="secondChoicePreview" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(var(--primary-rgb), 0.1); border-radius: var(--radius); border-left: 3px solid var(--primary);">
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                            <strong style="color: var(--primary);">✓ 2e keuze geselecteerd:</strong> <span id="selectedChoiceName"></span>
+                        </p>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; margin-top: 0.75rem; margin-bottom: 0;">
+                        ⚠️ Als "{{ $keuzedeel->naam }}" wordt geannuleerd of afgewezen, word je automatisch ingeschreven voor je 2e keuze.
+                    </p>
+                </div>
+
+                <!-- Stap 2: Bevestig aanmelding -->
+                <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                        <div style="background: var(--text-secondary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;">2</div>
+                        <h4 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin: 0;">
+                            Bevestig je aanmelding
+                        </h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+                        Je meldt je aan voor: <strong style="color: var(--primary);">{{ $keuzedeel->naam }}</strong>
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600;">
+                    Aanmelden voor dit keuzedeel
+                </button>
             </form>
+
+            <script>
+            document.getElementById('second_choice').addEventListener('change', function() {
+                const preview = document.getElementById('secondChoicePreview');
+                const selectedName = document.getElementById('selectedChoiceName');
+                const selectedOption = this.options[this.selectedIndex];
+                
+                if (this.value) {
+                    selectedName.textContent = selectedOption.text;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            </script>
             @endif
         </div>
         @endif
@@ -615,11 +672,7 @@
     </div>
 </div>
 
-<<<<<<< Updated upstream
-@if(isset($isVol) && $isVol && !$isAangemeld && isset($alternatieven) && $alternatieven->count() > 0)
-=======
-@if(($isVol && !$isAangemeld || $enrollmentStatus === 'afgewezen') && $alternatieven->count() > 0)
->>>>>>> Stashed changes
+@if(isset($alternatieven) && $alternatieven->count() > 0 && (($isVol && !$isAangemeld) || $enrollmentStatus === 'afgewezen'))
 <div class="alternatives-section">
     <div class="alternatives-header">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -670,6 +723,59 @@
             </div>
         </div>
         @endforeach
+    </div>
+</div>
+@endif
+
+<!-- Suggesties sectie -->
+@if($suggesties && $suggesties->count() > 0)
+<div style="margin-top: 3rem;">
+    <div style="background: var(--bg-card); border-radius: var(--radius); padding: 2rem; border: 1px solid var(--border);">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <h3 style="font-size: 1.5rem; font-weight: 600; color: var(--text-primary); margin: 0;">
+                Andere keuzedelen die je misschien interessant vindt
+            </h3>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.95rem;">
+            Bekijk deze vergelijkbare keuzedelen waar nog plek beschikbaar is:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+            @foreach($suggesties as $suggestie)
+            <div style="background: var(--bg-light); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='var(--primary)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border)';">
+                <h4 style="font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">
+                    {{ $suggestie->naam }}
+                </h4>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+                    {{ $suggestie->code }}
+                </p>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        {{ $suggestie->studiepunten }} SP
+                    </span>
+                    <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.85rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                        {{ $suggestie->users_count }} / {{ $suggestie->max_studenten }}
+                    </span>
+                </div>
+                <a href="{{ url('/keuzedelen/' . $suggestie->id) }}" class="btn btn-primary" style="width: 100%; text-align: center; display: block; padding: 0.75rem;">
+                    Bekijk details
+                </a>
+            </div>
+            @endforeach
+        </div>
     </div>
 </div>
 @endif
