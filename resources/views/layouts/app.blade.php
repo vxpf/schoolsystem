@@ -393,6 +393,7 @@
             @else
                 <a href="{{ route('keuzedelen.index') }}" class="{{ request()->routeIs('keuzedelen.index') || request()->routeIs('keuzedelen.show') ? 'active' : '' }}">Keuzedelen</a>
                 <a href="{{ route('keuzedelen.mijn') }}" class="{{ request()->routeIs('keuzedelen.mijn') ? 'active' : '' }}">Mijn Keuzedelen</a>
+                <a href="{{ route('keuzedelen.cijfers') }}" class="{{ request()->routeIs('keuzedelen.cijfers') ? 'active' : '' }}">Mijn Cijfers</a>
                 <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
                 <a href="{{ route('inbox.index') }}" class="{{ request()->routeIs('inbox.*') ? 'active' : '' }}" style="position: relative;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 6px;">

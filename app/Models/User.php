@@ -32,7 +32,7 @@ class User extends Authenticatable
     public function keuzedelen()
     {
         return $this->belongsToMany(Keuzedeel::class, 'keuzedeel_user')
-            ->withPivot('status', 'second_choice_keuzedeel_id')
+            ->withPivot('status', 'second_choice_keuzedeel_id', 'cijfer')
             ->withTimestamps();
     }
 

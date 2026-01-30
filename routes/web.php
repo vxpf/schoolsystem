@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     // Keuzedelen routes
     Route::get('/keuzedelen', [KeuzedeelController::class, 'index'])->name('keuzedelen.index');
     Route::get('/keuzedelen/mijn', [KeuzedeelController::class, 'mijnKeuzedelen'])->name('keuzedelen.mijn');
+    Route::get('/keuzedelen/cijfers', [KeuzedeelController::class, 'cijfers'])->name('keuzedelen.cijfers');
     Route::get('/keuzedelen/{keuzedeel}', [KeuzedeelController::class, 'show'])->name('keuzedelen.show');
     Route::post('/keuzedelen/{keuzedeel}/aanmelden', [KeuzedeelController::class, 'aanmelden'])->name('keuzedelen.aanmelden');
     Route::post('/keuzedelen/{keuzedeel}/afmelden', [KeuzedeelController::class, 'afmelden'])->name('keuzedelen.afmelden');

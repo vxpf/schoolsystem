@@ -173,4 +173,9 @@ class KeuzedeelController extends Controller
 
         return view('keuzedelen.mijn', compact('keuzedelen', 'user'));
     }
+
+    public function cijfers()
+    {
+        return view('keuzedelen.cijfers');
+    }
 }
