@@ -336,7 +336,32 @@
         }
 
         .cijfers-table {
-            min-width: 800px;
+            min-width: 700px;
+            font-size: 0.875rem;
+        }
+
+        .cijfers-table th, .cijfers-table td {
+            padding: 0.75rem 0.5rem;
+        }
+
+        .cijfer-circle {
+            width: 40px;
+            height: 40px;
+            font-size: 0.875rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid {
+            gap: 0.75rem;
+        }
+
+        .stat-card {
+            padding: 1rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
         }
     }
 </style>

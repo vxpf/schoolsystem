@@ -679,13 +679,19 @@
     }
 
     @media (max-width: 768px) {
-        .keuzedelen-grid {
-            grid-template-columns: 1fr;
-        }
+        .keuzedelen-grid { grid-template-columns: 1fr; }
+        .stats-bar { grid-template-columns: 1fr; }
+        .filter-grid { grid-template-columns: 1fr; }
+        .filter-section { padding: 1rem; }
+        .keuzedeel-header { padding: 1rem; }
+        .keuzedeel-body { padding: 1rem; }
+        .keuzedeel-meta { grid-template-columns: 1fr; }
+        .keuzedeel-actions { flex-direction: column; }
+        .keuzedeel-actions .btn, .keuzedeel-actions form { width: 100%; }
+    }
 
-        .stats-bar {
-            grid-template-columns: repeat(2, 1fr);
-        }
+    .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
     }
 </style>
 

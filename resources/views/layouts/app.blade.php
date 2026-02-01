@@ -368,10 +368,134 @@
             color: var(--primary-light);
         }
 
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 101;
+        }
+        .mobile-menu-toggle svg {
+            width: 28px;
+            height: 28px;
+        }
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .mobile-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+                height: 64px;
+            }
+            .header-logo-text {
+                font-size: 0.95rem;
+            }
+            .header-logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: linear-gradient(135deg, #2d4a3e, #3a5a4a);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 5rem 1.5rem 2rem;
+                gap: 0;
+                z-index: 100;
+                transition: right 0.3s ease;
+                box-shadow: -4px 0 20px rgba(0,0,0,0.3);
+                overflow-y: auto;
+            }
+            .header-nav.active {
+                right: 0;
+            }
+            .header-nav a {
+                width: 100%;
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                font-size: 1rem;
+            }
+            .header-nav a::before {
+                display: none;
+            }
+            .header-user {
+                gap: 8px;
+            }
+            .header-user-name {
+                display: none;
+            }
+            .header-user-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 12px;
+            }
+            .btn-secondary {
+                padding: 6px 12px !important;
+                font-size: 0.75rem !important;
+            }
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+            .detail-container {
+                grid-template-columns: 1fr !important;
+            }
+            .keuzedeel-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .keuzedeel-actions .btn,
+            .keuzedeel-actions form {
+                width: 100%;
+            }
+            .keuzedeel-actions .btn {
+                width: 100% !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0 0.75rem;
+            }
+            .header-logo-text span {
+                display: none;
+            }
+            .main-content {
+                padding: 1rem 0.75rem;
+            }
+            .stats-bar,
+            .dashboard-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
         @yield('styles')
     </style>
 </head>
 <body>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
     <header class="header">
         <a href="{{ Auth::check() ? route('keuzedelen.index') : route('login') }}" class="header-logo">
             <div class="header-logo-icon">TCR</div>
@@ -379,7 +503,12 @@
         </a>
 
         @auth
-        <div class="header-nav">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+        <div class="header-nav" id="mobileMenu">
             @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
                 <a href="{{ route('admin.students') }}" class="{{ request()->routeIs('admin.students') ? 'active' : '' }}">Studenten</a>
@@ -429,6 +558,39 @@
     <main class="main-content">
         @yield('content')
     </main>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('active');
+                    mobileOverlay.classList.toggle('active');
+                    document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+                });
+                
+                mobileOverlay.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    mobileOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+                
+                // Close menu when clicking a link
+                const menuLinks = mobileMenu.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>
 
     <!-- Cookie Consent Script -->
     <script src="{{ asset('js/cookie-consent.js') }}"></script>
