@@ -1,0 +1,172 @@
+<mxfile host="app.diagrams.net" modified="2026-01-29T12:09:00.000Z" agent="5.0" etag="classdiagram" version="20.8.0" type="device">
+  <diagram id="classdiagram" name="School System Class Diagram">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1600" background="ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- User Class -->
+        <mxCell id="user_class" value="User" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=2;strokeColor=#000000;fillColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="50" width="280" height="380" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_attributes" value="- id: int&#xa;- name: string&#xa;- email: string&#xa;- password: string&#xa;- student_number: string&#xa;- class: string&#xa;- opleiding: string&#xa;- role: enum(admin|slb|student)&#xa;- microsoft_id: string&#xa;- avatar: string&#xa;- created_at: timestamp&#xa;- updated_at: timestamp" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="user_class">
+          <mxGeometry y="26" width="280" height="224" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_separator1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;rotatable=0;points=[];portConstraint=eastwest;" vertex="1" parent="user_class">
+          <mxGeometry y="250" width="280" height="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_methods" value="+ keuzedelen(): BelongsToMany&#xa;+ eerderKeuzedelen(): Collection&#xa;+ heeftEerderKeuzedeel(id): bool&#xa;+ notifications(): HasMany&#xa;+ unreadNotifications(): HasMany&#xa;+ isAdmin(): bool&#xa;+ isSlb(): bool&#xa;+ isStudent(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="user_class">
+          <mxGeometry y="251" width="280" height="129" as="geometry"/>
+        </mxCell>
+        
+        <!-- Keuzedeel Class -->
+        <mxCell id="keuzedeel_class" value="Keuzedeel" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=2;strokeColor=#000000;fillColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="450" y="50" width="300" height="380" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_attributes" value="- id: int&#xa;- naam: string&#xa;- beschrijving: text&#xa;- wat_leer_je: text&#xa;- code: string&#xa;- studiepunten: int&#xa;- niveau: string&#xa;- opleiding: string&#xa;- max_studenten: int&#xa;- min_studenten: int&#xa;- periode: string&#xa;- actief: boolean&#xa;- created_at: timestamp&#xa;- updated_at: timestamp" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="keuzedeel_class">
+          <mxGeometry y="26" width="300" height="224" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_separator1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;rotatable=0;points=[];portConstraint=eastwest;" vertex="1" parent="keuzedeel_class">
+          <mxGeometry y="250" width="300" height="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_methods" value="+ users(): BelongsToMany&#xa;+ getEnrolledStudentsCount(): int&#xa;+ canStart(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="keuzedeel_class">
+          <mxGeometry y="251" width="300" height="129" as="geometry"/>
+        </mxCell>
+        
+        <!-- Notification Class -->
+        <mxCell id="notification_class" value="Notification" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=2;strokeColor=#000000;fillColor=#ffffff;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="850" y="50" width="280" height="280" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="notification_attributes" value="- id: int&#xa;- user_id: int (FK)&#xa;- keuzedeel_id: int (FK)&#xa;- type: string&#xa;- title: string&#xa;- message: text&#xa;- is_read: boolean&#xa;- created_at: timestamp&#xa;- updated_at: timestamp" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="notification_class">
+          <mxGeometry y="26" width="280" height="154" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="notification_separator1" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;rotatable=0;points=[];portConstraint=eastwest;" vertex="1" parent="notification_class">
+          <mxGeometry y="180" width="280" height="1" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="notification_methods" value="+ user(): BelongsTo&#xa;+ keuzedeel(): BelongsTo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="notification_class">
+          <mxGeometry y="181" width="280" height="99" as="geometry"/>
+        </mxCell>
+        
+        <!-- Junction Table: KeuzedeelUser -->
+        <mxCell id="keuzedeel_user_class" value="keuzedeel_user (Pivot)" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=2;strokeColor=#666666;fillColor=#f0f0f0;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="250" y="550" width="320" height="280" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_user_attributes" value="- id: int&#xa;- user_id: int (FK)&#xa;- keuzedeel_id: int (FK)&#xa;- status: enum(aangemeld|goedgekeurd|afgewezen|voltooid)&#xa;- eerder_gedaan: boolean&#xa;- eerder_markering: string&#xa;- cijfer: decimal&#xa;- second_choice_keuzedeel_id: int&#xa;- assignment_status: enum(pending|first_choice|second_choice)&#xa;- created_at: timestamp&#xa;- updated_at: timestamp" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=11;fontFamily=Courier New;" vertex="1" parent="keuzedeel_user_class">
+          <mxGeometry y="26" width="320" height="254" as="geometry"/>
+        </mxCell>
+        
+        <!-- Relationships -->
+        <!-- User to Keuzedeel (Many-to-Many) -->
+        <mxCell id="user_keuzedeel_rel" value="enrolls in" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="user_class" target="keuzedeel_class">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="240" as="sourcePoint"/>
+            <mxPoint x="450" y="240" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="user_keuzedeel_label1" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="220" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_keuzedeel_label2" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="220" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- User to Notification (One-to-Many) -->
+        <mxCell id="user_notification_rel" value="receives" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;entryX=0;entryY=0.25;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="user_class" target="notification_class">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="150" as="sourcePoint"/>
+            <mxPoint x="850" y="150" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="user_notification_label1" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="130" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_notification_label2" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="130" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Keuzedeel to Notification (One-to-Many) -->
+        <mxCell id="keuzedeel_notification_rel" value="triggers" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.15;entryX=0;entryY=0.75;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="keuzedeel_class" target="notification_class">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="100" as="sourcePoint"/>
+            <mxPoint x="850" y="200" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_notification_label1" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="150" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_notification_label2" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="830" y="150" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- User to Pivot Table -->
+        <mxCell id="user_pivot_rel" value="has" style="endArrow=none;html=1;rounded=0;exitX=0.3;exitY=1;entryX=0.2;entryY=0;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="user_class" target="keuzedeel_user_class">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="430" as="sourcePoint"/>
+            <mxPoint x="300" y="550" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="user_pivot_label1" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="480" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="user_pivot_label2" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="520" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Keuzedeel to Pivot Table -->
+        <mxCell id="keuzedeel_pivot_rel" value="has" style="endArrow=none;html=1;rounded=0;exitX=0.7;exitY=1;entryX=0.8;entryY=0;strokeWidth=2;fontSize=11;" edge="1" parent="1" source="keuzedeel_class" target="keuzedeel_user_class">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="430" as="sourcePoint"/>
+            <mxPoint x="500" y="550" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_pivot_label1" value="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="480" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="keuzedeel_pivot_label2" value="*" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="520" width="20" height="20" as="geometry"/>
+        </mxCell>
+        
+        <!-- Legend -->
+        <mxCell id="legend_title" value="Legend" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="900" width="60" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="legend_pk" value="PK = Primary Key" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="930" width="120" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="legend_fk" value="FK = Foreign Key" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="960" width="120" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="legend_rel" value="* = Many, 1 = One" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="990" width="150" height="20" as="geometry"/>
+        </mxCell>
+        
+        <mxCell id="legend_pivot" value="Pivot tables shown in gray" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="1020" width="180" height="20" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

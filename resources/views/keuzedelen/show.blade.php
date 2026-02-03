@@ -240,7 +240,7 @@
 
     .btn-primary {
         background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-        color: var(--primary-dark);
+        color: #000000;
         box-shadow: 0 2px 8px rgba(212, 160, 36, 0.3);
     }
 
@@ -563,6 +563,7 @@
             @else
             <form action="{{ url('/keuzedelen/' . $keuzedeel->id . '/aanmelden') }}" method="POST" id="enrollmentForm">
                 @csrf
+<<<<<<< Updated upstream
                 
                 <!-- Stap 1: Selecteer 2e keuze -->
                 <div style="background: var(--bg-light); padding: 1.25rem; border-radius: var(--radius); border: 2px solid var(--primary); margin-bottom: 1.5rem;">
@@ -606,6 +607,38 @@
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600;">
                     Aanmelden voor dit keuzedeel
                 </button>
+=======
+                <div style="margin-bottom: 1rem;">
+                    <label for="second_choice" style="display: block; color: #000000; font-size: 0.9rem; margin-bottom: 0.5rem;">
+                        2e Keuze (optioneel)
+                    </label>
+                    <p style="color: #000000; font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Selecteer een alternatief keuzedeel. Als deze 1e keuze onvoldoende inschrijvingen heeft, word je automatisch naar je 2e keuze toegewezen.
+                    </p>
+                    <select name="second_choice_keuzedeel_id" id="second_choice" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(212, 160, 36, 0.3); background: rgba(0, 0, 0, 0.3); color: #fff; font-size: 0.9rem;">
+                        <option value="">-- Geen 2e keuze --</option>
+                        @php
+                            $huidigePeriode = $user->huidige_periode;
+                            $keuzedeelPeriode = $keuzedeel->periode ?? $huidigePeriode;
+                            $alternatieven = \App\Models\Keuzedeel::where('actief', true)
+                                ->where('id', '!=', $keuzedeel->id)
+                                ->whereNotIn('id', $mijnKeuzedelen)
+                                ->get()
+                                ->filter(function($alt) use ($keuzedeelPeriode) {
+                                    $altPeriode = $alt->periode ?? $keuzedeelPeriode;
+                                    return $altPeriode === $keuzedeelPeriode;
+                                })
+                                ->filter(function($alt) {
+                                    return $alt->users()->count() < $alt->max_studenten;
+                                });
+                        @endphp
+                        @foreach($alternatieven as $alt)
+                            <option value="{{ $alt->id }}">{{ $alt->naam }} ({{ $alt->users()->count() }}/{{ $alt->max_studenten }})</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Aanmelden voor dit keuzedeel</button>
+>>>>>>> Stashed changes
             </form>
 
             <script>
@@ -672,7 +705,11 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
 @if(isset($alternatieven) && $alternatieven->count() > 0 && (($isVol && !$isAangemeld) || $enrollmentStatus === 'afgewezen'))
+=======
+@if(($isVol && !$isAangemeld || $enrollmentStatus === 'afgewezen') && $alternatieven->count() > 0)
+>>>>>>> Stashed changes
 <div class="alternatives-section">
     <div class="alternatives-header">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

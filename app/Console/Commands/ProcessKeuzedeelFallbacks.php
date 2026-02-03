@@ -13,46 +13,66 @@ class ProcessKeuzedeelFallbacks extends Command
 
     public function handle()
     {
-        $keuzedelen = Keuzedeel::all();
+        $keuzedelen = Keuzedeel::where('actief', true)->get();
         $movedCount = 0;
 
         foreach ($keuzedelen as $keuzedeel) {
             $enrolledCount = $keuzedeel->users()
                 ->wherePivot('status', 'goedgekeurd')
+                ->wherePivot('assignment_status', '!=', 'second_choice')
                 ->count();
 
             if ($enrolledCount < $keuzedeel->min_studenten) {
+                $this->info("Processing '{$keuzedeel->naam}': {$enrolledCount}/{$keuzedeel->min_studenten} enrollments");
+                
                 $studentsToMove = $keuzedeel->users()
                     ->wherePivot('status', 'goedgekeurd')
+                    ->wherePivot('assignment_status', '!=', 'second_choice')
+                    ->whereNotNull('pivot.second_choice_keuzedeel_id')
                     ->get();
 
                 foreach ($studentsToMove as $student) {
-                    $secondChoice = $student->pivot->second_choice_keuzedeel_id;
+                    $secondChoiceId = $student->pivot->second_choice_keuzedeel_id;
 
-                    if ($secondChoice) {
-                        $secondKeuzedeel = Keuzedeel::find($secondChoice);
+                    if ($secondChoiceId) {
+                        $secondKeuzedeel = Keuzedeel::find($secondChoiceId);
 
-                        if ($secondKeuzedeel) {
-                            $keuzedeel->users()->detach($student->id);
-                            $secondKeuzedeel->users()->attach($student->id, [
-                                'status' => 'goedgekeurd'
-                            ]);
+                        if ($secondKeuzedeel && $secondKeuzedeel->actief) {
+                            // Check if second choice has space
+                            $secondChoiceCount = $secondKeuzedeel->users()
+                                ->wherePivot('status', 'goedgekeurd')
+                                ->count();
 
-                            Notification::create([
-                                'user_id' => $student->id,
-                                'keuzedeel_id' => $secondChoice,
-                                'type' => 'fallback',
-                                'title' => 'Automatisch naar 2e keuze verplaatst',
-                                'message' => 'Je eerste keuze "' . $keuzedeel->naam . '" had onvoldoende inschrijvingen. Je bent automatisch ingeschreven voor je tweede keuze: "' . $secondKeuzedeel->naam . '".',
-                            ]);
+                            if ($secondChoiceCount < $secondKeuzedeel->max_studenten) {
+                                // Update first choice to rejected
+                                $keuzedeel->users()->updateExistingPivot($student->id, [
+                                    'status' => 'afgewezen',
+                                    'assignment_status' => 'second_choice'
+                                ]);
 
-                            $movedCount++;
+                                // Add to second choice
+                                $secondKeuzedeel->users()->attach($student->id, [
+                                    'status' => 'goedgekeurd',
+                                    'assignment_status' => 'second_choice'
+                                ]);
+
+                                Notification::create([
+                                    'user_id' => $student->id,
+                                    'keuzedeel_id' => $secondChoiceId,
+                                    'type' => 'reassignment',
+                                    'title' => 'Automatisch naar 2e keuze verplaatst',
+                                    'message' => 'Je eerste keuze "' . $keuzedeel->naam . '" had onvoldoende inschrijvingen. Je bent automatisch ingeschreven voor je tweede keuze: "' . $secondKeuzedeel->naam . '".',
+                                ]);
+
+                                $movedCount++;
+                                $this->info("  → Moved {$student->name} to '{$secondKeuzedeel->naam}'");
+                            }
                         }
                     }
                 }
             }
         }
 
-        $this->info("$movedCount studenten verplaatst naar hun 2e keuze.");
+        $this->info("✓ Process complete. {$movedCount} students moved to 2nd choice.");
     }
 }
